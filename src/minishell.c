@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 18:10:50 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/14 19:02:05 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:32:21 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_env(char **env)
 int	main(int argc, char **argv, char **envp)
 {
 	//char* input;
-	shellstate state;
+	t_state state;
 	
 	/********DELETE?*********/
 	argc = ft_strlen(argv[0]);
@@ -61,7 +61,7 @@ int	main(int argc, char **argv, char **envp)
 /*Cleans up shell on exit
 1- frees the environment variables
 */
-void	cleanup_shell(shellstate *state)
+void	cleanup_shell(t_state *state)
 {
 	// Free state->env
 	free_strarr(state->env);

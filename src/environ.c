@@ -6,13 +6,13 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:16:26 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/14 18:43:46 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/17 21:58:10 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_env(shellstate *state, char **envp)
+void	set_env(t_state *state, char **envp)
 {
 	state->env = copy_env(envp, 0);	
 	
@@ -24,7 +24,7 @@ void	set_env(shellstate *state, char **envp)
 }
 
 /*Returns a exact malloced copy of env if add_flag is false.
-if add_flag is true, it returns a malloced copy of envp 
+if add_flag is true, it returns a malloced copy of env 
 with an extra NULL pointer at the end so with two NULL pointers
 instead of just one.
 */
@@ -54,10 +54,11 @@ char	**copy_env(char **env, int add_flag)
 	return env_copy;
 }
 
+
 /*searches for var in env and sets it to value
 if it does not find the variable, it creates it
 if the value pointer is NULL, it does not set a value or removes set value*/
-void	set_env_var(shellstate *state, char *var, char* value)
+void	set_env_var(t_state *state, char *var, char* value)
 {
 	int		i;
 	size_t	len;

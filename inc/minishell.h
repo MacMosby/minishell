@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/16 19:33:21 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:32:21 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@
 # include <string.h>
 # include "libft.h"
 
-typedef struct {
+typedef struct s_state {
 	int		last_exit_status;
 	char	**env;
 	// 
-} shellstate;
+} t_state;
 
 // environ.c
-void	set_env(shellstate *state, char **envp);
+void	set_env(t_state *state, char **envp);
 char	**copy_env(char **env, int add_flag);
-void	set_env_var(shellstate *shell, char *var, char* value);
+void	set_env_var(t_state *shell, char *var, char* value);
 char	*create_new_var(char *var, char *value);
 
 // main.c
-void	cleanup_shell(shellstate *shell);
+void	cleanup_shell(t_state *shell);
 void	free_strarr(char **strarr);
 
 #endif
