@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 20:54:36 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/23 20:57:14 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/23 21:38:32 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	find_word_end(t_state *state, int i)
 {
 	char c;
 
-	while (c = state->input[i])
+	while ((c = state->input[i]))
 	{
 		while (c == '\'' || c == '\"')
 		{
@@ -68,15 +68,16 @@ if it reached end of string without finding, it throws an error
 int	find_closed_quote(t_state *state, int i, char c)
 {
 	i++;
-	while(state->input[i] != c && state->input[i] != 0)
-		i++;
-	if (state->input[i] == 0) // unclosed quote detected
+	while(state->input[i] != 0)
 	{
-		// error
-		// cleanup
-		exit ;
+		if (state->input[i] == c)
+			return (i);
+		i++;
 	}
-	return (i - 1);
+	// unclosed quote detected
+	// error
+	// cleanup
+	exit (1);
 }
 
 /*takes start and end indices of a word and mallocs a t_list variable
@@ -86,11 +87,14 @@ void	create_word(t_state *state, int start, int end)
 {
 	t_list	*newword;
 
+	//printf("start = %i\n", start);
+	//printf("end = %i\n", end);
+	
 	// creating new word
 	newword = (t_list *)malloc(sizeof(t_list));
 	if (newword == NULL)
 	{
-		exit;
+		exit (1);
 		// cleanup
 	}
 	newword->content = (char *)malloc((end - start + 2) * sizeof(char));
@@ -98,8 +102,8 @@ void	create_word(t_state *state, int start, int end)
 	{
 		// malloc error
 	}
-	ft_strlcpy(newword->content, state->input + start, end - start + 1);
-	((char *)(newword->content))[end - start + 1] = 0;
+	ft_strlcpy(newword->content, state->input + start, end - start + 2);
+	printf("%s\n", (char *)(newword->content));
 	newword->next = NULL;
 	ft_lstadd_back(&state->words, newword);
 }

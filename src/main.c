@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 18:10:50 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/18 22:22:06 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/23 21:23:26 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ void	print_env(char **env)
 	while(env[i])
 		printf("%s\n", env[i++]);
 }
+
+void	print_list(t_list *node)
+{
+	while(node)
+	{
+		printf("%s\n", (char *)(node->content));	
+		node = node->next;
+	}
+}
 /****************************************/
 
 
@@ -29,8 +38,8 @@ int	main(int argc, char **argv, char **envp)
 	
 	/********DELETE?*********/
 	argc = ft_strlen(argv[0]);
+	argc++;
 	/************************/
-
 
 	init_minishell(&state, envp);
 	while (1)
@@ -42,6 +51,7 @@ int	main(int argc, char **argv, char **envp)
 			break;
 		add_history(state.input);
 		input_handler(&state);
+		//print_list(state.words);
 		// executor
 		free(state.input);
 	}

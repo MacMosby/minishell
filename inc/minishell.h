@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/22 19:15:20 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/23 21:15:40 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@
 # define BUILTIN 1
 # define NO_CMD 2
 
-int g_signal;
-
 typedef struct s_state
 {
 	int		last_exit_status;
@@ -46,12 +44,6 @@ typedef struct s_state
 	int		**pipes;
 	int		*pids;
 }	t_state;
-
-typedef struct s_list
-{
-	void	*content;
-	struct s_list	*next;
-}	t_list;
 
 typedef struct s_node
 {
@@ -77,6 +69,15 @@ void	free_strarr(char **strarr);
 
 // input_handller.c
 void	input_handler(t_state *state);
+int		carroting(t_state *state, int start);
+int		wording(t_state *state, int start);
+int		piping(t_state *state, int i);
+
+// input_handler_utils.c
+int		carrotcount(t_state *state, int start);
+int		find_word_end(t_state *state, int i);
+int		find_closed_quote(t_state *state, int i, char c);
+void	create_word(t_state *state, int start, int end);
 
 // initialize.c
 void	init_minishell(t_state *state, char **envp);

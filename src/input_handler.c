@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/23 20:57:56 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/23 21:43:42 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	input_handler(t_state *state)
 	i = 0;
 	if (ft_strlen(state->input) == 0)
 		// handle exit;
-		exit;
+		exit (1);
 	while (state->input[i])
 	{
 		if (state->input[i] == ' ')
@@ -55,6 +55,8 @@ int	carroting(t_state *state, int start)
 	if (c == '<' && carrots == 2)
 	{
 		// << heredoc
+		// end after heredoc 
+		end = start + 2;
 	}
 	else // < or > or >>
 	{
@@ -64,16 +66,16 @@ int	carroting(t_state *state, int start)
 		c = state->input[start];
 		if (c == '>' || c == '<' || c == '|')
 		{
-			exit ;
+			exit (1);
 			// syntax error, exit, cleanup
 			// do I create or open files before this error? NO
 			// do I check cmd validity before this error? NO
 			// EOF? NO
 		}
 		end = find_word_end(state, start); // find end of filename
-		create_word(state, start, end); // create filename as word
-		return (end + 1); // return index of next character 
+		create_word(state, start, end); // create filename as word 
 	}
+	return (end + 1); // return index of next character
 }
 
 /*takes start of word and finds end and creates word
@@ -104,11 +106,11 @@ int	piping(t_state *state, int i)
 		// bash: syntax error near unexpected token `|' 
 		// $?
 		//2: command not found
-		exit ; // and cleanup
+		exit (1); // and cleanup
 	else if (state->input[j] == 0) // ends with pipe
-		exit; // syntax error
+		exit (1); // syntax error
 	else if (state->input[j] == '|') // double pipe
-		exit; // syntax error
+		exit(1); // syntax error
 	create_word(state, i, i);
 	return (j); // start of new word
 }
