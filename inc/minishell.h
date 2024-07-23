@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/18 22:10:59 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:15:20 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_state
 	char	**env;
 	char	*input;
 	char	*seperators;
+	t_list	*words;
 	t_list	*cmds;
 	int		num_of_processes;
 	int		**pipes;
@@ -57,8 +58,8 @@ typedef struct s_node
 	char	*cmd;
 	int		cmd_flag;
 	char	*args;
-	char	*infile;
-	char	*outfile;
+	char	**infiles;
+	char	**outfiles;
 	int		append;
 	int		fd_in;
 	int		fd_out;
@@ -73,5 +74,11 @@ char	*create_new_var(char *var, char *value);
 // cleanup.c
 void	cleanup_shell(t_state *shell);
 void	free_strarr(char **strarr);
+
+// input_handller.c
+void	input_handler(t_state *state);
+
+// initialize.c
+void	init_minishell(t_state *state, char **envp);
 
 #endif

@@ -3,59 +3,112 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/18 23:33:07 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/23 20:57:56 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	carrot(t_state *state, int i)
-{
-	char	c;
-	int		end;
-
-	c = state->input[i];
-	end = i;
-	while (state->input[end] == c)
-		end++;
-	if (end - i > 2)
-	{
-		// more than three carrots
-		// error, handle exit and cleanup
-		exit (1);
-	}
-	else if (end - i == 2)
-		return (i + 1); // two carrots
-	return (i); // only one carrot
-}
+// redirections first from left to right redirection error errflag
+// then check function (cmd not found is the errflag)
 
 void	input_handler(t_state *state)
 {
 	int		i;
-	char	*word;
-	int		start;
-	int		end;
 
-	start = 0;
-	end = 0;
+	i = 0;
 	if (ft_strlen(state->input) == 0)
 		// handle exit;
 		exit;
-	word = NULL;
 	while (state->input[i])
 	{
-		start = i;
 		if (state->input[i] == ' ')
-			i++;
+			i++; // what about quotes
 		else if (state->input[i] == '<' || state->input[i] == '>')
-		{
-			end = carrot(state, i);
-			i = end + 1;
-		}
-		
+			i = carroting(state, i);
+		else if (state->input[i] == '|')
+			i = piping(state, i);
+		else
+			// command or argument
+			i = wording(state, i);
 	}
 }
 
+/*invoked when carrot is encounter in string input in t_state struct state
+it creates a word for the carrots (whether single or double)
+then iterates over spaces to find the filename after the carrot
+if the filename starts with | or > or <, it throws a syntax error
+otherwise, it uses find_word_end function to create the filename word
+it returns the index of the character after*/
+int	carroting(t_state *state, int start)
+{
+	int 	carrots;
+	char	c;
+	int		end;
+
+	carrots = carrotcount(state, start);
+	create_word(state, start, start + carrots - 1); // create carrot as word
+	c = state->input[start];
+	if (c == '<' && carrots == 2)
+	{
+		// << heredoc
+	}
+	else // < or > or >>
+	{
+		start = start + carrots; // start on next character after carrot
+		while (state->input[start] == ' ') // iterate over spaces
+			start++;
+		c = state->input[start];
+		if (c == '>' || c == '<' || c == '|')
+		{
+			exit ;
+			// syntax error, exit, cleanup
+			// do I create or open files before this error? NO
+			// do I check cmd validity before this error? NO
+			// EOF? NO
+		}
+		end = find_word_end(state, start); // find end of filename
+		create_word(state, start, end); // create filename as word
+		return (end + 1); // return index of next character 
+	}
+}
+
+/*takes start of word and finds end and creates word
+returns index after word*/
+int wording(t_state *state, int start)
+{
+	int	end;
+
+	end = find_word_end(state, start);
+	create_word(state, start, end);
+	return (end + 1);
+}
+
+/*takes index x of the 'pipe' character in input string
+iterates over spaces and throws syntax error if string starts with pipe
+ends with pipe, or a double pipe is found
+Otherwise it creates a word of the pipe character
+returns start of next word
+*/
+int	piping(t_state *state, int i)
+{
+	int j;
+
+	j = i + 1;
+	while (state->input[j] == ' ')
+		j++;
+	if (state->words == NULL) // starts with pipe
+		// bash: syntax error near unexpected token `|' 
+		// $?
+		//2: command not found
+		exit ; // and cleanup
+	else if (state->input[j] == 0) // ends with pipe
+		exit; // syntax error
+	else if (state->input[j] == '|') // double pipe
+		exit; // syntax error
+	create_word(state, i, i);
+	return (j); // start of new word
+}
