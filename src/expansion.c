@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/31 23:22:18 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/31 23:26:30 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	expand(t_state *state, char **word)
 	var = NULL;
 	while((*word)[j])
 	{
-		if ((*word)[j] == 0 || (*word)[j] == ' ' || (*word)[j] == '\"')
+		if ((*word)[j] == 0 || (*word)[j] == ' ' || (*word)[j] == '\"' || (*word)[j] == '$')
 			break ; // end of var and j is index after var
 		j++;
 	}
@@ -117,7 +117,7 @@ void	toexpand(t_state *state, char **word)
 
 void	expansion(t_state *state)
 {
-	printf("\nexpansion...\n\n");
+	//printf("\nexpansion...\n\n");
 	t_list	*word;
 
 	word = state->words;

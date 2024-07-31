@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 23:39:02 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/31 23:03:01 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/31 23:24:14 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	split_words(char **word, t_list **newwordlist)
 
 void	splitting(t_state *state)
 {	
-	printf("\nsplitting...\n");
+	//printf("\nsplitting...\n");
 	t_list *word;
 	t_list	*before;
 	t_list	*after;

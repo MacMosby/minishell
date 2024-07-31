@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 18:10:50 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/31 23:00:52 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/31 23:25:25 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	/************************/
 
 	init_minishell(&state, envp);
-	set_env_var(&state, "ARG", " echo -ls");
+	set_env_var(&state, "ARG", " echo -ls ");
 	//print_env(state.env);
 	while (1)
 	{
@@ -53,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 			break;
 		add_history(state.input);
 		input_handler(&state);
-		printf("\nSUCCESS!!\n\n");
+		printf("SUCCESS!!\n");
 		print_list(state.words);
 		// executor
 		free(state.input);
