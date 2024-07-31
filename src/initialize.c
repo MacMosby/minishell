@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:20:30 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/19 22:09:51 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/30 20:46:00 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ void	init_minishell(t_state *state, char **envp)
 	state->pipes = NULL;
 	state->pids = NULL;
 	state->seperators = " <>|";
+	state->i = 0;
 	set_env(state, envp);
 }

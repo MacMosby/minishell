@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/23 21:15:40 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/31 21:58:40 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_state
 	int		num_of_processes;
 	int		**pipes;
 	int		*pids;
+	int		i;
 }	t_state;
 
 typedef struct s_node
@@ -62,6 +63,7 @@ void	set_env(t_state *state, char **envp);
 char	**copy_env(char **env, int add_flag);
 void	set_env_var(t_state *shell, char *var, char* value);
 char	*create_new_var(char *var, char *value);
+char	*find_var_value(t_state *state, char *var);
 
 // cleanup.c
 void	cleanup_shell(t_state *shell);
@@ -81,5 +83,16 @@ void	create_word(t_state *state, int start, int end);
 
 // initialize.c
 void	init_minishell(t_state *state, char **envp);
+
+// expansion.c
+void	expansion(t_state *state);
+
+// splitting .c
+void	splitting(t_state *state);
+
+// delete later test functions
+void	print_list(t_list *node);
+
+
 
 #endif

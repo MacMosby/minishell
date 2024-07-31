@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environ.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:16:26 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/17 21:58:10 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/31 21:51:31 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,32 @@ char	**copy_env(char **env, int add_flag)
 	return env_copy;
 }
 
+
+/*searches environment variables, returns pointer to value of var in env if it finds it
+it will return NULL if var has no value or not found*/
+char	*find_var_value(t_state *state, char *var)
+{
+	int		i;
+	size_t	len;
+
+	if (!var)
+		return (NULL);
+	len = ft_strlen(var);
+	i = 0;
+	while(state->env[i])
+	{
+		if ((ft_strncmp(state->env[i], var, len) == 0)
+			&& (state->env[i][len] == '='))
+		{
+			if (state->env[i][len + 1] != 0)
+				return (state->env[i] + len + 1);
+			else
+				return (NULL);
+		}
+		i++;
+	}
+	return (NULL);
+}
 
 /*searches for var in env and sets it to value
 if it does not find the variable, it creates it
@@ -105,7 +131,10 @@ char	*create_new_var(char *var, char *value)
 	value_len = 0;
 	if (value)
 		value_len = ft_strlen(value);
-	env_var = (char *)malloc(var_len + value_len + 2);
+	env_var = (char *)malloc(sizeof(char) * (var_len + value_len + 2));
+	if (env_var == NULL)
+		// protect malloc
+		exit(1);
 	ft_memcpy(env_var, var, var_len);
 	ft_memcpy(env_var + var_len, "=", 1);
 	if (value)

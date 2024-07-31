@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 21:34:16 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/18 22:24:48 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/30 21:51:50 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ void	cleanup_shell(t_state *state)
 	
 	// clear history
 	rl_clear_history();
+	
+	// free list of words
+	ft_lstclear(&(state->words), free);
 
+	// free input
 	free(state->input);
 }
 

@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 20:54:36 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/23 21:38:32 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/30 20:58:29 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	create_word(t_state *state, int start, int end)
 		// malloc error
 	}
 	ft_strlcpy(newword->content, state->input + start, end - start + 2);
-	printf("%s\n", (char *)(newword->content));
+	//printf("%s\n", (char *)(newword->content));
 	newword->next = NULL;
 	ft_lstadd_back(&state->words, newword);
 }

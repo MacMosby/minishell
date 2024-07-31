@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/23 21:43:42 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/07/31 22:32:44 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	input_handler(t_state *state)
 	while (state->input[i])
 	{
 		if (state->input[i] == ' ')
-			i++; // what about quotes
+			i++;
 		else if (state->input[i] == '<' || state->input[i] == '>')
 			i = carroting(state, i);
 		else if (state->input[i] == '|')
@@ -35,6 +35,10 @@ void	input_handler(t_state *state)
 			// command or argument
 			i = wording(state, i);
 	}
+	expansion(state);
+	//print_list(state->words);
+	splitting(state);
+	//remove_quotes(state);
 }
 
 /*invoked when carrot is encounter in string input in t_state struct state
