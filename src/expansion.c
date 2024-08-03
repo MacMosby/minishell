@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/31 23:26:30 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/01 14:15:07 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void	substr_words(char **first, char **second, char *word, int i, int j)
 }
 
 /* takes a string: word, cuts out the part from i to j 
-and replaces it with another string: rep */
+and replaces it with another string: rep
+if rep = NULL, the characters between i and j are cut out
+the new string is returned*/
 char	*strreplace(char **word, char *rep, int i, int j)
 {
 	char	*first;
@@ -68,6 +70,12 @@ void	expand(t_state *state, char **word)
 	if (len > 0)
 	{
 		var = (char *)malloc((len + 1) * sizeof(char));
+		if (var == NULL)
+		{
+			// malloc error
+			cleanup_shell(state);
+			exit(1);
+		}
 		// copy var from word.
 		ft_memcpy(var, (*word) + state->i + 1, len);
 		var[len] = '\0';

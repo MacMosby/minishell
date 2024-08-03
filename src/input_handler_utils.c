@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 20:54:36 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/30 20:58:29 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/01 14:58:55 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	carrotcount(t_state *state, int start)
 	{
 		// more than three carrots
 		// error, handle exit and cleanup
+		cleanup_shell(state);
 		exit (1);
 	}
 	else if (end - start == 2)
@@ -47,7 +48,7 @@ int	find_word_end(t_state *state, int i)
 	{
 		while (c == '\'' || c == '\"')
 		{
-			i = find_closed_quote(state, i, c) + 1;
+			i = find_closed_quote(state, i) + 1;
 			c = state->input[i];
 		}
 		if (c == '|' || c == ' ' || c == '>' || c == '<')
@@ -61,12 +62,15 @@ int	find_word_end(t_state *state, int i)
 }
 
 /*takes index i of start of quotes
-and takes the quote whether double or single as character c
+and assigns char c to the quote whether double or single
 iterates over string until it finds other quote and returns its index
 if it reached end of string without finding, it throws an error
 */
-int	find_closed_quote(t_state *state, int i, char c)
+int	find_closed_quote(t_state *state, int i)
 {
+	char	c;
+	
+	c = state->input[i];
 	i++;
 	while(state->input[i] != 0)
 	{
@@ -77,7 +81,9 @@ int	find_closed_quote(t_state *state, int i, char c)
 	// unclosed quote detected
 	// error
 	// cleanup
-	exit (1);
+	cleanup_shell(state);
+	write(2, "bash: syntax error unclosed quotes\n", 35);
+	exit (2);
 }
 
 /*takes start and end indices of a word and mallocs a t_list variable
@@ -94,12 +100,15 @@ void	create_word(t_state *state, int start, int end)
 	newword = (t_list *)malloc(sizeof(t_list));
 	if (newword == NULL)
 	{
+		cleanup_shell(state);
 		exit (1);
 		// cleanup
 	}
 	newword->content = (char *)malloc((end - start + 2) * sizeof(char));
 	if (!newword->content)
 	{
+		cleanup_shell(state);
+		exit(1);
 		// malloc error
 	}
 	ft_strlcpy(newword->content, state->input + start, end - start + 2);

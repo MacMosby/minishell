@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/31 21:58:40 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/01 14:21:50 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		piping(t_state *state, int i);
 // input_handler_utils.c
 int		carrotcount(t_state *state, int start);
 int		find_word_end(t_state *state, int i);
-int		find_closed_quote(t_state *state, int i, char c);
+int		find_closed_quote(t_state *state, int i);
 void	create_word(t_state *state, int start, int end);
 
 // initialize.c
@@ -86,9 +86,14 @@ void	init_minishell(t_state *state, char **envp);
 
 // expansion.c
 void	expansion(t_state *state);
+char	*strreplace(char **word, char *rep, int i, int j);
 
 // splitting .c
 void	splitting(t_state *state);
+
+// quotes.c
+void	quotes(t_state *state);
+void	removequotes(char **word);
 
 // delete later test functions
 void	print_list(t_list *node);

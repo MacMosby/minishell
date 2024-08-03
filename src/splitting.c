@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 23:39:02 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/31 23:24:14 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/01 13:37:26 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ void	split_words_create(int s, int e, char **word, t_list **newwordlist)
 		return ;
 	newword = (t_list *)malloc(sizeof(t_list));
 	if (newword == NULL)
+	{
+		// cleanup_shell(state);
 		// malloc protection
 		exit(1);
+	}
 	newword->content = (char *)malloc((e - s + 2) * sizeof(char));
 	if (newword->content == NULL)
 		// malloc protection
@@ -79,7 +82,6 @@ void	splitting(t_state *state)
 		after = word->next;
 		newwordlist = NULL;
 		split_words((char **) &(word->content), &newwordlist);
-		
 		if (newwordlist)
 		{
 			if (before)

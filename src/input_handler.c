@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/31 22:32:44 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:33:51 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ void	input_handler(t_state *state)
 
 	i = 0;
 	if (ft_strlen(state->input) == 0)
+	{
 		// handle exit;
+		cleanup_shell(state);
 		exit (1);
+	}
 	while (state->input[i])
 	{
 		if (state->input[i] == ' ')
@@ -35,10 +38,13 @@ void	input_handler(t_state *state)
 			// command or argument
 			i = wording(state, i);
 	}
+	// EOF
 	expansion(state);
 	//print_list(state->words);
 	splitting(state);
-	//remove_quotes(state);
+	quotes(state);
+	// 
+	// 
 }
 
 /*invoked when carrot is encounter in string input in t_state struct state
@@ -59,7 +65,9 @@ int	carroting(t_state *state, int start)
 	if (c == '<' && carrots == 2)
 	{
 		// << heredoc
-		// end after heredoc 
+		// end after heredoc ??
+		// heredoc after syntax errors but is it before expansions??
+		create_word(state, start, start + 1);
 		end = start + 2;
 	}
 	else // < or > or >>
@@ -70,6 +78,7 @@ int	carroting(t_state *state, int start)
 		c = state->input[start];
 		if (c == '>' || c == '<' || c == '|')
 		{
+			cleanup_shell(state);
 			exit (1);
 			// syntax error, exit, cleanup
 			// do I create or open files before this error? NO
@@ -106,15 +115,25 @@ int	piping(t_state *state, int i)
 	j = i + 1;
 	while (state->input[j] == ' ')
 		j++;
-	if (state->words == NULL) // starts with pipe
+	if (state->words == NULL) 
+	{
+		// starts with pipe
 		// bash: syntax error near unexpected token `|' 
 		// $?
 		//2: command not found
+		cleanup_shell(state);
 		exit (1); // and cleanup
+	}
 	else if (state->input[j] == 0) // ends with pipe
+	{
+		cleanup_shell(state);
 		exit (1); // syntax error
+	}
 	else if (state->input[j] == '|') // double pipe
+	{
+		cleanup_shell(state);
 		exit(1); // syntax error
+	}
 	create_word(state, i, i);
 	return (j); // start of new word
 }
