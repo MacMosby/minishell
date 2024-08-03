@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/01 14:15:07 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/03 22:08:10 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	substr_words(char **first, char **second, char *word, int i, int j)
 
 /* takes a string: word, cuts out the part from i to j 
 and replaces it with another string: rep
-if rep = NULL, the characters between i and j are cut out
+if rep = "" or NULL, the characters between i and j are cut out
 the new string is returned*/
 char	*strreplace(char **word, char *rep, int i, int j)
 {
@@ -62,7 +62,7 @@ void	expand(t_state *state, char **word)
 	var = NULL;
 	while((*word)[j])
 	{
-		if ((*word)[j] == 0 || (*word)[j] == ' ' || (*word)[j] == '\"' || (*word)[j] == '$')
+		if ((*word)[j] == 0 || (*word)[j] == ' ' || (*word)[j] == '\"' || (*word)[j] == '\''|| (*word)[j] == '$' || (*word)[j] == '/')
 			break ; // end of var and j is index after var
 		j++;
 	}
@@ -82,11 +82,13 @@ void	expand(t_state *state, char **word)
 		rep = find_var_value(state, var);
 		if (!rep)
 			rep = ""; // handle when var is not found
-		*word = strreplace(word, rep, state->i, state->i + len);
-		// index change to after replacement - 1, it will iterate to after.
-		state->i += ft_strlen(rep) - 1;
-		free(var);
 	}
+	else
+		rep = "";
+	*word = strreplace(word, rep, state->i, state->i + len);
+	// index change to after replacement - 1, it will iterate to the next character after this function.
+	state->i += ft_strlen(rep) - 1;
+	free(var);
 }
 
 void	toexpand(t_state *state, char **word)
@@ -116,7 +118,7 @@ void	toexpand(t_state *state, char **word)
 			else if (dq_flag && (*word)[state->i + 1] != ' ' && (*word)[state->i + 1] != '\"')
 				// inside double quotes AND there is a VAR assigned after $
 				// for example "hello $ " or "hello $", 
-				//will be ignored and kept in the wording
+				//will be ignored and kept in the word
 				expand(state, word);
 		}
 		(state->i)++;

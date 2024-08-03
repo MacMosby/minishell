@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/01 16:33:51 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/03 20:08:18 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	input_handler(t_state *state)
 	if (ft_strlen(state->input) == 0)
 	{
 		// handle exit;
+		// check again
 		cleanup_shell(state);
 		exit (1);
 	}
@@ -38,7 +39,12 @@ void	input_handler(t_state *state)
 			// command or argument
 			i = wording(state, i);
 	}
-	// EOF
+	// what errors did we check for so far?
+		// Unclosed quotes
+		// pipe at beg or end or double pipes
+		// more than 2 carrots (prints error then Heredoc)
+		// file name starts with pipe or carrots (prints error then Heredoc)
+	// heredoc
 	expansion(state);
 	//print_list(state->words);
 	splitting(state);
@@ -47,7 +53,7 @@ void	input_handler(t_state *state)
 	// 
 }
 
-/*invoked when carrot is encounter in string input in t_state struct state
+/*invoked when carrot is encountered in string input in t_state struct state
 it creates a word for the carrots (whether single or double)
 then iterates over spaces to find the filename after the carrot
 if the filename starts with | or > or <, it throws a syntax error
@@ -83,9 +89,9 @@ int	carroting(t_state *state, int start)
 			// syntax error, exit, cleanup
 			// do I create or open files before this error? NO
 			// do I check cmd validity before this error? NO
-			// EOF? NO
+			// EOF? YES IF IT COMES BEFORE!!!!!
 		}
-		end = find_word_end(state, start); // find end of filename
+		end = find_word_end(state, start); // find end index of filename
 		create_word(state, start, end); // create filename as word 
 	}
 	return (end + 1); // return index of next character
@@ -102,7 +108,7 @@ int wording(t_state *state, int start)
 	return (end + 1);
 }
 
-/*takes index x of the 'pipe' character in input string
+/*takes index i of the 'pipe' character in input string
 iterates over spaces and throws syntax error if string starts with pipe
 ends with pipe, or a double pipe is found
 Otherwise it creates a word of the pipe character

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splitting.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 23:39:02 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/01 13:37:26 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/03 18:00:56 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,10 @@ void	split_words(char **word, t_list **newwordlist)
 	i = 0;
 	while((*word)[i])
 	{
-		if ((*word)[i] == '\'' && !dq_flag && !sq_flag)
-			sq_flag = 1;
-		else if ((*word)[i] == '\'' && !dq_flag)
-			sq_flag = 0; 
-		else if ((*word)[i] == '\"' && !sq_flag && !dq_flag)
-			dq_flag = 1;
+		if ((*word)[i] == '\'' && !dq_flag)
+			sq_flag = !sq_flag;
 		else if ((*word)[i] == '\"' && !sq_flag)
-			dq_flag = 0;
+			dq_flag = !dq_flag;
 		if ((*word)[i] == ' ' && !sq_flag && !dq_flag)
 		{
 			split_words_create(0, i - 1, word, newwordlist);
@@ -93,7 +89,7 @@ void	splitting(t_state *state)
 			else
 				newwordlist->next = after;
 			ft_lstdelone(word, free);
-			word = newwordlist;
+			word = newwordlist->next;
 		}
 		else
 		{

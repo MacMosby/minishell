@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 18:10:50 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/31 23:25:25 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/03 17:38:36 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	/************************/
 
 	init_minishell(&state, envp);
-	set_env_var(&state, "ARG", " echo -ls ");
+	set_env_var(&state, "ARG", "echo -ls");
 	//print_env(state.env);
 	while (1)
 	{

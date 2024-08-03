@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 20:54:36 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/01 14:58:55 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/03 14:01:11 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	carrotcount(t_state *state, int start)
 		end++;
 	if (end - start > 2)
 	{
-		// more than three carrots
+		// three or more carrots
 		// error, handle exit and cleanup
 		cleanup_shell(state);
 		exit (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:42:36 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/01 14:50:12 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/03 18:03:36 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	find_end_quote(char *word, int i)
 }
 
 /*when it finds a quote, it finds the index of the end of quote
-and removed both start and end quote*/
+and removes both start and end quote*/
 void	removequotes(char **word)
 {
 	int	i;

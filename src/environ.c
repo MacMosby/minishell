@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environ.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:16:26 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/31 21:51:31 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/03 13:48:13 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ char	**copy_env(char **env, int add_flag)
 	int		count;
 	char	**env_copy;
 	int 	i;
-	int		add;
+	int		add;	// heredoc
+
 
 	add = 0;
 	if (add_flag)
