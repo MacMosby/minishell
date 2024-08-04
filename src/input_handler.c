@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/03 20:08:18 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/04 18:58:12 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	input_handler(t_state *state)
 		// file name starts with pipe or carrots (prints error then Heredoc)
 	// heredoc
 	expansion(state);
-	//print_list(state->words);
 	splitting(state);
 	quotes(state);
 	// 
@@ -73,7 +72,7 @@ int	carroting(t_state *state, int start)
 		// << heredoc
 		// end after heredoc ??
 		// heredoc after syntax errors but is it before expansions??
-		create_word(state, start, start + 1);
+		// create_word(state, start, start + 1);
 		end = start + 2;
 	}
 	else // < or > or >>

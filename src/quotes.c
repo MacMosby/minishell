@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:42:36 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/03 18:03:36 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/04 20:51:19 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,20 @@ void	removequotes(char **word)
 	}
 }
 
-/*iterates over list of words and calls removequotes on content of every word*/
+/*iterates over list of words and calls removequotes on content of every word
+it skips heredoc delim*/
 void	quotes(t_state *state)
 {
 	t_list	*word;
+	//t_list	*before;
 
 	word = state->words;
+	//before = word;
 	while(word)
 	{
+		//if(ft_strncmp((char *) before->content, "<<", ft_strlen((char *) before->content)))
 		removequotes((char **) &(word->content));
+		//before = word;
 		word = word->next;
 	}
 }

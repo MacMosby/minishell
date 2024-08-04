@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 21:34:16 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/07/30 21:51:50 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/04 17:53:45 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 /*Cleans up shell on exit
 1- frees the environment variables
+2- clear history
+3- clear words list
+4- free input
+...
+....
 */
 void	cleanup_shell(t_state *state)
 {

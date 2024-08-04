@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/01 14:21:50 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/04 20:20:26 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,18 @@ typedef struct s_state
 	int		last_exit_status;
 	char	**env;
 	char	*input;
-	char	*seperators;
 	t_list	*words;
 	t_list	*cmds;
 	int		num_of_processes;
 	int		**pipes;
 	int		*pids;
-	int		i;
 }	t_state;
 
 typedef struct s_node
 {
 	char	*cmd;
 	int		cmd_flag;
-	char	*args;
+	char	**args;
 	char	**infiles;
 	char	**outfiles;
 	int		append;
