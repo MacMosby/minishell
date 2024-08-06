@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/05 21:06:36 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:27:51 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	carroting(t_state *state, int start)
 		{
 			cleanup_shell(state);
 			exit (1);
+			// syntax error does not execute
 			// syntax error, exit, cleanup
 			// do I create or open files before this error? NO
 			// do I check cmd validity before this error? NO
