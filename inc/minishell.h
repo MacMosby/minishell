@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/06 17:20:21 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:53:54 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,10 @@ typedef struct s_state
 
 typedef struct s_node
 {
+	t_list *words;
 	char	*cmd;
 	int		cmd_flag;
 	char	**args;
-	char	**infiles;
-	char	**outfiles;
 	int		append;
 	int		fd_in;
 	int		fd_out;
@@ -63,8 +62,12 @@ void	set_env_var(t_state *shell, char *var, char* value);
 char	*create_new_var(char *var, char *value);
 char	*find_var_value(t_state *state, char *var);
 
+// initialize.c
+void	init_minishell(t_state *state, char **envp);
+
 // cleanup.c
 void	cleanup_shell(t_state *shell);
+void	cleanup_shell_exit(t_state *state);
 void	free_strarr(char **strarr);
 
 // input_handller.c
@@ -79,8 +82,8 @@ int		find_word_end(t_state *state, int i);
 int		find_closed_quote(t_state *state, int i);
 void	create_word(t_state *state, int start, int end);
 
-// initialize.c
-void	init_minishell(t_state *state, char **envp);
+// nodes.c
+void	nodes(t_state *state);
 
 // expansion.c
 void	expansion(t_state *state);

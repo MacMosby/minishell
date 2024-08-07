@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 21:34:16 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/04 17:53:45 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:01:25 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,35 @@
 ...
 ....
 */
-void	cleanup_shell(t_state *state)
+void	cleanup_shell_exit(t_state *state)
 {
+	cleanup_shell(state);
+	
 	// Free state->env
 	free_strarr(state->env);
 	
 	// clear history
 	rl_clear_history();
-	
-	// free list of words
-	ft_lstclear(&(state->words), free);
+}
 
-	// free input
-	free(state->input);
+void	free_nodes(void *node)
+{
+	t_node *n;
+
+	n = (t_node *) node;
+	ft_lstclear(&(n->words), free);
+	free(n);
+	// need to free other things in node
+}
+
+void	cleanup_shell(t_state *state)
+{
+	// ask for heredoc input
+
+	ft_lstclear(&(state->words), free);	// free list of words
+	ft_lstclear(&(state->cmds), free_nodes);
+	free(state->input); // free input
+	state->input = NULL;
 }
 
 /*frees an array of strings*/
