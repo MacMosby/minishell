@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/07 16:53:54 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:02:51 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,15 @@ typedef struct s_state
 
 typedef struct s_node
 {
-	t_list *words;
+	t_list	*words;
 	char	*cmd;
 	int		cmd_flag;
 	char	**args;
+	char	*hd_content;
 	int		append;
 	int		fd_in;
 	int		fd_out;
+	int		err_flag;
 }	t_node;
 
 // environ.c
@@ -84,6 +86,9 @@ void	create_word(t_state *state, int start, int end);
 
 // nodes.c
 void	nodes(t_state *state);
+
+// heredoc.c
+void	heredoc_in(t_state * state);
 
 // expansion.c
 void	expansion(t_state *state);

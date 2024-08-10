@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/21 17:52:21 by wel-safa          #+#    #+#              #
-#    Updated: 2024/08/07 16:54:18 by wel-safa         ###   ########.fr        #
+#    Updated: 2024/08/10 16:48:50 by wel-safa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ LIBFTDIR := lib/libft
 LIBFT := $(LIBFTDIR)/libft.a
 #--- SOURCES ---
 SRCS := $(addprefix $(SRCDIR)/, main.c environ.c initialize.c cleanup.c \
-input_handler.c input_handler_utils.c expansion.c splitting.c quotes.c nodes.c)
+input_handler.c input_handler_utils.c expansion.c splitting.c quotes.c nodes.c \
+heredoc.c)
 #--- OBJECTS ---
 OBJS := $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 #--- HEADERS ---

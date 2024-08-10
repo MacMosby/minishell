@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/07 19:23:28 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:16:09 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	input_handler(t_state *state)
 	}
 	// split into multiple lists per command
 	nodes(state);
+	heredoc_in(state);
 	
 	// for testing print list of commands
 	t_list *cmd;
@@ -92,7 +93,7 @@ int	carroting(t_state *state, int start)
 	while (state->input[start] == ' ') // iterate over spaces
 		start++;
 	c = state->input[start];
-	if (c == '>' || c == '<' || c == '|')
+	if (c == '>' || c == '<' || c == '|' || c == 0)
 	{
 		return (-1);
 		// syntax error does not execute
@@ -102,8 +103,8 @@ int	carroting(t_state *state, int start)
 		// EOF? YES IF IT COMES BEFORE!!!!!
 	}
 	end = find_word_end(state, start); // find end index of filename or delim
-	if (end < 0)
-		return (-1); // unclosed quote
+	if (end < 0 || end < start)
+		return (-1); // unclosed quote or no word found
 	create_word(state, start, end); // create word or filename or delim as word 
 	return (end + 1); // return index of next character
 }

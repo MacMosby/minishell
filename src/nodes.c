@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nodes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:19:55 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/07 19:27:55 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/10 17:00:14 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	create_node(t_state *state, int pipe)
 			word = word->next;
 		}
 	}
-	cmd->content = (void *) node;
+	cmd->content = node;
 	ft_lstadd_back(&(state->cmds), cmd);
 }
 
