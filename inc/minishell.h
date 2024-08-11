@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/10 17:02:51 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/11 17:42:09 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 # define PATH 0
 # define BUILTIN 1
 # define NO_CMD 2
+
+# define FD_OUT 1
+# define APPEND 2
+# define FD_IN 3
+# define HEREDOC 4
 
 typedef struct s_state
 {
@@ -92,7 +97,11 @@ void	heredoc_in(t_state * state);
 
 // expansion.c
 void	expansion(t_state *state);
+void	toexpand(t_state *state, char **word);
+int		expand(t_state *state, char **word, int i);
 char	*strreplace(char **word, char *rep, int i, int j);
+void	substr_words(char **first, char **second, char *word, int i, int j);
+int		var_letter(char c);
 
 // splitting .c
 void	splitting(t_state *state);
@@ -100,6 +109,8 @@ void	splitting(t_state *state);
 // quotes.c
 void	quotes(t_state *state);
 void	removequotes(char **word);
+int		find_end_quote(char *word, int i);
+
 
 // delete later test functions
 void	print_list(t_list *node);

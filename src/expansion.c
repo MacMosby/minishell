@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/04 19:31:05 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/11 16:22:54 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char	*strreplace(char **word, char *rep, int i, int j)
 	free(*word);
 	return (res);
 }
-
 
 /*returns 1 if c is alphanumeric or underscore, returns 0 otherwise*/
 int	var_letter(char c)

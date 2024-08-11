@@ -6,11 +6,34 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:19:55 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/10 17:00:14 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/11 16:01:52 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*mallocs t_node variable and initializes struct variables to default states*/
+t_node *initialize_node(t_state *state)
+{
+	t_node	*node;
+
+	node = (t_node *) malloc(sizeof(t_node));
+	if (node == NULL)
+	{
+		cleanup_shell_exit(state);
+		exit(1); // malloc error
+	}
+	node->append = 0;
+	node->args = NULL;
+	node->cmd = NULL;
+	node->cmd_flag = 2;
+	node->err_flag = 0;
+	node->fd_in = STDIN_FILENO;
+	node->fd_out = STDOUT_FILENO;
+	node->hd_content = NULL;
+	node->words = NULL;
+	return (node);
+}
 
 void	create_node(t_state *state, int pipe)
 {
@@ -25,13 +48,7 @@ void	create_node(t_state *state, int pipe)
 		exit(1);
 	}
 	cmd->next = NULL;
-	node = (t_node *) malloc(sizeof(t_node));
-	if (node == NULL)
-	{
-		cleanup_shell_exit(state);
-		exit(1); // malloc error
-	}
-	// should I initialize something here for node?
+	node = initialize_node(state);
 	node->words = state->words;
 	word = node->words;
 	if (pipe) // MAYBE THERE IS A BETTER WAY TO DO THIS???
