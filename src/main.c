@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 18:10:50 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/07 19:18:30 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:06:19 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	print_list(t_list *node)
 {
 	while(node)
 	{
-		printf("%s\n", (char *)(node->content));	
+		printf("address: %p - ", node->content);
+		printf("%s\n", (char *)(node->content));
 		node = node->next;
 	}
 }

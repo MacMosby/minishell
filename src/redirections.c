@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:41:31 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/11 17:49:38 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:54:20 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	set_fd_in(t_node *curr, char *file)
 }
 
 /* set the file descriptor for the outfile "file" */
-void	set_fd_out(t_node *curr, char *file)
+void	set_fd_out(t_node *curr, char *file, int append)
 {
 	if (access(file, F_OK) == -1)
 	{
@@ -57,7 +57,7 @@ void	set_fd_out(t_node *curr, char *file)
 		{
 			if (curr->fd_out != STDOUT_FILENO)
 				close(curr->fd_out);
-			if (curr->append)
+			if (append)
 				curr->fd_out = open(file, O_WRONLY | O_APPEND);
 			else
 				curr->fd_out = open(file, O_WRONLY | O_TRUNC);
@@ -76,7 +76,7 @@ int	filename_cut_spaces(char **filename)
 	i = 0;
 	while((*filename)[i] == ' ')
 		i++;
-	*filename = strreplace(&filename, NULL, 0, i - 1);
+	*filename = strreplace(filename, NULL, 0, i - 1);
 	len = (int) ft_strlen(*filename);
 	if (len == 0)
 		return (1); // empty string
@@ -87,7 +87,7 @@ int	filename_cut_spaces(char **filename)
 			return (1); // empty string
 		i--;
 	}
-	*filename = strreplace(&filename, NULL, i + 1, len - 1);
+	*filename = strreplace(filename, NULL, i + 1, len - 1);
 	return (0);
 }
 
@@ -106,7 +106,7 @@ int		filename_expansion_error(char **filename)
 		return (1);
 	if (!(*filename))
 		return (1);
-	if (!ft_strlen(filename))
+	if (!ft_strlen(*filename))
 		return (1);
 	if (filename_cut_spaces(filename))
 		return (1);
@@ -135,13 +135,13 @@ int	found_carrot(char *str)
 	size_t	len;
 	
 	len = ft_strlen(str);
-	if (ft_strncmp(str, ">", len))
+	if (!ft_strncmp(str, ">", len))
 		return (FD_OUT);
-	if (ft_strncmp(str, ">>", len))
+	if (!ft_strncmp(str, ">>", len))
 		return (APPEND);
-	if (ft_strncmp(str, "<", len))
+	if (!ft_strncmp(str, "<", len))
 		return (FD_IN);
-	if (ft_strncmp(str, "<<", len))
+	if (!ft_strncmp(str, "<<", len))
 		return (HEREDOC);
 	return (0);
 }
@@ -174,14 +174,15 @@ void	redirections(t_state *state) // should it be int to return error?
 					exit(1);
 				}
 				removequotes(&filename);
-				if (carrots == FD_OUT)
-					set_fd_out((t_node *)cmd->content, filename);
+				if (carrots == APPEND)
+					set_fd_out((t_node *)cmd->content, filename, 1);
+				else if (carrots == FD_OUT)
+					set_fd_out((t_node *)cmd->content, filename, 0);
 				else
 					set_fd_in((t_node *)cmd->content, filename);
-				if (carrots == APPEND)
-					((t_node *) cmd->content)->append = 1;
 			}
 			word = word->next;
 		}
+		cmd = cmd->next;
 	}
 }

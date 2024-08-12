@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/11 17:42:09 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:55:16 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ typedef struct s_node
 	int		cmd_flag;
 	char	**args;
 	char	*hd_content;
-	int		append;
 	int		fd_in;
 	int		fd_out;
 	int		err_flag;
@@ -94,6 +93,9 @@ void	nodes(t_state *state);
 
 // heredoc.c
 void	heredoc_in(t_state * state);
+void	get_here_doc_input(t_list *words);
+void	ft_here_doc(t_list *word);
+char	*ft_join_free(char *s1, char *s2);
 
 // expansion.c
 void	expansion(t_state *state);
@@ -111,6 +113,13 @@ void	quotes(t_state *state);
 void	removequotes(char **word);
 int		find_end_quote(char *word, int i);
 
+// redirections.c
+void	redirections(t_state *state);
+int		found_carrot(char *str);
+int		filename_expansion_error(char **filename);
+int		filename_cut_spaces(char **filename);
+void	set_fd_out(t_node *curr, char *file, int append);
+void	set_fd_in(t_node *curr, char *file);
 
 // delete later test functions
 void	print_list(t_list *node);

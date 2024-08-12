@@ -6,11 +6,30 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/10 17:16:09 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:03:32 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_cmds(t_state *state)
+{
+	// for testing print list of commands
+	t_list *cmd;
+	cmd = state->cmds;
+	int j = 1;
+	while (cmd)
+	{
+		t_node * node;
+		node = (t_node *) cmd->content;
+		printf("CMD %i:\n", j);
+		print_list(node->words);
+		printf("fd_in: %i\n", node->fd_in);
+		printf("fd_out: %i\n", node->fd_out);
+		j++;
+		cmd = cmd->next;
+	}
+}
 
 void	input_handler(t_state *state)
 {
@@ -40,21 +59,12 @@ void	input_handler(t_state *state)
 	}
 	// split into multiple lists per command
 	nodes(state);
+	
 	heredoc_in(state);
 	
-	// for testing print list of commands
-	t_list *cmd;
-	cmd = state->cmds;
-	int j = 0;
-	while (cmd)
-	{
-		t_node * node;
-		node = (t_node *) cmd->content;
-		printf("list %i:\n", j);
-		print_list(node->words);
-		j++;
-		cmd = cmd->next;
-	}
+	print_cmds(state);
+	redirections(state);
+	print_cmds(state);
 	
 	// what errors did we check for so far?
 		// Unclosed quotes

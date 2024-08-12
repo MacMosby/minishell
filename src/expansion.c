@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/11 16:22:54 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/12 20:09:18 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char	*strreplace(char **word, char *rep, int i, int j)
 	char	*res;
 
 	// change to strjoin free function instead
+	if (j < i)
+		return(*word);
 	substr_words(&first, &second, *word, i, j);
 	if (!rep)
 	{
