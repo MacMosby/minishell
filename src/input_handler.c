@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/12 20:03:32 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/13 22:36:12 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	print_cmds(t_state *state)
 		print_list(node->words);
 		printf("fd_in: %i\n", node->fd_in);
 		printf("fd_out: %i\n", node->fd_out);
+		printf("hd_content: %s\n", node->hd_content);
+		printf("err_flag: %i\n", node->err_flag);
 		j++;
 		cmd = cmd->next;
 	}
@@ -41,6 +43,8 @@ void	input_handler(t_state *state)
 	if (ft_strlen(state->input) == 0)
 	{
 		// check again
+		cleanup_shell_exit(state);
+		exit(1);
 		return ;
 	}
 	while (state->input[i])

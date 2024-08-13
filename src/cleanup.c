@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 21:34:16 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/12 20:11:16 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/13 21:05:38 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	cleanup_shell(t_state *state)
 
 	//ft_lstclear(&(state->words), free);	// free list of words
 	ft_lstclear(&(state->cmds), free_nodes);
+	// free hd_content and others ???
 	free(state->input); // free input
 	state->input = NULL;
 }

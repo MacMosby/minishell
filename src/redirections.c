@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:41:31 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/12 19:54:20 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/13 22:13:55 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int		filename_expansion_error(char **filename)
 	int	sq_flag;
 	int	dq_flag;
 
+	sq_flag = 0;
+	dq_flag = 0;
 	if (!filename)
 		return (1);
 	if (!(*filename))
@@ -150,36 +152,59 @@ void	redirections(t_state *state) // should it be int to return error?
 {
 	t_list	*cmd;
 	t_list	*word;
-	char	*filename;
+	t_node	*cmd_node;
+	char	**filename;
 	int		carrots;
+	char	*og_filename;
 
 	filename = NULL;
 	cmd = state->cmds;
+	//cmd_node = (t_node *) cmd->content;
 	while (cmd)
 	{
-		word = ((t_node *) cmd->content)->words;
+		cmd_node = (t_node *) cmd->content;
+		word = cmd_node->words;
 		while (word)
 		{
 			carrots = found_carrot(word->content);
 			if (carrots == HEREDOC)
-				continue; // do sth
+			{
+				cmd_node->hd_content = ft_strdup(word->next->content); // might need to copy this instead because it will be freed later
+				if (cmd_node->fd_in)
+				{
+					printf("%i\n", cmd_node->fd_in);
+					close(cmd_node->fd_in);
+				}
+				cmd_node->fd_in = -1;
+			}
 			else if (carrots)
 			{
-				filename = (char *) word->next->content; // segs??
-				toexpand(state, &filename);
-				if (filename_expansion_error(&filename))
+				filename = (char **) &(word->next->content); // segs??
+				og_filename = ft_strdup(*filename); // free later
+				toexpand(state, filename);
+				if (filename_expansion_error(filename))
 				{
-					// Syntax error exit
-					cleanup_shell_exit(state);
-					exit(1);
+					// This is a redirect error
+					// go to next cmd
+					cmd_node->err_flag = 1;
+					printf("minishell: %s: ambiguous redirect\n", og_filename);
 				}
-				removequotes(&filename);
-				if (carrots == APPEND)
-					set_fd_out((t_node *)cmd->content, filename, 1);
-				else if (carrots == FD_OUT)
-					set_fd_out((t_node *)cmd->content, filename, 0);
 				else
-					set_fd_in((t_node *)cmd->content, filename);
+				{
+					removequotes(filename);
+					if (carrots == APPEND)
+						set_fd_out(cmd_node, *filename, 1);
+					else if (carrots == FD_OUT)
+						set_fd_out(cmd_node, *filename, 0);
+					else
+					{
+						set_fd_in(cmd_node, *filename);
+						free(cmd_node->hd_content);
+						cmd_node->hd_content = NULL;
+					}
+				}
+				free(og_filename);
+				og_filename = NULL;		
 			}
 			word = word->next;
 		}

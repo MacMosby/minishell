@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/12 20:09:18 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/13 21:44:08 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	substr_words(char **first, char **second, char *word, int i, int j)
 
 	len = ft_strlen(word);
 	*first = ft_substr(word, 0, i);
-	*second = ft_substr(word, j + 1, len);
+	*second = ft_substr(word, j + 1, len); // len? or len-j should be okay but check with other situations
 }
 
 /* takes a string: word, cuts out the part from i to j 

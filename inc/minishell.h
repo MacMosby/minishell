@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/12 19:55:16 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/13 22:34:41 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@
 # define WRITE_END 1
 
 # define CMD_ERR -1
-# define PATH 0
+# define PATH 2
 # define BUILTIN 1
-# define NO_CMD 2
+# define NO_CMD 0
 
 # define FD_OUT 1
 # define APPEND 2

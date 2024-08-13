@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:19:55 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/11 16:01:52 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/13 21:01:13 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,9 @@ t_node *initialize_node(t_state *state)
 		cleanup_shell_exit(state);
 		exit(1); // malloc error
 	}
-	node->append = 0;
 	node->args = NULL;
 	node->cmd = NULL;
-	node->cmd_flag = 2;
+	node->cmd_flag = NO_CMD;
 	node->err_flag = 0;
 	node->fd_in = STDIN_FILENO;
 	node->fd_out = STDOUT_FILENO;
