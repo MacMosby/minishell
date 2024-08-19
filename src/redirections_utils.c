@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 19:53:40 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/18 19:54:06 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:54:16 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	set_fd_in(t_node *curr, char *file)
 		}
 		else
 		{
-			if (curr->fd_in != STDIN_FILENO)
+			if (curr->fd_in > 0)
 				close(curr->fd_in);
 			curr->fd_in = open(file, O_RDONLY);
 		}

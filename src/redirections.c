@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:41:31 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/18 23:04:42 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:49:26 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename)
 	{
 		cmd_node->err_flag = 1;
 		printf("minishell: %s: ambiguous redirect\n", og_filename);
+		return ; // go to next command
 	}
 	else
 	{
@@ -76,7 +77,7 @@ void	cmd_redirections(t_state *state, t_list *cmd)
 		if (carrots == HEREDOC)
 		{
 			cmd_node->hd_content = ft_strdup(word->next->content); // might need to copy this instead because it will be freed later
-			if (cmd_node->fd_in)
+			if (cmd_node->fd_in > 0)
 				close(cmd_node->fd_in);
 			cmd_node->fd_in = -1;
 		}
@@ -94,6 +95,12 @@ void	redirections(t_state *state) // should it be int to return error?
 	while (cmd)
 	{
 		cmd_redirections(state, cmd);
+		cmd = cmd->next;
+	}
+	cmd = state->cmds;
+	while (cmd)
+	{
+		delete_redirections(&(((t_node *)(cmd->content))->words));
 		cmd = cmd->next;
 	}
 }

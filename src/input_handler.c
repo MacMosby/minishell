@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/13 22:36:12 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:27:54 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	input_handler(t_state *state)
 	int		i;
 
 	if (!state || !state->input) // Ensure state and input are valid
-        return;
+        return ;
 	i = 0;
 	if (ft_strlen(state->input) == 0)
 	{
@@ -68,6 +68,7 @@ void	input_handler(t_state *state)
 	
 	print_cmds(state);
 	redirections(state);
+	printf("\n|||||AFTER REDIRECTIONS||||\n");
 	print_cmds(state);
 	
 	// what errors did we check for so far?

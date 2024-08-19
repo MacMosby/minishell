@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 18:10:50 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/13 21:15:43 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:01:36 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 		
 		// for testing purposes
 		// printf("SUCCESS!!\n");
-		// print_list(state.words);
+		print_list(state.words);
 		
 		cleanup_shell(&state);
 	}

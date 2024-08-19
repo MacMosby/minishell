@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/18 23:08:54 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:46:22 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,22 @@
 typedef struct s_state
 {
 	int		last_exit_status;
-	char	**env;
-	char	*input;
-	t_list	*words;
-	t_list	*cmds;
+	char	**env; //
+	char	*input; //
+	t_list	*words; //
+	t_list	*cmds; //
 	int		num_of_processes;
-	int		**pipes;
-	int		*pids;
+	int		**pipes; //??
+	int		*pids; //??
 }	t_state;
 
 typedef struct s_node
 {
-	t_list	*words;
+	t_list	*words; //
 	char	*cmd;
 	int		cmd_flag;
-	char	**args;
-	char	*hd_content;
+	char	**args; //
+	char	*hd_content; //
 	int		fd_in;
 	int		fd_out;
 	int		err_flag;
@@ -74,6 +74,7 @@ void	init_minishell(t_state *state, char **envp);
 // cleanup.c
 void	cleanup_shell(t_state *shell);
 void	cleanup_shell_exit(t_state *state);
+void	free_nodes(void *node);
 void	free_strarr(char **strarr);
 
 // input_handller.c
@@ -127,5 +128,9 @@ void	set_fd_in(t_node *curr, char *file);
 
 // delete later test functions
 void	print_list(t_list *node);
+
+// list_manipulation.c
+void	wordlist_to_cmdarr(t_node *cmd);
+void	delete_redirections(t_list **words);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 21:34:16 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/13 21:05:38 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:45:27 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,30 @@ void	cleanup_shell_exit(t_state *state)
 	rl_clear_history();
 }
 
-void	free_nodes(void *node)
-{
-	t_node *n;
-
-	n = (t_node *) node;
-	ft_lstclear(&(n->words), free);
-	free(n);
-	// need to free other things in node
-}
-
 void	cleanup_shell(t_state *state)
 {
 	// ask for heredoc input
 
-	//ft_lstclear(&(state->words), free);	// free list of words
+	ft_lstclear(&(state->words), free);	// free list of words
 	ft_lstclear(&(state->cmds), free_nodes);
 	// free hd_content and others ???
 	free(state->input); // free input
 	state->input = NULL;
+}
+
+void	free_nodes(void *node)
+{
+	t_node	*n;
+
+	n = (t_node *) node;
+	if (!n)
+		return ;
+	ft_lstclear(&(n->words), free);
+	free(n->hd_content);
+	free_strarr(n->args);
+	free(n->cmd);
+	free(n);
+	// need to free other things in node
 }
 
 /*frees an array of strings*/
@@ -58,7 +63,9 @@ void	free_strarr(char **strarr)
 	int i;
 
 	i = 0;
-	while(strarr[i] != NULL)
+	if (!strarr)
+		return ;
+	while (strarr[i] != NULL)
 	{
 		free(strarr[i]);
 		i++;

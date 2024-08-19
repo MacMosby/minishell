@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 20:54:36 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/10 16:42:18 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:14:10 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	find_word_end(t_state *state, int i)
 		while (c == '\'' || c == '\"')
 		{
 			i = find_closed_quote(state, i) + 1;
-			if (i < 0 || !state->input[i]) // second condition from chatgpt
+			if (i < 0)
 				return (-1); // unclosed quote
 			c = state->input[i];
 		}
