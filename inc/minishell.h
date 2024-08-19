@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/13 22:34:41 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/18 23:08:54 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,11 @@ int		find_end_quote(char *word, int i);
 
 // redirections.c
 void	redirections(t_state *state);
+void	cmd_redirections(t_state *state, t_list *cmd);
+void	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename);
 int		found_carrot(char *str);
+
+// redirections_utils.c
 int		filename_expansion_error(char **filename);
 int		filename_cut_spaces(char **filename);
 void	set_fd_out(t_node *curr, char *file, int append);
