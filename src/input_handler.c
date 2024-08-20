@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/19 20:27:54 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:25:36 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,17 @@ void	input_handler(t_state *state)
 	redirections(state);
 	printf("\n|||||AFTER REDIRECTIONS||||\n");
 	print_cmds(state);
-	
+	expansion(state);
+	print_cmds(state);
+
 	// what errors did we check for so far?
 		// Unclosed quotes
 		// pipe at beg or end or double pipes
 		// more than 2 carrots (prints error then Heredoc)
 		// file name starts with pipe or carrots (prints error then Heredoc)
 	// heredoc
-	//expansion(state);
 	//splitting(state);
 	//quotes(state);
-
 }
 
 /*invoked when carrot is encountered in string input in t_state struct state

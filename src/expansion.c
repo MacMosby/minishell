@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/13 21:44:08 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:24:29 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,20 +164,22 @@ void	toexpand(t_state *state, char **word)
 	}
 }
 
-/*takes state struct and iterates over list of words and calls toexpand function on each
-it skips heredoc delim*/
+/*takes state struct and iterates over list of words in each cmd 
+and calls toexpand function on each*/
 void	expansion(t_state *state)
 {
+	t_list	*cmd;
 	t_list	*word;
-	t_list	*before;
 
-	word = state->words;
-	before = word;
-	while(word)
+	cmd = state->cmds;
+	word = ((t_node *)cmd->content)->words;
+	while(cmd)
 	{
-		if(ft_strncmp((char *) before->content, "<<", ft_strlen((char *) before->content)))
+		while(word)
+		{
 			toexpand(state, (char **) &(word->content));
-		before = word;
-		word = word->next;
+			word = word->next;
+		}
+		cmd = cmd->next;
 	}
 }
