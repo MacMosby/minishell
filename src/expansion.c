@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/20 18:24:29 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/20 22:26:30 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,16 @@ int	var_letter(char c)
 }
 
 /*takes t_state struct and string pointer word and index i of the dollar sign found
-it finds variable after $ sign. if variable is not found, no expansions, 
-except in such cases: $"hello" or $'hello' where the dollar sign is removed.
-if var is found, it searches env for var and replaces $VAR from string with its value
-otherwise it removes $VAR from the string.
+and hd_flag that signifies if it is a heredoc expansion or not.
+It finds variable after $ sign.
+if var is found, it searches env for var and replaces $VAR from word with its value
+otherwise it removes $VAR from word.
+if variable is not found, no expansions happen.
+except when hd_flag is 0 AND in such cases: $"hello" or $'hello' 
+where the dollar sign is removed.
 it returns index last character (replacement or no replacement)
 */
-int	expand(t_state *state, char **word, int i)
+int	expand(t_state *state, char **word, int i, int hd_flag)
 {
 	int		j;
 	char	*var;
@@ -80,7 +83,7 @@ int	expand(t_state *state, char **word, int i)
 
 	j = i + 1;
 	var = NULL;
-	while((*word)[j])
+	while ((*word)[j])
 	{
 		if (ft_isdigit((*word)[j]) && (j - i == 1))
 		{
@@ -88,7 +91,7 @@ int	expand(t_state *state, char **word, int i)
 			return (i - 1);
 		}
 		if (var_letter((*word)[j]) == 0)
-			break ; // end of var and j is index after var
+			break; // end of var and j is index after var
 		j++;
 	}
 	len = j - i - 1; // length of variable name
@@ -113,7 +116,7 @@ int	expand(t_state *state, char **word, int i)
 		i += ft_strlen(rep) - 1;
 		free(var);
 	}
-	else if ((*word)[j] == '\"' || (*word)[j] == '\'')
+	else if (!hd_flag && ((*word)[j] == '\"' || (*word)[j] == '\''))
 	{
 		// $"hello" or $'hello' removes the dollar sign
 		// it will not detect "hello $" as this is taken care of in toexpand function if statement
@@ -153,19 +156,20 @@ void	toexpand(t_state *state, char **word)
 				// Variable cuts off at char that is not alphanumric or not an underscore.
 				// if quote is right after $ sign there will be no var
 				// and nothing to expand, just remove $ sign
-				i = expand(state, word, i);
+				i = expand(state, word, i, 0);
 			else if (dq_flag && (*word)[i + 1] != '\"')
 				// inside double quotes AND there is a VAR assigned after $
 				// for example "hello $ " or "hello $", 
 				// will be ignored and kept in the word
-				i = expand(state, word, i);
+				i = expand(state, word, i, 0);
 		}
 		i++;
 	}
 }
 
 /*takes state struct and iterates over list of words in each cmd 
-and calls toexpand function on each*/
+and calls toexpand function on each and then calls heredoc_expansions function
+on hd_content of each command*/
 void	expansion(t_state *state)
 {
 	t_list	*cmd;
@@ -180,6 +184,7 @@ void	expansion(t_state *state)
 			toexpand(state, (char **) &(word->content));
 			word = word->next;
 		}
+		heredoc_expansions(state, &(((t_node *)cmd->content)->hd_content));
 		cmd = cmd->next;
 	}
 }

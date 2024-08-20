@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splitting.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 23:39:02 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/04 17:59:00 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/20 23:31:07 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	split_words(char **word, t_list **newwordlist)
 /*splitting words after expansion: it iterates over list of words
 if it finds a word with space not inside quotes, it splits into two words, 
 and inserts new list of two words
-in place of the one work in the t_list words in struct t_state,
+in place of the one word in the t_list words in t_node cmd_content,
 it then loops again on second replaced word*/
-void	splitting(t_state *state)
+void	splitting_cmd_words(t_node *cmd_content)
 {	
 	//printf("\nsplitting...\n");
 	t_list *word;
@@ -84,7 +84,7 @@ void	splitting(t_state *state)
 	t_list	*newwordlist;
 
 
-	word = state->words;
+	word = cmd_content->words;
 	newwordlist = NULL;
 	before = NULL;
 	
@@ -98,7 +98,7 @@ void	splitting(t_state *state)
 			if (before)
 				before->next = newwordlist;
 			else
-				state->words = newwordlist;
+				cmd_content->words = newwordlist;
 			if (newwordlist->next)
 				newwordlist->next->next = after;
 			else
@@ -111,5 +111,19 @@ void	splitting(t_state *state)
 			before = word;
 			word = after;
 		}
+	}
+}
+
+/*iterates over list of commans in t_state variable state and calls
+splitting_cmd_words on each command node*/
+void splitting(t_state *state)
+{
+	t_list	*cmd;
+
+	cmd = state->cmds;
+	while (cmd)
+	{
+		splitting_cmd_words((t_node *)(cmd->content));
+		cmd = cmd->next;
 	}
 }

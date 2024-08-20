@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nodes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:19:55 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/13 21:01:13 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/20 23:10:06 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,15 @@ t_node *initialize_node(t_state *state)
 	node->fd_in = STDIN_FILENO;
 	node->fd_out = STDOUT_FILENO;
 	node->hd_content = NULL;
+	node->hd_expand_flag = 1;
 	node->words = NULL;
 	return (node);
 }
 
+/*creates t_list item cmd and adds it to the cmd list in state variable
+copies words into the command node
+and removes pipe from list of words if pipe = 1 
+(i.e. if it is not the last command in the input string)*/
 void	create_node(t_state *state, int pipe)
 {
 	t_node	*node;

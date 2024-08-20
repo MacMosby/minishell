@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 19:21:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/10 17:09:00 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/20 22:39:16 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,18 @@ void	ft_here_doc(t_list *word)
 	word->content = full_line;
 }
 
-void	get_here_doc_input(t_list *words)
+/*iterates over list of words in cmd and if heredoc carrots are found,
+it checks the next word i.e. delimiter and sets hd_expand_flag 
+in t_node cmd_content if quotes are found in delimiter.
+Then it calls removequotes function on the delimiter, and
+calls ft_here_doc with the delimiter.*/
+void	get_heredoc_input(t_node *cmd_content, t_list *words)
 {
-	t_list *curr;
+	t_list	*curr;
+	int		i;
+	char	*delim;
 
+	i = 0;
 	curr = words;
 	while (curr)
 	{
@@ -88,12 +96,28 @@ void	get_here_doc_input(t_list *words)
 			// what if "<<" is the last word ?
 			curr = curr->next;
 			if (curr)
+			{
+				delim = (char *) curr->content;
+				while (delim[i])
+				{
+					if (delim[i] == '\'' || delim[i] == '\"')
+					{
+						cmd_content->hd_expand_flag = 0;
+						break;
+					}
+					i++;
+				}
+				removequotes((char **) &(curr->content));
 				ft_here_doc(curr);
+			}
 		}
 		curr = curr->next;
 	}
 }
 
+/*takes t_state variable state and iterates over t_list variable cmds
+calls get_here_doc_input on t_node cmd_content 
+and list of words in the node cmd_content*/
 void	heredoc_in(t_state * state)
 {
 	t_list *cmd;
@@ -105,14 +129,26 @@ void	heredoc_in(t_state * state)
 	{
 		cmd_content = (t_node *) cmd->content;
 		//print_list(cmd_content->words);
-		get_here_doc_input((t_list *) cmd_content->words);
+		get_heredoc_input(cmd_content, (t_list *) cmd_content->words);
 		cmd = cmd->next;
 	}
 }
 
-// void getheredocin(t_list *words); // gets list of words per cmd
-/*iterate over list. Once it finds <<, it will prompt the user for input, 
-using delim to end the input, and then replace the delimitor content.
-free(delim)
-assign delim list item->content = new heredoc input
-*/
+/*iterates over hd_content variable and calls expand function if $ sign is found
+with hd_flag = 1*/
+void	heredoc_expansions(t_state *state, char **hd_content)
+{
+	int	i;
+
+	i = 0;
+	if (!hd_content)
+		return;
+	if (!(*hd_content))
+		return;
+	while ((*hd_content)[i])
+	{
+		if ((*hd_content)[i] == '$')
+			i = expand(state, hd_content, i, 1);
+		i++;
+	}
+}

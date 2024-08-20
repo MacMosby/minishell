@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/19 20:46:22 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/20 22:29:05 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_node
 	int		cmd_flag;
 	char	**args; //
 	char	*hd_content; //
+	int		hd_expand_flag;
 	int		fd_in;
 	int		fd_out;
 	int		err_flag;
@@ -94,14 +95,15 @@ void	nodes(t_state *state);
 
 // heredoc.c
 void	heredoc_in(t_state * state);
-void	get_here_doc_input(t_list *words);
+void	get_heredoc_input(t_node *cmd_content, t_list *words);
 void	ft_here_doc(t_list *word);
 char	*ft_join_free(char *s1, char *s2);
+void	heredoc_expansions(t_state *state, char **hd_content);
 
 // expansion.c
 void	expansion(t_state *state);
 void	toexpand(t_state *state, char **word);
-int		expand(t_state *state, char **word, int i);
+int		expand(t_state *state, char **word, int i, int hd_flag);
 char	*strreplace(char **word, char *rep, int i, int j);
 void	substr_words(char **first, char **second, char *word, int i, int j);
 int		var_letter(char c);

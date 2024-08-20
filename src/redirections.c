@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:41:31 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/19 20:49:26 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/20 23:20:16 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	found_carrot(char *str)
 	return (0);
 }
 
+/*expands filename and checks for expansion error. Otherwise it removes quotes
+from filename and calls set_fd_out and set_fd_in dependiing on the redirection*/
 void	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename)
 {
 	char	*og_filename;
@@ -63,6 +65,10 @@ void	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename)
 	free(og_filename);
 }
 
+/*iterates over list of words in cmd and if heredoc carrots are found,
+it copies heredoc content to hd_content variable in command node and sets
+fd_in to -1, closing previous fd_in if need be.
+for other redirections, it calls set_fds function*/
 void	cmd_redirections(t_state *state, t_list *cmd)
 {
 	t_node	*cmd_node;
@@ -87,6 +93,9 @@ void	cmd_redirections(t_state *state, t_list *cmd)
 	}
 }
 
+/*takes t_state ptr variable and iterates over commands and calls cmd_redirections
+function on each. Then it iterates over commands again to delete redirection words
+from list of words in each command node*/
 void	redirections(t_state *state) // should it be int to return error?
 {
 	t_list	*cmd;
