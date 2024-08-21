@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:53:07 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/08/21 21:53:47 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 22:41:01 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,13 +218,14 @@ void	invoke_builtin(t_state *data, t_node *curr)
 	}
 	else if (ft_strncmp(curr->cmd, "export", 6) == 0)
 		// call export and pass curr
-		printf("Hello from export\n");
+		//printf("Hello from export\n");
+		ft_export(data, curr->args[1]);
 	else if (ft_strncmp(curr->cmd, "unset", 5) == 0)
 		// call unset and pass curr
 		printf("Hello from unset\n");
 	else if (ft_strncmp(curr->cmd, "env", 3) == 0)
 		// call env and pass data struct ???
-		printf("Hello from env\n");
+		ft_env(data);
 	else if (ft_strncmp(curr->cmd, "exit", 4) == 0)
 	{
 		// call exit and pass data struct ???

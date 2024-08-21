@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 18:10:50 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 20:41:22 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 22:38:40 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int argc, char **argv, char **envp)
 	/************************/
 
 	init_minishell(&state, envp);
-	set_env_var(&state, "ARG", "out ");
+	//set_env_var(&state, "ARG", "out ");
 	while (1)
 	{
 		state.input = readline("minishell:~$ "); // display prompt
