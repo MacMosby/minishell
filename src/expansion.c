@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 19:54:54 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 21:55:26 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,6 @@ void	expansion(t_state *state)
 		while(word)
 		{
 			toexpand(state, (char **) &(word->content));
-			ft_printf("%s\n", (char *) word->content);
 			word = word->next;
 		}
 		if (((t_node *)cmd->content)->hd_expand_flag)

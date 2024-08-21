@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 21:34:16 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 16:22:04 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 21:29:43 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ void	cleanup_shell_exit(t_state *state)
 	
 	// Free state->env
 	free_strarr(state->env);
-	
-	// free builtins
-	free_strarr(state->builtins);
 
 	// clear history
 	rl_clear_history();

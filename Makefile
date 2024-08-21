@@ -6,7 +6,7 @@
 #    By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/21 17:52:21 by wel-safa          #+#    #+#              #
-#    Updated: 2024/08/21 15:31:14 by wel-safa         ###   ########.fr        #
+#    Updated: 2024/08/21 21:44:55 by wel-safa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ LIBFT := $(LIBFTDIR)/libft.a
 SRCS := $(addprefix $(SRCDIR)/, main.c environ.c initialize.c cleanup.c \
 input_handler.c input_handler_utils.c expansion.c splitting.c quotes.c nodes.c \
 heredoc.c redirections.c redirections_utils.c list_manipulation.c get_path.c \
-handle_cmd.c)
+handle_cmd.c executor.c executor_utils.c builtins.c)
 #--- OBJECTS ---
 OBJS := $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 #--- HEADERS ---

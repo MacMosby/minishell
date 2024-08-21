@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 19:21:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 20:27:14 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 22:30:10 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	ft_here_doc(t_list *word)
 	}
 	if (!full_line)
 		full_line = ft_strdup("");
+	full_line = ft_join_free(full_line, ft_strdup("\n"));
 	free(word->content);
 	free(tmp_line);
 	word->content = full_line;

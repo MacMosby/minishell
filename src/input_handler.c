@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 20:29:40 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 21:55:10 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ void	input_handler(t_state *state)
 	
 	cmd_loop(state);
 
-	printf("\n|||||AFTER handling cmds||||\n");
-	print_cmds(state);
+	//printf("\n|||||AFTER handling cmds||||\n");
+	//print_cmds(state);
 }
 
 /*invoked when carrot is encountered in string input in t_state struct state

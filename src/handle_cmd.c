@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:03:48 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/08/21 16:21:46 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 22:08:20 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,5 @@ void	cmd_loop(t_state *state)
 		wordlist_to_cmdarr((t_node *)cmd->content);
 		cmd = cmd->next;
 	}
+	state->num_of_processes = ft_lstsize(state->cmds);
 }

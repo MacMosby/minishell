@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 19:11:38 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 21:51:22 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <errno.h>
 
 # define READ_END 0
 # define WRITE_END 1
 
-# define CMD_ERR -1
+# define CMD_ERR 1
+# define CMD_OK 0
+
 # define PATH 2
 # define BUILTIN 1
 # define NO_CMD 0
@@ -40,7 +43,7 @@
 
 typedef struct s_state
 {
-	int		last_exit_status;
+	int		exit_status;
 	char	**env; //
 	char	*input; //
 	t_list	*words; //
@@ -48,7 +51,7 @@ typedef struct s_state
 	int		num_of_processes;
 	int		**pipes; //??
 	int		*pids; //??
-	char	**builtins; //
+	char	*builtins[8]; //
 }	t_state;
 
 typedef struct s_node
@@ -145,6 +148,33 @@ char	*get_path(t_state *data, char *cmd);
 char	*ft_get_exec_path(char **path_split, char *cmd);
 char	*ft_get_env_path(char **env);
 void	ft_free_splits(char **splits);
+
+
+// executor.c
+void	executor(t_state *data);
+void	execution_loop(t_state *data);
+void	fork_executor(t_state *data, t_node *curr, int i);
+void	redirect_in_out(t_state *data, t_node *curr, int i);
+
+// executor_utils.c
+void	free_pipes(t_state *data);
+void	init_pipes(t_state *data);
+void	init_pids(t_state *data);
+void	redirect_to_pipes(t_state *data, int i);
+void	close_pipes(t_state *data);
+void	wait_loop(t_state *data);
+
+// builtins.c
+void	ft_env(t_state *data);
+char	**copy_env_unset(char **env);
+void	ft_unset(t_state *data, char *var);
+void	ft_export(t_state *data, char *str);
+void	ft_exit(void);
+int		flag_check(char *str);
+void	ft_echo(char **arr);
+void	ft_pwd(void);
+void	ft_cd(char *str);
+void	invoke_builtin(t_state *data, t_node *curr);
 
 // delete later test functions
 void	print_list(t_list *node);

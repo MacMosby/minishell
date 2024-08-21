@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 18:10:50 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 19:27:53 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 20:41:22 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 			break;
 		add_history(state.input);
 		input_handler(&state);
-		
+		executor(&state);
 		// for testing purposes
 		// printf("SUCCESS!!\n");
 		//print_list(state.words);
