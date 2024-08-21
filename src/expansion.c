@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/20 22:26:30 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:54:54 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,15 +176,17 @@ void	expansion(t_state *state)
 	t_list	*word;
 
 	cmd = state->cmds;
-	word = ((t_node *)cmd->content)->words;
 	while(cmd)
 	{
+		word = ((t_node *)cmd->content)->words;
 		while(word)
 		{
 			toexpand(state, (char **) &(word->content));
+			ft_printf("%s\n", (char *) word->content);
 			word = word->next;
 		}
-		heredoc_expansions(state, &(((t_node *)cmd->content)->hd_content));
+		if (((t_node *)cmd->content)->hd_expand_flag)
+			heredoc_expansions(state, &(((t_node *)cmd->content)->hd_content));
 		cmd = cmd->next;
 	}
 }

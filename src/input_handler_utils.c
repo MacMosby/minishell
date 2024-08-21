@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 20:54:36 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/19 20:14:10 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 20:22:15 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	find_word_end(t_state *state, int i)
 		if (c == '|' || c == ' ' || c == '>' || c == '<')
 		{
 			// end of file name or word
+			// check for restrictions of file name
 			return (i - 1); // return end of file name or word
 		}
 		i++;

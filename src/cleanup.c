@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 21:34:16 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/19 20:45:27 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:22:04 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ void	cleanup_shell_exit(t_state *state)
 	// Free state->env
 	free_strarr(state->env);
 	
+	// free builtins
+	free_strarr(state->builtins);
+
 	// clear history
 	rl_clear_history();
 }
@@ -52,7 +55,7 @@ void	free_nodes(void *node)
 	ft_lstclear(&(n->words), free);
 	free(n->hd_content);
 	free_strarr(n->args);
-	free(n->cmd);
+	//free(n->cmd);
 	free(n);
 	// need to free other things in node
 }

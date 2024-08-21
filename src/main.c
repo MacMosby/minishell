@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 18:10:50 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/19 20:01:36 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:27:53 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@
 void	print_env(char **env)
 {
 	int i = 0;
+	if (!env)
+		return ;
+	if (!(*env))
+		return ;
 	while(env[i])
-		printf("%s\n", env[i++]);
+		ft_printf("%s\n", env[i++]);
 }
 
 void	print_list(t_list *node)
@@ -55,7 +59,7 @@ int	main(int argc, char **argv, char **envp)
 		
 		// for testing purposes
 		// printf("SUCCESS!!\n");
-		print_list(state.words);
+		//print_list(state.words);
 		
 		cleanup_shell(&state);
 	}

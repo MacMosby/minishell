@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/20 23:37:27 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 20:29:40 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,16 @@ void	print_cmds(t_state *state)
 		t_node * node;
 		node = (t_node *) cmd->content;
 		printf("CMD %i:\n", j);
+		printf("\nword list:\n");
 		print_list(node->words);
-		printf("fd_in: %i\n", node->fd_in);
+		printf("\ncmd and cmd flag:\n");
+		ft_printf("%s\n", node->cmd);
+		printf("%i", node->cmd_flag);
+		printf("\nargs:\n");
+		print_env(node->args);
+		printf("\nfd_in: %i\n", node->fd_in);
 		printf("fd_out: %i\n", node->fd_out);
-		printf("hd_content: %s\n", node->hd_content);
+		ft_printf("hd_content: %s\n", node->hd_content);
 		printf("err_flag: %i\n", node->err_flag);
 		j++;
 		cmd = cmd->next;
@@ -59,25 +65,40 @@ void	input_handler(t_state *state)
 			// command or argument
 			i = wording(state, i);
 		if (i < 0)
+		{
+			get_heredoc_input(NULL, state->words);
 			return ;
+		}
 	}
 	// split into multiple lists per command
 	nodes(state);
 	
 	heredoc_in(state);
 	
-	print_cmds(state);
+	//print_cmds(state);
 	redirections(state);
-	printf("\n|||||AFTER REDIRECTIONS||||\n");
-	print_cmds(state);
+	
+	//printf("\n|||||AFTER REDIRECTIONS||||\n");
+	//print_cmds(state);
+	
 	expansion(state);
-	printf("\n|||||AFTER EXPANSIONS||||\n");
-	print_cmds(state);
+	
+	//printf("\n|||||AFTER EXPANSIONS||||\n");
+	//print_cmds(state);
+	
 	splitting(state);
-	printf("\n|||||AFTER SPLITTING||||\n");
-	print_cmds(state);
+	
+	//printf("\n|||||AFTER SPLITTING||||\n");
+	//print_cmds(state);
+	
 	quotes(state);
-	printf("\n|||||AFTER SPLITTING||||\n");
+	
+	//printf("\n|||||AFTER REMOVING QUOTES||||\n");
+	//print_cmds(state);
+	
+	cmd_loop(state);
+
+	printf("\n|||||AFTER handling cmds||||\n");
 	print_cmds(state);
 }
 
@@ -130,7 +151,9 @@ int wording(t_state *state, int start)
 
 	end = find_word_end(state, start);
 	if (end < 0)
+	{	// $?
 		return (-1); // unclosed quote
+	}
 	create_word(state, start, end);
 	return (end + 1);
 }
@@ -148,12 +171,14 @@ int	piping(t_state *state, int i)
 	j = i + 1;
 	while (state->input[j] == ' ')
 		j++;
-	if (state->words == NULL) 
+	if (state->words == NULL)
+	{
 		// starts with pipe
-		// bash: syntax error near unexpected token `|' 
+		printf("bash: syntax error near unexpected token `|'\n");
 		// $?
 		//2: command not found
 		return (-1); // and cleanup
+	}
 	else if (state->input[j] == 0) // ends with pipe
 		return (-1); // syntax error
 	else if (state->input[j] == '|') // double pipe

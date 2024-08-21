@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/20 22:29:05 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:11:38 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
 
@@ -47,12 +48,13 @@ typedef struct s_state
 	int		num_of_processes;
 	int		**pipes; //??
 	int		*pids; //??
+	char	**builtins; //
 }	t_state;
 
 typedef struct s_node
 {
 	t_list	*words; //
-	char	*cmd;
+	char	*cmd; //
 	int		cmd_flag;
 	char	**args; //
 	char	*hd_content; //
@@ -128,11 +130,25 @@ int		filename_cut_spaces(char **filename);
 void	set_fd_out(t_node *curr, char *file, int append);
 void	set_fd_in(t_node *curr, char *file);
 
-// delete later test functions
-void	print_list(t_list *node);
-
 // list_manipulation.c
 void	wordlist_to_cmdarr(t_node *cmd);
 void	delete_redirections(t_list **words);
+
+// handle_cmd.c
+void	cmd_loop(t_state *state);
+void	handle_cmd(t_state *data, t_node *curr, char *str);
+int		check_for_dir(char *str);
+int		check_for_builtin(char *cmd, char **builtins);
+
+// get_path.c
+char	*get_path(t_state *data, char *cmd);
+char	*ft_get_exec_path(char **path_split, char *cmd);
+char	*ft_get_env_path(char **env);
+void	ft_free_splits(char **splits);
+
+// delete later test functions
+void	print_list(t_list *node);
+void	print_cmds(t_state *state);
+void	print_env(char **env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 19:21:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/20 22:39:16 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/08/21 20:27:14 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,17 @@ void	get_heredoc_input(t_node *cmd_content, t_list *words)
 			if (curr)
 			{
 				delim = (char *) curr->content;
-				while (delim[i])
+				if (cmd_content)
 				{
-					if (delim[i] == '\'' || delim[i] == '\"')
+					while (delim[i])
 					{
-						cmd_content->hd_expand_flag = 0;
-						break;
+						if (delim[i] == '\'' || delim[i] == '\"')
+						{
+							cmd_content->hd_expand_flag = 0;
+							break;
+						}
+						i++;
 					}
-					i++;
 				}
 				removequotes((char **) &(curr->content));
 				ft_here_doc(curr);
