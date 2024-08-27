@@ -109,20 +109,20 @@ void	wait_loop(t_state *data)
 			// if cmd found but not executable, exit status is 126
 			// do we have to set them manually or will the return of waitpid be perfect to just use N + 128 ???
 			data->exit_status = WEXITSTATUS(wstatus);
-			if (data->exit_status == 0)
+			/* if (data->exit_status == 0)
 				printf("Process %d with pid %d: Success!\n", i, data->pids[i]);
 			else
 			{
 				data->exit_status += 128;
 				printf("Process %d with pid %d: Failure with status code %d\n", i, data->pids[i], data->exit_status);
-			}
+			} */
 		}
-		else
+		/* else
 		{
 			printf("What is the issues here in process %d\n", i);
 			printf("status is %d\n", wstatus);
-		}
+		} */
 		i++;
 	}
-	printf("End of program: exit status: %d\n", data->exit_status);
+	//printf("End of program: exit status: %d\n", data->exit_status);
 }
