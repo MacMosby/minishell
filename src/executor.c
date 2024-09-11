@@ -65,22 +65,17 @@ void	fork_executor(t_state *data, t_node *curr, int i)
 		{
 			if (curr->cmd_flag == PATH)
 			{
-				// NOT THE RIGHT POSITION IN THE END, ONLY FOR NOW
-				// what about absolute and relative paths ???
-				//curr->cmd = get_path(data, curr->cmd);
-				// execution of process
-				//if (execlp(curr->cmd, curr->args, NULL) == -1)
 				if (execve(curr->cmd, curr->args, data->env) == -1)
 					// error handle here
 					// EXIT HANDLE
 					exit(2);
 			}
 			else if (curr->cmd_flag == BUILTIN)
-				invoke_builtin(data, curr);
+				exit(invoke_builtin(data, curr));
 		}
+		else
+			exit(curr->err_flag);
 	}
-	// EXIT HANDLE
-	//exit(3);
 }
 
 /* iterates over list of commands and executes them one by one */
@@ -103,12 +98,42 @@ void	execution_loop(t_state *data)
 /* iterate over the linked list and executes the commands one by one */
 void	executor(t_state *data)
 {
+	t_node	*cmd;
+
+	// MARC START
+	// not needed if code exits earlier with no words ???
+	if (!data->cmds)
+		return ;
+	// MARC END
+	cmd = (t_node *)data->cmds->content;
 	// initialize pipe array of array
 	init_pipes(data);
 	// initialize array of process IDs
 	init_pids(data);
-	execution_loop(data);
-	wait_loop(data);
+	// MARC START
+	if (data->num_of_processes == 1 && cmd->cmd_flag == BUILTIN)
+	{
+		int	fd_std_in;
+		int	fd_std_out;
+
+		fd_std_in = dup(STDIN_FILENO);
+		fd_std_out = dup(STDOUT_FILENO);
+		// redirect to pipes, infiles and outfiles
+		redirect_in_out(data, cmd, 0);
+		// if we have a correct builtin cmd and NOT NULL
+		if (cmd->err_flag == CMD_OK && cmd->cmd)
+			data->exit_status = invoke_builtin(data, cmd);
+		dup2(fd_std_in, STDIN_FILENO);
+		close(fd_std_in);
+		dup2(fd_std_out, STDOUT_FILENO);
+		close(fd_std_out);
+	}
+	else
+	{
+		execution_loop(data);
+		wait_loop(data);
+	}
+	// MARC END
 	// exit status ?
 	// cleanup missing
 }

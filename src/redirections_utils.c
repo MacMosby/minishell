@@ -13,13 +13,19 @@
 #include "minishell.h"
 
 /* sets the file descriptor for the infile "file" */
-void	set_fd_in(t_node *curr, char *file)
+int	set_fd_in(t_state *state, t_node *curr, char *file)
 {
 	if (access(file, F_OK) == -1)
 	{
 		// ERROR FILE DOES NOT EXIST
 		curr->err_flag = 1;
-		printf("??? minishell: %s: No such file or directory\n", file);
+		perror(" ");
+		// MARC START
+		// added t_state *state as argument to have acces to exit status
+		state->exit_status = 1;
+		// added return value to be able to break redirection loop in case of failure
+		return (1);
+		// MARC END
 	}
 	else
 	{
@@ -27,7 +33,7 @@ void	set_fd_in(t_node *curr, char *file)
 		{
 			// ERROR NOT READABLE
 			curr->err_flag = 1;
-			printf("??? minishell: %s: Permission denied\n", file);
+			perror(" Permission denied\n");
 		}
 		else
 		{
@@ -36,14 +42,17 @@ void	set_fd_in(t_node *curr, char *file)
 			curr->fd_in = open(file, O_RDONLY);
 		}
 	}
+	// MARC START
+	return (0);
+	// MARC END
 }
 
 /* set the file descriptor for the outfile "file" */
-void	set_fd_out(t_node *curr, char *file, int append)
+int	set_fd_out(t_node *curr, char *file, int append)
 {
 	if (access(file, F_OK) == -1)
 	{
-		curr->fd_out = open(file, O_WRONLY | O_CREAT);
+		curr->fd_out = open(file, O_WRONLY | O_CREAT, 0644);
 	}
 	else
 	{
@@ -51,7 +60,10 @@ void	set_fd_out(t_node *curr, char *file, int append)
 		{
 			// ERROR FILE NOT WRITABLE
 			curr->err_flag = 1;
-			printf("??? minishell: %s: Permission denied\n", file);
+			perror(" ");
+			// MARC START
+			return (1);
+			// MARC END
 		}
 		else
 		{
@@ -63,6 +75,9 @@ void	set_fd_out(t_node *curr, char *file, int append)
 				curr->fd_out = open(file, O_WRONLY | O_TRUNC);
 		}
 	}
+	// MARC START
+	return (0);
+	// MARC END
 }
 
 /*takes string filename and cuts out spaces in beginning and at end

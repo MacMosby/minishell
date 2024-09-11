@@ -67,6 +67,8 @@ typedef struct s_node
 	int		err_flag;
 }	t_node;
 
+extern int	g_signal;
+
 // environ.c
 void	set_env(t_state *state, char **envp);
 char	**copy_env(char **env, int add_flag);
@@ -124,14 +126,14 @@ int		find_end_quote(char *word, int i);
 // redirections.c
 void	redirections(t_state *state);
 void	cmd_redirections(t_state *state, t_list *cmd);
-void	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename);
+int		set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename);
 int		found_carrot(char *str);
 
 // redirections_utils.c
 int		filename_expansion_error(char **filename);
 int		filename_cut_spaces(char **filename);
-void	set_fd_out(t_node *curr, char *file, int append);
-void	set_fd_in(t_node *curr, char *file);
+int		set_fd_out(t_node *curr, char *file, int append);
+int		set_fd_in(t_state *state, t_node *curr, char *file);
 
 // list_manipulation.c
 void	wordlist_to_cmdarr(t_node *cmd);
@@ -165,16 +167,29 @@ void	close_pipes(t_state *data);
 void	wait_loop(t_state *data);
 
 // builtins.c
-void	ft_env(t_state *data);
+int		ft_env(t_state *data);
 char	**copy_env_unset(char **env);
-void	ft_unset(t_state *data, char *var);
-void	ft_export(t_state *data, char *str);
-void	ft_exit(void);
+int		ft_unset(t_state *data, t_node *curr);
+int		ft_export(t_state *data, t_node *curr);
+void	ft_exit(t_state *data, t_node *curr);
 int		flag_check(char *str);
-void	ft_echo(char **arr);
-void	ft_pwd(void);
-void	ft_cd(char *str);
-void	invoke_builtin(t_state *data, t_node *curr);
+int		ft_echo(char **arr);
+int		ft_pwd(void);
+int		ft_cd(t_node *curr);
+int		invoke_builtin(t_state *data, t_node *curr);
+
+// MARC START
+
+// signals_cli.c
+void	setup_cli_signals(void);
+
+// signals_exec.c
+void	setup_exec_signals(void);
+
+// signals_heredoc.c
+void	setup_heredoc_signals(void);
+
+// MARC END
 
 // delete later test functions
 void	print_list(t_list *node);

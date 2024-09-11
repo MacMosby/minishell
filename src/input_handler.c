@@ -48,9 +48,12 @@ void	input_handler(t_state *state)
 	i = 0;
 	if (ft_strlen(state->input) == 0)
 	{
+		// MARC START
 		// check again
-		cleanup_shell_exit(state);
-		exit(1);
+		//cleanup_shell_exit(state);
+		// I commented out the exit call
+		//exit(1);
+		// MARC END
 		return ;
 	}
 	while (state->input[i])
@@ -72,30 +75,30 @@ void	input_handler(t_state *state)
 	}
 	// split into multiple lists per command
 	nodes(state);
-	
+
 	heredoc_in(state);
-	
+
 	//print_cmds(state);
 	redirections(state);
-	
+
 	//printf("\n|||||AFTER REDIRECTIONS||||\n");
 	//print_cmds(state);
-	
+
 	expansion(state);
-	
+
 	//printf("\n|||||AFTER EXPANSIONS||||\n");
 	//print_cmds(state);
-	
+
 	splitting(state);
-	
+
 	//printf("\n|||||AFTER SPLITTING||||\n");
 	//print_cmds(state);
-	
+
 	quotes(state);
-	
+
 	//printf("\n|||||AFTER REMOVING QUOTES||||\n");
 	//print_cmds(state);
-	
+
 	cmd_loop(state);
 
 	//printf("\n|||||AFTER handling cmds||||\n");
@@ -139,7 +142,7 @@ int	carroting(t_state *state, int start)
 	end = find_word_end(state, start); // find end index of filename or delim
 	if (end < 0 || end < start)
 		return (-1); // unclosed quote or no word found
-	create_word(state, start, end); // create word or filename or delim as word 
+	create_word(state, start, end); // create word or filename or delim as word
 	return (end + 1); // return index of next character
 }
 

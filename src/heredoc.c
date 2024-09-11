@@ -58,6 +58,14 @@ void	ft_here_doc(t_list *word)
 	full_line = NULL;
 	delim = word->content;
 	tmp_line = readline(">");
+	// MARC START
+	if (tmp_line == NULL)
+	{
+		// Ctl-D (EOF) handle
+		printf("TEST TEST HD\n");
+		return ;
+	}
+	// MARC END
 	while (ft_strncmp(tmp_line, delim, ft_strlen(delim)))
 	{
 		if (full_line)
@@ -68,6 +76,14 @@ void	ft_here_doc(t_list *word)
 			full_line = ft_strdup("");
 		full_line = ft_join_free(full_line, tmp_line);
 		tmp_line = readline(">");
+		// MARC START
+		if (tmp_line == NULL)
+		{
+			// Ctl-D (EOF) handle
+			printf("TEST TEST HD\n");
+			return ;
+		}
+		// MARC END
 	}
 	if (!full_line)
 		full_line = ft_strdup("");
@@ -78,7 +94,7 @@ void	ft_here_doc(t_list *word)
 }
 
 /*iterates over list of words in cmd and if heredoc carrots are found,
-it checks the next word i.e. delimiter and sets hd_expand_flag 
+it checks the next word i.e. delimiter and sets hd_expand_flag
 in t_node cmd_content if quotes are found in delimiter.
 Then it calls removequotes function on the delimiter, and
 calls ft_here_doc with the delimiter.*/
@@ -120,7 +136,7 @@ void	get_heredoc_input(t_node *cmd_content, t_list *words)
 }
 
 /*takes t_state variable state and iterates over t_list variable cmds
-calls get_here_doc_input on t_node cmd_content 
+calls get_here_doc_input on t_node cmd_content
 and list of words in the node cmd_content*/
 void	heredoc_in(t_state * state)
 {
@@ -128,6 +144,10 @@ void	heredoc_in(t_state * state)
 	t_node	*cmd_content;
 
 	cmd = state->cmds;
+	// MARC START
+	if (!cmd)
+		return ;
+	// MARC END
 	cmd_content = (t_node *) cmd->content;
 	while (cmd)
 	{

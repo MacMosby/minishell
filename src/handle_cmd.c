@@ -61,8 +61,10 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 	}
 	else if (check_for_dir(str))
 	{
-		curr->err_flag = CMD_ERR;
-		printf("??? minishell: %s: Is a directory\n", str);
+		curr->err_flag = 126;
+		errno = EISDIR;
+		perror(" ");
+		//data->exit_status = 126;
 	}
 	else if (access(str, F_OK) == 0)
 	{
@@ -75,8 +77,9 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 		else
 		{
 			// exit status has to be 126
-			curr->err_flag = CMD_ERR;
-			printf("??? minishell: %s: Permission denied\n", str);
+			curr->err_flag = 126;
+			perror(" Permission denied\n");
+			//data->exit_status = 126;
 		}
 	}
 	else if (get_path(data, str))
@@ -87,8 +90,9 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 	else
 	{
 		// exit status has to be 127 -
-		curr->err_flag = CMD_ERR;
-		printf("??? minishell: %s: Command not found\n", str);
+		curr->err_flag = 127;
+		perror(" Command not found\n");
+		//data->exit_status = 127;
 	}
 }
 
@@ -96,7 +100,7 @@ void	cmd_loop(t_state *state)
 {
 	t_list	*cmd;
 	char	*str;
-	
+
 	cmd = state->cmds;
 	while (cmd)
 	{

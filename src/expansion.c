@@ -24,7 +24,7 @@ void	substr_words(char **first, char **second, char *word, int i, int j)
 	*second = ft_substr(word, j + 1, len); // len? or len-j should be okay but check with other situations
 }
 
-/* takes a string: word, cuts out the part from i to j 
+/* takes a string: word, cuts out the part from i to j
 and replaces it with another string: rep
 if rep = "" or NULL, the characters between i and j are cut out
 the new string is returned*/
@@ -70,7 +70,7 @@ It finds variable after $ sign.
 if var is found, it searches env for var and replaces $VAR from word with its value
 otherwise it removes $VAR from word.
 if variable is not found, no expansions happen.
-except when hd_flag is 0 AND in such cases: $"hello" or $'hello' 
+except when hd_flag is 0 AND in such cases: $"hello" or $'hello'
 where the dollar sign is removed.
 it returns index last character (replacement or no replacement)
 */
@@ -83,8 +83,23 @@ int	expand(t_state *state, char **word, int i, int hd_flag)
 
 	j = i + 1;
 	var = NULL;
+	// MARC START
+	// what if $? ??? --> var_letter returns 0 even though it should not
+	/* if (ft_strncmp("$?", *word, 2) == 0)
+	{
+		*word = ft_strdup(ft_itoa(state->exit_status));
+		return (i - 1 + ft_strlen(ft_itoa(state->exit_status)));
+	} */
+	// MARC END
 	while ((*word)[j])
 	{
+		// MARC START
+		if ((*word)[j] == '?' && (j - i == 1))
+		{
+			*word = strreplace(word, ft_itoa(state->exit_status), i, j);
+			return (i - 1 + ft_strlen(ft_itoa(state->exit_status)));
+		}
+		// MARC END
 		if (ft_isdigit((*word)[j]) && (j - i == 1))
 		{
 			*word = strreplace(word, NULL, i, i + 1);
@@ -159,7 +174,7 @@ void	toexpand(t_state *state, char **word)
 				i = expand(state, word, i, 0);
 			else if (dq_flag && (*word)[i + 1] != '\"')
 				// inside double quotes AND there is a VAR assigned after $
-				// for example "hello $ " or "hello $", 
+				// for example "hello $ " or "hello $",
 				// will be ignored and kept in the word
 				i = expand(state, word, i, 0);
 		}
@@ -167,7 +182,7 @@ void	toexpand(t_state *state, char **word)
 	}
 }
 
-/*takes state struct and iterates over list of words in each cmd 
+/*takes state struct and iterates over list of words in each cmd
 and calls toexpand function on each and then calls heredoc_expansions function
 on hd_content of each command*/
 void	expansion(t_state *state)
