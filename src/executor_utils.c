@@ -103,9 +103,9 @@ void	wait_loop(t_state *data)
 		if (waitpid(data->pids[i], &wstatus, 0) == -1)
 		{
 			// EXIT HANDLER ???
-			if (data->exit_status)
+			/* if (data->exit_status)
 				exit(data->exit_status);
-			exit (1);
+			exit (1); */
 			//printf("WE GET HERE IF WAITPID FAILS (ctrl-c  or ctrl-\\on execution)- WHAT TO DO HERE?\n");
 		}
 		if (WIFEXITED(wstatus)) // if this is true, the process terminated normally

@@ -29,6 +29,7 @@ void	init_minishell(t_state *state, char **envp)
 	state->input = NULL;
 	state->exit_status = 0;
 	state->env = NULL;
+	state->exp_env = NULL;
 	state->words = NULL;
 	state->cmds = NULL;
 	state->num_of_processes = 0;
@@ -36,4 +37,5 @@ void	init_minishell(t_state *state, char **envp)
 	state->pids = NULL;
 	init_builtins(state);
 	set_env(state, envp);
+	//set_exp_env(state, envp);
 }

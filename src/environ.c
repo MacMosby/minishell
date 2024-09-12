@@ -14,8 +14,8 @@
 
 void	set_env(t_state *state, char **envp)
 {
-	state->env = copy_env(envp, 0);	
-	
+	state->env = copy_env(envp, 0);
+
 	/*********************TO DO**********************/
 	// check essential environment variables
 	// if they do not exit, create essential ones
@@ -24,7 +24,7 @@ void	set_env(t_state *state, char **envp)
 }
 
 /*Returns a exact malloced copy of env if add_flag is false.
-if add_flag is true, it returns a malloced copy of env 
+if add_flag is true, it returns a malloced copy of env
 with an extra NULL pointer at the end so with two NULL pointers
 instead of just one.
 */
@@ -54,7 +54,6 @@ char	**copy_env(char **env, int add_flag)
 		env_copy[count + 1] = NULL;
 	return env_copy;
 }
-
 
 /*searches environment variables, returns pointer to value of var in env if it finds it
 it will return NULL if var has no value or not found*/

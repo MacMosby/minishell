@@ -94,7 +94,7 @@ int	main(int argc, char **argv, char **envp)
 			break;
 		add_history(state.input);
 		// MARC START
-		setup_heredoc_signals();
+		//setup_heredoc_signals();
 		// MARC END
 		input_handler(&state);
 		// MARC START

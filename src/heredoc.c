@@ -80,7 +80,7 @@ void	ft_here_doc(t_list *word)
 		if (tmp_line == NULL)
 		{
 			// Ctl-D (EOF) handle
-			printf("TEST TEST HD\n");
+			printf("ctrl-D in HD\n");
 			return ;
 		}
 		// MARC END
@@ -92,6 +92,48 @@ void	ft_here_doc(t_list *word)
 	free(tmp_line);
 	word->content = full_line;
 }
+
+/* void	ft_here_doc_first(t_list *curr)
+{
+	int	fd[2];
+	int	pid;
+	int	wstatus;
+	char	*full_line;
+	char	*res = NULL;
+
+	if (pipe(fd) == -1)
+	{
+		// EXIT HANDLE
+		exit(1);
+	}
+	pid = fork();
+	if (pid == 0)
+	{
+		// CHILD PROCESS
+		setup_heredoc_signals();
+		full_line = ft_here_doc(curr);
+		int	n = ft_strlen(full_line) + 1;
+		write(fd[WRITE_END], &n, sizeof(int));
+		write(fd[WRITE_END], full_line, n * sizeof(char));
+		close(fd[WRITE_END]);
+		close(fd[READ_END]);
+	}
+	else
+	{
+		// PARENT PROCESS
+		if (waitpid(pid, &wstatus, 0) == -1)
+		{
+			// what do we do if waitpid fails here?
+			printf("waitpid for heredoc child fails\n");
+		}
+		int	n;
+		read(fd[READ_END], &n, sizeof(int));
+		read(fd[READ_END], res, n * sizeof(char));
+		curr->content = res;
+		close(fd[WRITE_END]);
+		close(fd[READ_END]);
+	}
+} */
 
 /*iterates over list of words in cmd and if heredoc carrots are found,
 it checks the next word i.e. delimiter and sets hd_expand_flag
@@ -140,14 +182,17 @@ calls get_here_doc_input on t_node cmd_content
 and list of words in the node cmd_content*/
 void	heredoc_in(t_state * state)
 {
-	t_list *cmd;
+	t_list	*cmd;
 	t_node	*cmd_content;
+	//int		pid;
+	//int		wstatus;
 
 	cmd = state->cmds;
 	// MARC START
 	if (!cmd)
 		return ;
 	// MARC END
+	// is the next line necessary? three lines later we do the same!?
 	cmd_content = (t_node *) cmd->content;
 	while (cmd)
 	{
