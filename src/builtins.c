@@ -163,15 +163,70 @@ void	print_export_line(char *s)
 	printf("\n");
 }
 
-void	print_export(t_state *state)
+int	ft_max_len(char *s1, char *s2)
 {
-	int	i;
+	int len1;
+	int	len2;
 
-	i = 0;
-	while (state->env[i])
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	if (len1 > len2)
+		return (len1);
+	return (len2);
+}
+
+void	print_export_list(char **env)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	*last;
+	char	*min;
+
+	last = NULL;
+	if (!env || !(*env))
+		return ;
+	min = env[0];
+	j = 0;
+	len = 0;
+	while (env[len])
+		len++;
+	while (j < len)
 	{
-		print_export_line(state->env[i]);
-		i++;
+		if (last)
+			min = NULL;
+		i = 0;
+		while (env[i])
+		{
+			if (!last)
+			{
+				if (ft_strncmp(min, env[i], ft_max_len(min, env[i])) > 0)
+					min = env[i];
+			}
+			else
+			{
+
+				if (ft_strncmp(env[i], last, ft_max_len(env[i], last)) > 0)
+				{
+					if (!min)
+						min = env[i];
+					else
+					{
+						if (ft_strncmp(min, env[i], ft_max_len(min, env[i])) > 0)
+							min = env[i];
+					}
+				}
+			}
+			i++;
+		}
+		if (last && min)
+		{
+			if (!ft_strncmp(min, last, ft_max_len(min, last)))
+				return ;
+		}
+		print_export_line(min);
+		last = min;
+		j++;
 	}
 }
 
@@ -187,7 +242,7 @@ int	ft_export(t_state *data, t_node *curr)
 	i = 1;
 	if (!curr->args[i])
 	{
-		print_export(data);
+		print_export_list(data->env);
 		return (0);
 	}
 	while (curr->args[i])
