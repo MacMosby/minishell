@@ -15,11 +15,21 @@
 int	ft_env(t_state *data)
 {
 	int	i;
+	int	j;
 
 	i = 0;
 	while (data->env[i])
 	{
-		printf("%s\n", data->env[i]);
+		j = 0;
+		while (data->env[i][j])
+		{
+			if (data->env[i][j] == '=')
+			{
+				printf("%s\n", data->env[i]);
+				break;
+			}
+			j++;
+		}
 		i++;
 	}
 	return (0);
@@ -103,7 +113,7 @@ int	ft_unset(t_state *data, t_node *curr)
 int	do_export(t_state *data, char *s)
 {
 	int		i;
-	char	*var;
+	char	*key;
 	char	*value;
 
 	i = 0;
@@ -116,15 +126,53 @@ int	do_export(t_state *data, char *s)
 			return (1);
 		if (s[i] == '=')
 		{
-			var = ft_substr(s, 0, i);
+			key = ft_substr(s, 0, i);
 			value = ft_substr(s, i + 1, ft_strlen(s) - i);
-			set_env_var(data, var, value);
+			set_env_var(data, key, value);
 			return (0);
 		}
 		i++;
 	}
 	// if no '=' is found
 	return (0);
+}
+
+void	print_export_line(char *s)
+{
+	int		i;
+	char	*key;
+	char	*value;
+
+	i = 0;
+	value = NULL;
+	while (s[i])
+	{
+		if (s[i] == '=')
+		{
+			value = ft_substr(s, i + 1, ft_strlen(s) - i);
+			break;
+		}
+		i++;
+	}
+	key = ft_substr(s, 0, i);
+	printf("declare -x %s", key);
+	if (value)
+	{
+		printf("=\"%s\"", value);
+	}
+	printf("\n");
+}
+
+void	print_export(t_state *state)
+{
+	int	i;
+
+	i = 0;
+	while (state->env[i])
+	{
+		print_export_line(state->env[i]);
+		i++;
+	}
 }
 
 // needs to work without arguments and with more than one
@@ -137,6 +185,11 @@ int	ft_export(t_state *data, t_node *curr)
 	ret = 0;
 	tmp = 0;
 	i = 1;
+	if (!curr->args[i])
+	{
+		print_export(data);
+		return (0);
+	}
 	while (curr->args[i])
 	{
 		ret = do_export(data, curr->args[i]);
