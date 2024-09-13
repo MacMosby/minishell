@@ -45,7 +45,6 @@ typedef struct s_state
 {
 	int		exit_status;
 	char	**env; //
-	t_list	**exp_env;
 	char	*input; //
 	t_list	*words; //
 	t_list	*cmds; //
@@ -67,12 +66,6 @@ typedef struct s_node
 	int		fd_out;
 	int		err_flag;
 }	t_node;
-
-typedef struct s_exp
-{
-	char	*key;
-	char	*value;
-}	t_exp;
 
 extern int	g_signal;
 
@@ -184,9 +177,6 @@ int		ft_echo(char **arr);
 int		ft_pwd(void);
 int		ft_cd(t_node *curr);
 int		invoke_builtin(t_state *data, t_node *curr);
-
-// export.c
-void	set_exp_env(t_state *state, char **env);
 
 // MARC START
 
