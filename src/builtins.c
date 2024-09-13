@@ -128,11 +128,13 @@ int	do_export(t_state *data, char *s)
 		{
 			key = ft_substr(s, 0, i);
 			value = ft_substr(s, i + 1, ft_strlen(s) - i);
-			set_env_var(data, key, value);
+			set_env_var(data, key, value, 1);
 			return (0);
 		}
 		i++;
 	}
+	key = ft_substr(s, 0, i);
+	set_env_var(data, key, NULL, 0);
 	// if no '=' is found
 	return (0);
 }
@@ -205,7 +207,6 @@ void	print_export_list(char **env)
 			}
 			else
 			{
-
 				if (ft_strncmp(env[i], last, ft_max_len(env[i], last)) > 0)
 				{
 					if (!min)

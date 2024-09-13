@@ -72,7 +72,7 @@ extern int	g_signal;
 // environ.c
 void	set_env(t_state *state, char **envp);
 char	**copy_env(char **env, int add_flag);
-void	set_env_var(t_state *shell, char *var, char* value);
+void	set_env_var(t_state *shell, char *var, char* value, int equal);
 char	*create_new_var(char *var, char *value);
 char	*find_var_value(t_state *state, char *var);
 

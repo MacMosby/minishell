@@ -84,7 +84,7 @@ char	*find_var_value(t_state *state, char *var)
 /*searches for var in env and sets it to value
 if it does not find the variable, it creates it
 if the value pointer is NULL, it does not set a value or removes set value*/
-void	set_env_var(t_state *state, char *var, char* value)
+void	set_env_var(t_state *state, char *var, char* value, int equal)
 {
 	int		i;
 	size_t	len;
@@ -96,12 +96,15 @@ void	set_env_var(t_state *state, char *var, char* value)
 	while(state->env[i])
 	{
 		if ((ft_strncmp(state->env[i], var, len) == 0)
-			&& (state->env[i][len] == '='))
+			&& (state->env[i][len] == '=' || state->env[i][len] == 0))
 		{
 			// found variable
 			// modify variable with value or remove value
 			free(state->env[i]);
-			state->env[i] = create_new_var(var, value);
+			if (equal)
+				state->env[i] = create_new_var(var, value);
+			else
+				state->env[i] = ft_strdup(var);
 			return ;
 		}
 		i++;
@@ -112,7 +115,10 @@ void	set_env_var(t_state *state, char *var, char* value)
 	i = 0;
 	while(newenv[i])
 		i++;
-	newenv[i] = create_new_var(var, value);
+	if (equal)
+		newenv[i] = create_new_var(var, value);
+	else
+		newenv[i] = ft_strdup(var);
 	free_strarr(state->env);
 	state->env = newenv;
 }
