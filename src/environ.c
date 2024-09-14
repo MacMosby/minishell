@@ -101,10 +101,12 @@ void	set_env_var(t_state *state, char *var, char* value, int equal)
 			// found variable
 			// modify variable with value or remove value
 			free(state->env[i]);
+			// MARC START
 			if (equal)
 				state->env[i] = create_new_var(var, value);
 			else
 				state->env[i] = ft_strdup(var);
+			// MARC END
 			return ;
 		}
 		i++;
@@ -115,10 +117,12 @@ void	set_env_var(t_state *state, char *var, char* value, int equal)
 	i = 0;
 	while(newenv[i])
 		i++;
+	// MARC START
 	if (equal)
 		newenv[i] = create_new_var(var, value);
 	else
 		newenv[i] = ft_strdup(var);
+	// MARC END
 	free_strarr(state->env);
 	state->env = newenv;
 }

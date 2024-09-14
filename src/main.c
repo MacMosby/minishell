@@ -89,8 +89,11 @@ int	main(int argc, char **argv, char **envp)
 		printf("TEST\n\n\n"); */
 		state.input = readline("minishell:~$ "); // display prompt
 		if (state.input == NULL)
+		{
 			// Ctl-D (EOF) handle
+			printf("exit\n");
 			break;
+		}
 		add_history(state.input);
 		// MARC START
 		//setup_heredoc_signals();
