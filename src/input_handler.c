@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/14 18:46:06 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:28:04 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,8 +182,7 @@ int	piping(t_state *state, int i)
 	{
 		// starts with pipe
 		printf("bash: syntax error near unexpected token `|'\n");
-		// $?
-		//2: command not found
+		// $? -> 2
 		return (-1); // and cleanup
 	}
 	else if (state->input[j] == 0) // ends with pipe

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:59:21 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/08/21 15:30:36 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:29:09 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,6 @@ char	*get_path(t_state *data, char *cmd)
 		return (exec_path);
 	free(exec_path);
 	// ERROR CORRECT ??? - WHAT TO DO HERE ???
-	write(2, "Error: Command not found??\n", 28);
+	// write(2, "Error: Command not found??\n", 28);
 	return (NULL);
 }

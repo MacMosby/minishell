@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:25:02 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/08/21 21:08:46 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/14 21:38:59 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	fork_executor(t_state *data, t_node *curr, int i)
 				if (execve(curr->cmd, curr->args, data->env) == -1)
 					// error handle here
 					// EXIT HANDLE
-					exit(2);
+					exit(3);
 			}
 			else if (curr->cmd_flag == BUILTIN)
 				exit(invoke_builtin(data, curr));

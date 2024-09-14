@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:03:48 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/09/14 19:19:36 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/14 21:52:12 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,17 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 	{
 		curr->err_flag = 126;
 		errno = EISDIR;
-		perror(" ");
+		perror(" "); // delete space here
 		//data->exit_status = 126;
 	}
 	else if (access(str, F_OK) == 0)
 	{
-		// check if directory
 		if (access(str, X_OK) == 0)
 		{
+			// check if directory
 			curr->cmd = str;
 			curr->cmd_flag = PATH;
+			printf("we are here!!!!\n");
 		}
 		else
 		{
@@ -91,7 +92,7 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 	{
 		// exit status has to be 127 -
 		curr->err_flag = 127;
-		perror(" Command not found\n");
+		write(2, " Command not found\n", 20); // delete space after
 		//data->exit_status = 127;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_manipulation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 20:09:36 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/08/20 20:29:28 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/14 20:08:22 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	wordlist_to_cmdarr(t_node *cmd)
 	int	i;
 
 	count = 0;
+	// if (!cmd) -> return
+	// if (!cmd->words) -> return
+
 	if (cmd)
 		count = ft_lstsize(cmd->words);
 	arr = (char **)malloc((count + 1) * sizeof(char *));
