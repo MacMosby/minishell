@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/14 17:19:53 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:16:48 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int		expand(t_state *state, char **word, int i, int hd_flag);
 char	*strreplace(char **word, char *rep, int i, int j);
 void	substr_words(char **first, char **second, char *word, int i, int j);
 int		var_letter(char c);
+void	delete_empty_words(t_list * cmd);
 
 // splitting .c
 void	splitting(t_state *state);

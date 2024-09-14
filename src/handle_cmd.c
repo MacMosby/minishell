@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:03:48 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/08/21 22:08:20 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:19:36 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,10 @@ void	cmd_loop(t_state *state)
 	cmd = state->cmds;
 	while (cmd)
 	{
-		str = ((t_node *)cmd->content)->words->content;
+		if (((t_node *)cmd->content)->words)
+			str = ((t_node *)cmd->content)->words->content;
+		else
+			str = NULL;
 		handle_cmd(state, (t_node *)cmd->content, str);
 		wordlist_to_cmdarr((t_node *)cmd->content);
 		cmd = cmd->next;

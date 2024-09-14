@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 21:55:26 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/14 19:13:21 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,35 @@ void	toexpand(t_state *state, char **word)
 	}
 }
 
+void	delete_empty_words(t_list * cmd)
+{
+	t_list	*word;
+	t_list	*before;
+	t_list	*after;
+	
+	word = ((t_node *)cmd->content)->words;
+	before = NULL;
+	while(word)
+	{
+		after = word->next;
+		if (ft_strlen((char *) word->content) == 0)
+		{
+			free(word->content);
+			free(word);
+			if (before)
+				before->next = after;
+			else
+				((t_node *)cmd->content)->words = after;
+			word = after;
+		}
+		else
+		{
+			before = word;
+			word = word->next;
+		}
+	}
+}
+
 /*takes state struct and iterates over list of words in each cmd
 and calls toexpand function on each and then calls heredoc_expansions function
 on hd_content of each command*/
@@ -201,6 +230,7 @@ void	expansion(t_state *state)
 		}
 		if (((t_node *)cmd->content)->hd_expand_flag)
 			heredoc_expansions(state, &(((t_node *)cmd->content)->hd_content));
+		delete_empty_words(cmd);
 		cmd = cmd->next;
 	}
 }
