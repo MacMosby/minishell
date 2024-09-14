@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 21:51:22 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/14 17:19:53 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	free_nodes(void *node);
 void	free_strarr(char **strarr);
 
 // input_handller.c
-void	input_handler(t_state *state);
+int	input_handler(t_state *state);
 int		carroting(t_state *state, int start);
 int		wording(t_state *state, int start);
 int		piping(t_state *state, int i);

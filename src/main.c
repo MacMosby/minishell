@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 18:10:50 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 22:38:40 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:51:08 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	main(int argc, char **argv, char **envp)
 	g_signal = 0;
 	// MARC END
 	init_minishell(&state, envp);
-	//set_env_var(&state, "ARG", "out ");
 	while (1)
 	{
 		// MARC START
@@ -96,15 +95,17 @@ int	main(int argc, char **argv, char **envp)
 		// MARC START
 		//setup_heredoc_signals();
 		// MARC END
-		input_handler(&state);
-		// MARC START
-		setup_exec_signals();
-		// MARC END
-		//print_cmds(&state);
-		executor(&state);
-		// for testing purposes
-		// printf("SUCCESS!!\n");
-		//print_list(state.words);
+		if (input_handler(&state) == 0)
+		{
+			// MARC START
+			setup_exec_signals();
+			// MARC END
+			//print_cmds(&state);
+			executor(&state);
+			// for testing purposes
+			// printf("SUCCESS!!\n");
+			//print_list(state.words);
+		}
 		cleanup_shell(&state);
 	}
 	cleanup_shell_exit(&state);

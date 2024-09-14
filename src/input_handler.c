@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 21:55:10 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:47:47 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ void	print_cmds(t_state *state)
 	}
 }
 
-void	input_handler(t_state *state)
+int	input_handler(t_state *state)
 {
 	int		i;
 
 	if (!state || !state->input) // Ensure state and input are valid
-        return ;
+        return (-1);
 	i = 0;
 	if (ft_strlen(state->input) == 0)
 	{
@@ -54,7 +54,7 @@ void	input_handler(t_state *state)
 		// I commented out the exit call
 		//exit(1);
 		// MARC END
-		return ;
+		return (-1);
 	}
 	while (state->input[i])
 	{
@@ -70,7 +70,7 @@ void	input_handler(t_state *state)
 		if (i < 0)
 		{
 			get_heredoc_input(NULL, state->words);
-			return ;
+			return (-1);
 		}
 	}
 	// split into multiple lists per command
@@ -103,6 +103,8 @@ void	input_handler(t_state *state)
 
 	//printf("\n|||||AFTER handling cmds||||\n");
 	//print_cmds(state);
+
+	return (0);
 }
 
 /*invoked when carrot is encountered in string input in t_state struct state
@@ -132,6 +134,8 @@ int	carroting(t_state *state, int start)
 	c = state->input[start];
 	if (c == '>' || c == '<' || c == '|' || c == 0)
 	{
+		printf("minishell: syntax error near unexpected token `newline'\n");
+		state->exit_status = 2;
 		return (-1);
 		// syntax error does not execute
 		// syntax error, exit, cleanup
