@@ -77,7 +77,7 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 		{
 			// exit status has to be 126
 			curr->err_flag = 126;
-			perror(" Permission denied\n");
+			perror(" ");
 			//data->exit_status = 126;
 		}
 	}

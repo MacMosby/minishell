@@ -33,7 +33,7 @@ int	set_fd_in(t_state *state, t_node *curr, char *file)
 		{
 			// ERROR NOT READABLE
 			curr->err_flag = 1;
-			perror(" Permission denied\n");
+			perror(" \n");
 		}
 		else
 		{
