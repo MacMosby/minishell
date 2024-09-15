@@ -6,56 +6,23 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/14 19:28:04 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/15 21:16:41 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_cmds(t_state *state)
-{
-	// for testing print list of commands
-	t_list *cmd;
-	cmd = state->cmds;
-	int j = 1;
-	while (cmd)
-	{
-		t_node * node;
-		node = (t_node *) cmd->content;
-		printf("CMD %i:\n", j);
-		printf("\nword list:\n");
-		print_list(node->words);
-		printf("\ncmd and cmd flag:\n");
-		ft_printf("%s\n", node->cmd);
-		printf("%i", node->cmd_flag);
-		printf("\nargs:\n");
-		print_env(node->args);
-		printf("\nfd_in: %i\n", node->fd_in);
-		printf("fd_out: %i\n", node->fd_out);
-		ft_printf("hd_content: %s\n", node->hd_content);
-		printf("err_flag: %i\n", node->err_flag);
-		j++;
-		cmd = cmd->next;
-	}
-}
-
 int	input_handler(t_state *state)
 {
 	int		i;
 
-	if (!state || !state->input) // Ensure state and input are valid
+	if (!state)
         return (-1);
-	i = 0;
-	if (ft_strlen(state->input) == 0)
-	{
-		// MARC START
-		// check again
-		//cleanup_shell_exit(state);
-		// I commented out the exit call
-		//exit(1);
-		// MARC END
+	if (!state->input)
 		return (-1);
-	}
+	if (ft_strlen(state->input) == 0)
+		return (-1);
+	i = 0;
 	while (state->input[i])
 	{
 		if (state->input[i] == ' ')
@@ -65,7 +32,6 @@ int	input_handler(t_state *state)
 		else if (state->input[i] == '|')
 			i = piping(state, i);
 		else
-			// command or argument
 			i = wording(state, i);
 		if (i < 0)
 		{
@@ -73,37 +39,13 @@ int	input_handler(t_state *state)
 			return (-1);
 		}
 	}
-	// split into multiple lists per command
 	nodes(state);
-
 	heredoc_in(state);
-
-	//print_cmds(state);
 	redirections(state);
-
-	//printf("\n|||||AFTER REDIRECTIONS||||\n");
-	//print_cmds(state);
-
 	expansion(state);
-
-	//printf("\n|||||AFTER EXPANSIONS||||\n");
-	//print_cmds(state);
-
 	splitting(state);
-
-	//printf("\n|||||AFTER SPLITTING||||\n");
-	//print_cmds(state);
-
 	quotes(state);
-
-	//printf("\n|||||AFTER REMOVING QUOTES||||\n");
-	//print_cmds(state);
-
 	cmd_loop(state);
-
-	//printf("\n|||||AFTER handling cmds||||\n");
-	//print_cmds(state);
-
 	return (0);
 }
 

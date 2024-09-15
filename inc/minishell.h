@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/14 19:16:48 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/15 20:51:46 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,5 @@ void	setup_heredoc_signals(void);
 // delete later test functions
 void	print_list(t_list *node);
 void	print_cmds(t_state *state);
-void	print_env(char **env);
 
 #endif
