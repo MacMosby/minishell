@@ -6,37 +6,12 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 18:10:50 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/14 17:43:23 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/15 21:17:13 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/****************************************/
-/*****Functions for Testing Purposes*****/
-void	print_env(char **env)
-{
-	int i = 0;
-	if (!env)
-		return ;
-	if (!(*env))
-		return ;
-	while(env[i])
-		ft_printf("%s\n", env[i++]);
-}
-
-void	print_list(t_list *node)
-{
-	while(node)
-	{
-		printf("address: %p - ", node->content);
-		printf("%s\n", (char *)(node->content));
-		node = node->next;
-	}
-}
-/****************************************/
-
-// MARC START
 int	g_signal = 0;
 
 void	sig_cli(t_state *state)
@@ -64,7 +39,6 @@ void	sig_exec(t_state *state)
 	//printf("exit status: %d\n", state->exit_status);
 	g_signal = 0;
 }
-// MARC END
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -75,19 +49,11 @@ int	main(int argc, char **argv, char **envp)
 	argc++;
 	/************************/
 
-
 	init_minishell(&state, envp);
 	while (1)
 	{
-		// MARC START
 		g_signal = 0;
-		// MARC END
-		// MARC START
 		setup_cli_signals();
-		// MARC END
-		/* printf("TEST\n\n\n");
-		print_cmds(&state);
-		printf("TEST\n\n\n"); */
 		state.input = readline("minishell:~$ "); // display prompt
 		if (state.input == NULL)
 		{
@@ -96,22 +62,63 @@ int	main(int argc, char **argv, char **envp)
 			break;
 		}
 		add_history(state.input);
-		// MARC START
 		//setup_heredoc_signals();
-		// MARC END
 		if (input_handler(&state) == 0)
 		{
-			// MARC START
 			setup_exec_signals();
-			// MARC END
-			//print_cmds(&state);
 			executor(&state);
-			// for testing purposes
-			// printf("SUCCESS!!\n");
-			//print_list(state.words);
 		}
 		cleanup_shell(&state);
 	}
 	cleanup_shell_exit(&state);
 	return (0);
 }
+
+/****************************************/
+/*****Functions for Testing Purposes*****/
+/*void	print_env(char **env)
+{
+	int i = 0;
+	if (!env)
+		return ;
+	if (!(*env))
+		return ;
+	while(env[i])
+		ft_printf("%s\n", env[i++]);
+}*/
+/*void	print_list(t_list *node)
+{
+	while(node)
+	{
+		printf("address: %p - ", node->content);
+		printf("%s\n", (char *)(node->content));
+		node = node->next;
+	}
+}*/
+/*void	print_cmds(t_state *state)
+{
+	// for testing print list of commands
+	t_list *cmd;
+	cmd = state->cmds;
+	int j = 1;
+	while (cmd)
+	{
+		t_node * node;
+		node = (t_node *) cmd->content;
+		printf("CMD %i:\n", j);
+		printf("\nword list:\n");
+		print_list(node->words);
+		printf("\ncmd and cmd flag:\n");
+		ft_printf("%s\n", node->cmd);
+		printf("%i", node->cmd_flag);
+		printf("\nargs:\n");
+		print_env(node->args);
+		printf("\nfd_in: %i\n", node->fd_in);
+		printf("fd_out: %i\n", node->fd_out);
+		ft_printf("hd_content: %s\n", node->hd_content);
+		printf("err_flag: %i\n", node->err_flag);
+		j++;
+		cmd = cmd->next;
+	}
+}*/
+/****************************************/
