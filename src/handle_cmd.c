@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:03:48 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/09/15 19:14:36 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/15 21:35:08 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,35 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 		curr->cmd = str;
 		curr->cmd_flag = BUILTIN;
 	}
-	else if (access(str, F_OK) == 0 && ft_strchr(str, '/')) // if it is a path and it exists
+	else if (ft_strchr(str, '/')) // if it is a path
 	{
-		if (check_for_dir(str)) // If it is a directory
+		if (access(str, F_OK) == 0) //if it exists
 		{
-			curr->err_flag = 126;
-			errno = EISDIR;
-			perror(" "); // delete space here
-			//data->exit_status = 126;
-		}
-		else if (access(str, X_OK) == 0) // it is an executable file
-		{
-			curr->cmd = str;
-			curr->cmd_flag = PATH;
-			//printf("we are here!!!!\n");
+			if (check_for_dir(str)) // If it is a directory
+			{
+				curr->err_flag = 126;
+				errno = EISDIR;
+				perror(" "); // delete space here
+				//data->exit_status = 126;
+			}
+			else if (access(str, X_OK) == 0) // it is an executable file
+			{
+				curr->cmd = str;
+				curr->cmd_flag = PATH;
+				//printf("we are here!!!!\n");
+			}
+			else
+			{
+				// exit status has to be 126
+				curr->err_flag = 126;
+				perror(" ");
+				//data->exit_status = 126;
+			}
 		}
 		else
 		{
-			// exit status has to be 126
-			curr->err_flag = 126;
+			curr->err_flag = 127;
 			perror(" ");
-			//data->exit_status = 126;
 		}
 	}
 	else

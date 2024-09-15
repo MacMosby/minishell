@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/15 21:16:41 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/15 21:20:54 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ int	carroting(t_state *state, int start)
 	if (carrots == 3)
 	{
 		printf("minishell: syntax error, 3 or more carrots\n");
-		// error status
+		state->exit_status = 2;
 		return (-1);
 	}
-	create_word(state, start, start + carrots - 1); // create carrot as word
+	create_word(state, start, start + carrots - 1);
 	c = state->input[start];
-	start = start + carrots; // start on next character after carrots
-	while (state->input[start] == ' ') // iterate over spaces
+	start = start + carrots;
+	while (state->input[start] == ' ')
 		start++;
 	c = state->input[start];
 	if (c == '>' || c == '<' || c == '|' || c == 0)
@@ -79,13 +79,8 @@ int	carroting(t_state *state, int start)
 		printf("minishell: syntax error near unexpected token `newline'\n");
 		state->exit_status = 2;
 		return (-1);
-		// syntax error does not execute
-		// syntax error, exit, cleanup
-		// do I create or open files before this error? NO
-		// do I check cmd validity before this error? NO
-		// EOF? YES IF IT COMES BEFORE!!!!!
 	}
-	end = find_word_end(state, start); // find end index of filename or delim
+	end = find_word_end(state, start);
 	if (end < 0 || end < start)
 		return (-1); // unclosed quote or no word found
 	create_word(state, start, end); // create word or filename or delim as word
