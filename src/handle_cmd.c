@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:03:48 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/09/14 21:52:12 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/15 19:14:36 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,24 @@ int	check_for_builtin(char *cmd, char **builtins)
 	return (0);
 }
 
+/*checks is path str is a directory. Returns 1 if true and 0 if false*/
 int	check_for_dir(char *str)
 {
 	struct stat path_stat;
 
-	if (ft_strchr(str, '/'))
+	if (access(str, F_OK) == 0)
 	{
-		if (access(str, F_OK) == 0)
+		if (stat(str, &path_stat) == - 1)
 		{
-			if (stat(str, &path_stat) == - 1)
-			{
-				// print some error ???
-			}
+			// print some error ???
+			perror("lstat");
+		}
+		else
+		{
+			if (S_ISDIR(path_stat.st_mode))
+				return (1);
 			else
-			{
-				if (S_ISDIR(path_stat.st_mode))
-					return (1);
-				else
-					return (0);
-			}
+				return (0);
 		}
 	}
 	return (0);
@@ -54,26 +53,25 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 {
 	if (!str)
 		curr->cmd_flag = NO_CMD;
-	else if (check_for_builtin(str, data->builtins))
+	else if (check_for_builtin(str, data->builtins)) // If it is a builtin command
 	{
 		curr->cmd = str;
 		curr->cmd_flag = BUILTIN;
 	}
-	else if (check_for_dir(str))
+	else if (access(str, F_OK) == 0 && ft_strchr(str, '/')) // if it is a path and it exists
 	{
-		curr->err_flag = 126;
-		errno = EISDIR;
-		perror(" "); // delete space here
-		//data->exit_status = 126;
-	}
-	else if (access(str, F_OK) == 0)
-	{
-		if (access(str, X_OK) == 0)
+		if (check_for_dir(str)) // If it is a directory
 		{
-			// check if directory
+			curr->err_flag = 126;
+			errno = EISDIR;
+			perror(" "); // delete space here
+			//data->exit_status = 126;
+		}
+		else if (access(str, X_OK) == 0) // it is an executable file
+		{
 			curr->cmd = str;
 			curr->cmd_flag = PATH;
-			printf("we are here!!!!\n");
+			//printf("we are here!!!!\n");
 		}
 		else
 		{
@@ -85,6 +83,7 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 	}
 	else
 	{
+		// search for command in environment
 		curr->cmd = get_path(data, str);
 		if (curr->cmd)
 			curr->cmd_flag = PATH;
@@ -92,7 +91,7 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 		{
 			// exit status has to be 127 -
 			curr->err_flag = 127;
-			write(2, " Command not found\n", 20); // delete space after
+			write(2, " command not found\n", 19); // delete space after
 			//data->exit_status = 127;
 		}
 	}
