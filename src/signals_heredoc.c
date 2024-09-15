@@ -28,6 +28,8 @@ void	setup_heredoc_signals(void)
 {
 	struct sigaction sa_hd_sigint;
 	sa_hd_sigint.sa_handler = &handle_sigint_hd;
+	sa_hd_sigint.sa_flags = 0;
+	sigemptyset(&sa_hd_sigint.sa_mask);
 	sigaction(SIGINT, &sa_hd_sigint, NULL);
 	/* struct sigaction sa_hd_sigquit;
 	sa_hd_sigquit.sa_handler = SIG_IGN;

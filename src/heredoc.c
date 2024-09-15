@@ -65,6 +65,8 @@ char	*ft_here_doc(t_list *word)
 		printf("TEST TEST HD\n");
 		//return ;
 		full_line = ft_join_free(full_line, ft_strdup("\n"));
+		free(word->content);
+		word->content = NULL;
 		return (full_line);
 	}
 	// MARC END
@@ -85,6 +87,9 @@ char	*ft_here_doc(t_list *word)
 			printf("ctrl-D in HD\n");
 			//return ;
 			full_line = ft_join_free(full_line, ft_strdup("\n"));
+			free(word->content);
+			word->content = NULL;
+			free(tmp_line);
 			return (full_line);
 		}
 		// MARC END
@@ -104,7 +109,7 @@ char	*ft_here_doc(t_list *word)
 	return (full_line);
 }
 
-void	fork_for_heredoc(t_list *curr)
+void	fork_for_heredoc(t_node *cmd, t_list *curr)
 {
 	int		fd[2];
 	int		pid;
@@ -143,9 +148,10 @@ void	fork_for_heredoc(t_list *curr)
 		int		len;
 
 		close(fd[WRITE_END]);
-		if (waitpid(pid, &wstatus, 0) == -1)
+		waitpid(pid, &wstatus, 0);
+		//if (waitpid(pid, &wstatus, 0) == -1)
 			// what to do if waitpid fails ???
-			printf("What to do if waitpid for hd child fails?\n");
+			//printf("What to do if waitpid for hd child fails?\n");
 		if (g_signal == 0)
 		{
 			read(fd[READ_END], &len, sizeof(int));
@@ -158,6 +164,7 @@ void	fork_for_heredoc(t_list *curr)
 		}
 		else
 		{
+			cmd->err_flag = 130;
 			// if we don't run through the heredoc we need to
 			// delete the EOF from the word list
 		}
@@ -199,7 +206,7 @@ void	get_heredoc_input(t_node *cmd_content, t_list *words)
 					}
 				}
 				removequotes((char **) &(curr->content));
-				fork_for_heredoc(curr);
+				fork_for_heredoc(cmd_content, curr);
 				//ft_here_doc(curr);
 			}
 		}

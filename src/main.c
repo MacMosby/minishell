@@ -75,12 +75,13 @@ int	main(int argc, char **argv, char **envp)
 	argc++;
 	/************************/
 
-	// MARC START
-	g_signal = 0;
-	// MARC END
+
 	init_minishell(&state, envp);
 	while (1)
 	{
+		// MARC START
+		g_signal = 0;
+		// MARC END
 		// MARC START
 		setup_cli_signals();
 		// MARC END
