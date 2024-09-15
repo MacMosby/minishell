@@ -52,7 +52,7 @@ void	free_nodes(void *node)
 	ft_lstclear(&(n->words), free);
 	free(n->hd_content);
 	free_strarr(n->args);
-	free(n->cmd);
+	//free(n->cmd);
 	free(n);
 	// need to free other things in node
 }
