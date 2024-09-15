@@ -49,7 +49,7 @@ char	*ft_join_free(char *s1, char *s2)
 implementation which takes several lines of input from the user until a line
 is exactly the same as the delimiter and replaces the word content in the list
 with the user input exluding the delimiter */
-void	ft_here_doc(t_list *word)
+char	*ft_here_doc(t_list *word)
 {
 	char	*delim;
 	char	*tmp_line;
@@ -63,7 +63,9 @@ void	ft_here_doc(t_list *word)
 	{
 		// Ctl-D (EOF) handle
 		printf("TEST TEST HD\n");
-		return ;
+		//return ;
+		full_line = ft_join_free(full_line, ft_strdup("\n"));
+		return (full_line);
 	}
 	// MARC END
 	while (ft_strncmp(tmp_line, delim, ft_strlen(delim)))
@@ -81,59 +83,86 @@ void	ft_here_doc(t_list *word)
 		{
 			// Ctl-D (EOF) handle
 			printf("ctrl-D in HD\n");
-			return ;
+			//return ;
+			full_line = ft_join_free(full_line, ft_strdup("\n"));
+			return (full_line);
 		}
 		// MARC END
 	}
 	if (!full_line)
+	{
 		full_line = ft_strdup("");
+		free(word->content);
+		free(tmp_line);
+		return (full_line);
+	}
 	full_line = ft_join_free(full_line, ft_strdup("\n"));
 	free(word->content);
+	word->content = NULL;
 	free(tmp_line);
-	word->content = full_line;
+	//word->content = full_line;
+	return (full_line);
 }
 
-/* void	ft_here_doc_first(t_list *curr)
+void	fork_for_heredoc(t_list *curr)
 {
-	int	fd[2];
-	int	pid;
-	int	wstatus;
-	char	*full_line;
-	char	*res = NULL;
+	int		fd[2];
+	int		pid;
+	int		wstatus;
+	char	*hd_output;
 
 	if (pipe(fd) == -1)
-	{
 		// EXIT HANDLE
-		exit(1);
-	}
+		exit (1);
 	pid = fork();
+	if (pid == -1)
+		// EXIT HANDLE
+		exit (1);
 	if (pid == 0)
 	{
 		// CHILD PROCESS
 		setup_heredoc_signals();
-		full_line = ft_here_doc(curr);
-		int	n = ft_strlen(full_line) + 1;
-		write(fd[WRITE_END], &n, sizeof(int));
-		write(fd[WRITE_END], full_line, n * sizeof(char));
-		close(fd[WRITE_END]);
+		char	*hd_input = NULL;
+		int		len;
+
+		hd_input = ft_here_doc(curr);
+		len = ft_strlen(hd_input) + 1;
 		close(fd[READ_END]);
+
+		write(fd[WRITE_END], &len, sizeof(int));
+		write(fd[WRITE_END], hd_input, len);
+		close(fd[WRITE_END]);
+		//curr->content = ft_strdup(hd_input);
+		//printf("heredoc input: %s\n", hd_input);
+		exit (0);
 	}
 	else
 	{
 		// PARENT PROCESS
-		if (waitpid(pid, &wstatus, 0) == -1)
-		{
-			// what do we do if waitpid fails here?
-			printf("waitpid for heredoc child fails\n");
-		}
-		int	n;
-		read(fd[READ_END], &n, sizeof(int));
-		read(fd[READ_END], res, n * sizeof(char));
-		curr->content = res;
+
+		int		len;
+
 		close(fd[WRITE_END]);
-		close(fd[READ_END]);
+		if (waitpid(pid, &wstatus, 0) == -1)
+			// what to do if waitpid fails ???
+			printf("What to do if waitpid for hd child fails?\n");
+		if (g_signal == 0)
+		{
+			read(fd[READ_END], &len, sizeof(int));
+			hd_output = malloc(len * sizeof(char));
+			if (read(fd[READ_END], hd_output, len * sizeof(char)) < 0)
+				printf("read function fails\n");
+			close(fd[READ_END]);
+			free(curr->content);
+			curr->content = hd_output;
+		}
+		else
+		{
+			// if we don't run through the heredoc we need to
+			// delete the EOF from the word list
+		}
 	}
-} */
+}
 
 /*iterates over list of words in cmd and if heredoc carrots are found,
 it checks the next word i.e. delimiter and sets hd_expand_flag
@@ -170,7 +199,8 @@ void	get_heredoc_input(t_node *cmd_content, t_list *words)
 					}
 				}
 				removequotes((char **) &(curr->content));
-				ft_here_doc(curr);
+				fork_for_heredoc(curr);
+				//ft_here_doc(curr);
 			}
 		}
 		curr = curr->next;

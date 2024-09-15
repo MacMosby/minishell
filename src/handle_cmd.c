@@ -83,17 +83,18 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 			//data->exit_status = 126;
 		}
 	}
-	else if (get_path(data, str))
-	{
-		curr->cmd = get_path(data, str);
-		curr->cmd_flag = PATH;
-	}
 	else
 	{
-		// exit status has to be 127 -
-		curr->err_flag = 127;
-		write(2, " Command not found\n", 20); // delete space after
-		//data->exit_status = 127;
+		curr->cmd = get_path(data, str);
+		if (curr->cmd)
+			curr->cmd_flag = PATH;
+		else
+		{
+			// exit status has to be 127 -
+			curr->err_flag = 127;
+			write(2, " Command not found\n", 20); // delete space after
+			//data->exit_status = 127;
+		}
 	}
 }
 

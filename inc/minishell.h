@@ -103,7 +103,7 @@ void	nodes(t_state *state);
 // heredoc.c
 void	heredoc_in(t_state * state);
 void	get_heredoc_input(t_node *cmd_content, t_list *words);
-void	ft_here_doc(t_list *word);
+char	*ft_here_doc(t_list *word);
 char	*ft_join_free(char *s1, char *s2);
 void	heredoc_expansions(t_state *state, char **hd_content);
 

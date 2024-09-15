@@ -17,11 +17,11 @@
 void	handle_sigint_hd(int sig)
 {
 	g_signal = sig;
-	printf("^C\n");
+	/* printf("^C\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
-	
+	rl_redisplay(); */
+	exit (1);
 }
 
 void	setup_heredoc_signals(void)
