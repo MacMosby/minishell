@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 19:21:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 22:30:10 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/15 21:47:53 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,8 @@ void	get_heredoc_input(t_node *cmd_content, t_list *words)
 				fork_for_heredoc(cmd_content, curr);
 				//ft_here_doc(curr);
 			}
+			else
+				return ;
 		}
 		curr = curr->next;
 	}
