@@ -365,9 +365,13 @@ int	ft_pwd(void)
 }
 
 /* takes an input string and changes the current working directory to the path given as string */
-int	ft_cd(t_node *curr)
+int	ft_cd(t_state *state, t_node *curr)
 {
 	int errno;
+	char	*old_pwd;
+	char	*pwd;
+
+	old_pwd = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
 	if (curr->args[1] && !curr->args[2])
 	{
 		if (chdir(curr->args[1]) == -1)
@@ -375,6 +379,12 @@ int	ft_cd(t_node *curr)
 			if (errno == 2)
 				perror(" ");
 			return (1);
+		}
+		else
+		{
+			pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+			do_export(state, pwd);
+			do_export(state, old_pwd);
 		}
 	}
 	else if (curr->args[1] && curr->args[2])
@@ -394,7 +404,7 @@ int	invoke_builtin(t_state *data, t_node *curr)
 	}
 	else if (ft_strncmp(curr->cmd, "cd", 3) == 0)
 	{
-		return(ft_cd(curr));
+		return(ft_cd(data, curr));
 	}
 	else if (ft_strncmp(curr->cmd, "pwd", 4) == 0)
 	{

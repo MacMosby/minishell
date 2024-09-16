@@ -176,7 +176,7 @@ void	ft_exit(t_state *data, t_node *curr);
 int		flag_check(char *str);
 int		ft_echo(char **arr);
 int		ft_pwd(void);
-int		ft_cd(t_node *curr);
+int		ft_cd(t_state *state, t_node *curr);
 int		invoke_builtin(t_state *data, t_node *curr);
 
 // MARC START
