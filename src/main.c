@@ -62,7 +62,7 @@ int	main(int argc, char **argv, char **envp)
 			break;
 		}
 		add_history(state.input);
-		//setup_heredoc_signals();
+		setup_heredoc_signals_main();
 		if (input_handler(&state) == 0)
 		{
 			setup_exec_signals();

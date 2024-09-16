@@ -188,7 +188,8 @@ void	setup_cli_signals(void);
 void	setup_exec_signals(void);
 
 // signals_heredoc.c
-void	setup_heredoc_signals(void);
+void	setup_heredoc_signals_main(void);
+void	setup_heredoc_signals_child(void);
 
 // MARC END
 

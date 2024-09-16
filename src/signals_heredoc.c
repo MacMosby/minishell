@@ -14,7 +14,7 @@
 
 #include "minishell.h"
 
-void	handle_sigint_hd(int sig)
+void	handle_sigint_hd_child(int sig)
 {
 	g_signal = sig;
 	/* printf("^C\n");
@@ -24,13 +24,31 @@ void	handle_sigint_hd(int sig)
 	exit (1);
 }
 
-void	setup_heredoc_signals(void)
+void	handle_sigint_hd_main(int sig)
 {
-	struct sigaction sa_hd_sigint;
-	sa_hd_sigint.sa_handler = &handle_sigint_hd;
-	sa_hd_sigint.sa_flags = 0;
-	sigemptyset(&sa_hd_sigint.sa_mask);
-	sigaction(SIGINT, &sa_hd_sigint, NULL);
+	g_signal = sig;
+	printf("^C\n");
+}
+
+void	setup_heredoc_signals_main(void)
+{
+	struct sigaction sa_hd_sigint_main;
+	sa_hd_sigint_main.sa_handler = &handle_sigint_hd_main;
+	sa_hd_sigint_main.sa_flags = 0;
+	sigemptyset(&sa_hd_sigint_main.sa_mask);
+	sigaction(SIGINT, &sa_hd_sigint_main, NULL);
+	/* struct sigaction sa_hd_sigquit;
+	sa_hd_sigquit.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sa_hd_sigquit, NULL); */
+}
+
+void	setup_heredoc_signals_child(void)
+{
+	struct sigaction sa_hd_sigint_child;
+	sa_hd_sigint_child.sa_handler = &handle_sigint_hd_child;
+	sa_hd_sigint_child.sa_flags = 0;
+	sigemptyset(&sa_hd_sigint_child.sa_mask);
+	sigaction(SIGINT, &sa_hd_sigint_child, NULL);
 	/* struct sigaction sa_hd_sigquit;
 	sa_hd_sigquit.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa_hd_sigquit, NULL); */

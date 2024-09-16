@@ -96,7 +96,7 @@ char	*ft_here_doc(t_list *word)
 	}
 	if (!full_line)
 	{
-		full_line = ft_strdup("");
+		full_line = ft_strdup("\n");
 		free(word->content);
 		free(tmp_line);
 		return (full_line);
@@ -126,7 +126,7 @@ void	fork_for_heredoc(t_node *cmd, t_list *curr)
 	if (pid == 0)
 	{
 		// CHILD PROCESS
-		setup_heredoc_signals();
+		setup_heredoc_signals_child();
 		char	*hd_input = NULL;
 		int		len;
 
