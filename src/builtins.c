@@ -388,25 +388,25 @@ int	ft_cd(t_node *curr)
 /* routes to the needed builtin function and calls it */
 int	invoke_builtin(t_state *data, t_node *curr)
 {
-	if (ft_strncmp(curr->cmd, "echo", 4) == 0)
+	if (ft_strncmp(curr->cmd, "echo", 5) == 0)
 	{
 		return(ft_echo(curr->args));
 	}
-	else if (ft_strncmp(curr->cmd, "cd", 2) == 0)
+	else if (ft_strncmp(curr->cmd, "cd", 3) == 0)
 	{
 		return(ft_cd(curr));
 	}
-	else if (ft_strncmp(curr->cmd, "pwd", 3) == 0)
+	else if (ft_strncmp(curr->cmd, "pwd", 4) == 0)
 	{
 		return(ft_pwd());
 	}
-	else if (ft_strncmp(curr->cmd, "export", 6) == 0)
+	else if (ft_strncmp(curr->cmd, "export", 7) == 0)
 		return(ft_export(data, curr));
-	else if (ft_strncmp(curr->cmd, "unset", 5) == 0)
+	else if (ft_strncmp(curr->cmd, "unset", 6) == 0)
 		return(ft_unset(data, curr));
-	else if (ft_strncmp(curr->cmd, "env", 3) == 0)
+	else if (ft_strncmp(curr->cmd, "env", 4) == 0)
 		ft_env(data);
-	else if (ft_strncmp(curr->cmd, "exit", 4) == 0)
+	else if (ft_strncmp(curr->cmd, "exit", 5) == 0)
 	{
 		// call exit and pass data struct ???
 		ft_exit(data, curr);

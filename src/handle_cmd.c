@@ -19,7 +19,7 @@ int	check_for_builtin(char *cmd, char **builtins)
 	i = 0;
 	while (i < 7)
 	{
-		if (ft_strncmp(cmd, builtins[i], ft_strlen(builtins[i])) == 0)
+		if (ft_strncmp(cmd, builtins[i], ft_strlen(builtins[i]) + 1) == 0)
 			return (1);
 		i++;
 	}
