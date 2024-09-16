@@ -64,7 +64,7 @@ char	*ft_here_doc(t_list *word)
 		// Ctl-D (EOF) handle
 		printf("TEST TEST HD\n");
 		//return ;
-		full_line = ft_join_free(full_line, ft_strdup("\n"));
+		full_line = ft_join_free(full_line, ft_strdup(""));
 		free(word->content);
 		word->content = NULL;
 		return (full_line);
@@ -96,7 +96,7 @@ char	*ft_here_doc(t_list *word)
 	}
 	if (!full_line)
 	{
-		full_line = ft_strdup("\n");
+		full_line = ft_strdup("");
 		free(word->content);
 		free(tmp_line);
 		return (full_line);

@@ -86,6 +86,8 @@ char	*get_path(t_state *data, char *cmd)
 	char	**path_split;
 	char	*exec_path;
 
+	if (ft_strlen(cmd) == 0y)
+		return (NULL);
 	env_path = ft_get_env_path(data->env);
 	//printf("path: %s", env_path);
 	if (!env_path)

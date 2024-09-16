@@ -23,6 +23,8 @@ int	found_carrot(char *str)
 	size_t	len;
 
 	len = ft_strlen(str);
+	if (!len)
+		return (0);
 	if (!ft_strncmp(str, ">", len))
 		return (FD_OUT);
 	if (!ft_strncmp(str, ">>", len))
