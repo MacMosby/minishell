@@ -72,7 +72,7 @@ extern int	g_signal;
 // environ.c
 void	set_env(t_state *state, char **envp);
 char	**copy_env(char **env, int add_flag);
-void	set_env_var(t_state *shell, char *var, char* value, int equal);
+void	set_env_var(t_state *shell, char *var, char *value, int equal);
 char	*create_new_var(char *var, char *value);
 char	*find_var_value(t_state *state, char *var);
 
@@ -101,7 +101,7 @@ void	create_word(t_state *state, int start, int end);
 void	nodes(t_state *state);
 
 // heredoc.c
-void	heredoc_in(t_state * state);
+void	heredoc_in(t_state *state);
 void	get_heredoc_input(t_node *cmd_content, t_list *words);
 char	*ft_here_doc(t_list *word);
 char	*ft_join_free(char *s1, char *s2);
@@ -114,7 +114,7 @@ int		expand(t_state *state, char **word, int i, int hd_flag);
 char	*strreplace(char **word, char *rep, int i, int j);
 void	substr_words(char **first, char **second, char *word, int i, int j);
 int		var_letter(char c);
-void	delete_empty_words(t_list * cmd);
+void	delete_empty_words(t_list *cmd);
 
 // splitting .c
 void	splitting(t_state *state);

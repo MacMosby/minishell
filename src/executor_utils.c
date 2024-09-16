@@ -33,9 +33,9 @@ void	init_pipes(t_state *data)
 	if (data->num_of_processes < 2)
 	{
 		data->pipes = NULL;
-		return;
+		return ;
 	}
-	data->pipes = (int **)malloc((data->num_of_processes - 1) * sizeof(int*));
+	data->pipes = (int **)malloc((data->num_of_processes - 1) * sizeof(int *));
 	if (!data->pipes)
 		// EXIT HANDLE
 		exit(1);

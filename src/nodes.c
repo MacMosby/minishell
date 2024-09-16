@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /*mallocs t_node variable and initializes struct variables to default states*/
-t_node *initialize_node(t_state *state)
+t_node	*initialize_node(t_state *state)
 {
 	t_node	*node;
 
@@ -37,7 +37,7 @@ t_node *initialize_node(t_state *state)
 
 /*creates t_list item cmd and adds it to the cmd list in state variable
 copies words into the command node
-and removes pipe from list of words if pipe = 1 
+and removes pipe from list of words if pipe = 1
 (i.e. if it is not the last command in the input string)*/
 void	create_node(t_state *state, int pipe)
 {
@@ -63,7 +63,7 @@ void	create_node(t_state *state, int pipe)
 			{
 				ft_lstdelone(word->next, free);
 				word->next = NULL;
-				break;
+				break ;
 			}
 			word = word->next;
 		}

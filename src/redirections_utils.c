@@ -89,14 +89,14 @@ int	filename_cut_spaces(char **filename)
 	int	len;
 
 	i = 0;
-	while((*filename)[i] == ' ')
+	while ((*filename)[i] == ' ')
 		i++;
 	*filename = strreplace(filename, NULL, 0, i - 1);
 	len = (int) ft_strlen(*filename);
 	if (len == 0)
 		return (1); // empty string
 	i = len - 1;
-	while((*filename)[i] == ' ')
+	while ((*filename)[i] == ' ')
 	{
 		if (i == 0)
 			return (1); // empty string
@@ -111,7 +111,7 @@ returns 1 on error and 0 on no error
 errors:
 1- empty string after expansion
 2- more than one word after expansion*/
-int		filename_expansion_error(char **filename)
+int	filename_expansion_error(char **filename)
 {
 	int	i;
 	int	sq_flag;
@@ -128,7 +128,7 @@ int		filename_expansion_error(char **filename)
 	if (filename_cut_spaces(filename))
 		return (1);
 	i = 0;
-	while((*filename)[i])
+	while ((*filename)[i])
 	{
 		if ((*filename)[i] == '\'' && !dq_flag)
 			sq_flag = !sq_flag;

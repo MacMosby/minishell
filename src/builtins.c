@@ -26,7 +26,7 @@ int	ft_env(t_state *data)
 			if (data->env[i][j] == '=')
 			{
 				printf("%s\n", data->env[i]);
-				break;
+				break ;
 			}
 			j++;
 		}
@@ -39,7 +39,7 @@ char	**copy_env_unset(char **env)
 {
 	int		count;
 	char	**env_copy;
-	int 	i;
+	int		i;
 	int		j;
 
 	count = 0;
@@ -60,14 +60,14 @@ char	**copy_env_unset(char **env)
 		i++;
 	}
 	env_copy[count - 1] = NULL;
-	return env_copy;
+	return (env_copy);
 }
 
 int	do_unset(t_state *data, char *s)
 {
-	int	i;
-	int	j;
-	char**	new_env;
+	int		i;
+	int		j;
+	char	**new_env;
 
 	i = 0;
 	while (data->env[i])
@@ -88,7 +88,7 @@ int	do_unset(t_state *data, char *s)
 					return (0);
 				}
 				else
-					break;
+					break ;
 			}
 			j++;
 		}
@@ -152,7 +152,7 @@ void	print_export_line(char *s)
 		if (s[i] == '=')
 		{
 			value = ft_substr(s, i + 1, ft_strlen(s) - i);
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -167,7 +167,7 @@ void	print_export_line(char *s)
 
 int	ft_max_len(char *s1, char *s2)
 {
-	int len1;
+	int	len1;
 	int	len2;
 
 	len1 = ft_strlen(s1);
@@ -329,10 +329,12 @@ int	flag_check(char *str)
 int	ft_echo(char **arr)
 {
 	int	i;
-	int	flag = 0;
-	int first = 1;
+	int	flag;
+	int	first;
 
 	i = 1;
+	flag = 0;
+	first = 1;
 	while (arr[i] && flag_check(arr[i]))
 	{
 		flag = 1;
@@ -357,7 +359,7 @@ int	ft_echo(char **arr)
 /* prints the current working directory */
 int	ft_pwd(void)
 {
-	char *pwd;
+	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
 	printf("%s\n", pwd);
@@ -367,7 +369,7 @@ int	ft_pwd(void)
 /* takes an input string and changes the current working directory to the path given as string */
 int	ft_cd(t_state *state, t_node *curr)
 {
-	int errno;
+	int		errno;
 	char	*old_pwd;
 	char	*pwd;
 
@@ -400,20 +402,20 @@ int	invoke_builtin(t_state *data, t_node *curr)
 {
 	if (ft_strncmp(curr->cmd, "echo", 5) == 0)
 	{
-		return(ft_echo(curr->args));
+		return (ft_echo(curr->args));
 	}
 	else if (ft_strncmp(curr->cmd, "cd", 3) == 0)
 	{
-		return(ft_cd(data, curr));
+		return (ft_cd(data, curr));
 	}
 	else if (ft_strncmp(curr->cmd, "pwd", 4) == 0)
 	{
-		return(ft_pwd());
+		return (ft_pwd());
 	}
 	else if (ft_strncmp(curr->cmd, "export", 7) == 0)
-		return(ft_export(data, curr));
+		return (ft_export(data, curr));
 	else if (ft_strncmp(curr->cmd, "unset", 6) == 0)
-		return(ft_unset(data, curr));
+		return (ft_unset(data, curr));
 	else if (ft_strncmp(curr->cmd, "env", 4) == 0)
 		ft_env(data);
 	else if (ft_strncmp(curr->cmd, "exit", 5) == 0)
@@ -422,5 +424,5 @@ int	invoke_builtin(t_state *data, t_node *curr)
 		ft_exit(data, curr);
 	}
 	// what should be the return value ?
-	return(1);
+	return (1);
 }

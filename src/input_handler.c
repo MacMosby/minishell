@@ -17,7 +17,7 @@ int	input_handler(t_state *state)
 	int		i;
 
 	if (!state)
-        return (-1);
+		return (-1);
 	if (!state->input)
 		return (-1);
 	if (ft_strlen(state->input) == 0)
@@ -41,6 +41,8 @@ int	input_handler(t_state *state)
 	}
 	nodes(state);
 	heredoc_in(state);
+	if (g_signal)
+		return (0);
 	redirections(state);
 	expansion(state);
 	splitting(state);
@@ -57,7 +59,7 @@ otherwise, it uses find_word_end function to create the filename word
 it returns the index of the character after*/
 int	carroting(t_state *state, int start)
 {
-	int 	carrots;
+	int		carrots;
 	char	c;
 	int		end;
 
@@ -89,13 +91,14 @@ int	carroting(t_state *state, int start)
 
 /*takes start of word and finds end and creates word
 returns index after word*/
-int wording(t_state *state, int start)
+int	wording(t_state *state, int start)
 {
 	int	end;
 
 	end = find_word_end(state, start);
 	if (end < 0)
-	{	// $?
+	{
+		// $?
 		return (-1); // unclosed quote
 	}
 	create_word(state, start, end);
@@ -110,7 +113,7 @@ returns start of next word
 */
 int	piping(t_state *state, int i)
 {
-	int j;
+	int	j;
 
 	j = i + 1;
 	while (state->input[j] == ' ')
@@ -125,7 +128,7 @@ int	piping(t_state *state, int i)
 	else if (state->input[j] == 0) // ends with pipe
 		return (-1); // syntax error
 	else if (state->input[j] == '|') // double pipe
-		return(-1); // syntax error
+		return (-1); // syntax error
 	create_word(state, i, i);
 	return (j); // start of new word
 }

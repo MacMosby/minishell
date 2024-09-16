@@ -15,11 +15,11 @@
 /*iterates over string word and finds end quote index*/
 int	find_end_quote(char *word, int i)
 {
-	char c;
+	char	c;
 
 	c = word[i];
 	i++;
-	while(word[i] != 0)
+	while (word[i] != 0)
 	{
 		if (word[i] == c)
 			return (i);
@@ -37,7 +37,7 @@ void	removequotes(char **word)
 
 	i = 0;
 	j = 0;
-	while((*word)[i])
+	while ((*word)[i])
 	{
 		if ((*word)[i] == '\'' || (*word)[i] == '\"')
 		{
@@ -61,7 +61,7 @@ void	quotes(t_state *state)
 	while (cmd)
 	{
 		word = ((t_node *)(cmd->content))->words;
-		while(word)
+		while (word)
 		{
 			removequotes((char **) &(word->content));
 			word = word->next;

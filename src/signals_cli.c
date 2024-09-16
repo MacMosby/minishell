@@ -25,13 +25,13 @@ void	handle_sigint_cli(int sig)
 
 void	setup_cli_signals(void)
 {
-	struct sigaction sa_cli_sigint;
+	struct sigaction	sa_cli_sigint;
+	struct sigaction	sa_cli_sigquit;
+
 	sa_cli_sigint.sa_handler = &handle_sigint_cli;
 	sa_cli_sigint.sa_flags = 0;
 	sigemptyset(&sa_cli_sigint.sa_mask);
 	sigaction(SIGINT, &sa_cli_sigint, NULL);
-
-	struct sigaction sa_cli_sigquit;
 	sa_cli_sigquit.sa_handler = SIG_IGN;
 	sa_cli_sigquit.sa_flags = 0;
 	sigemptyset(&sa_cli_sigquit.sa_mask);

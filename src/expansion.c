@@ -37,7 +37,7 @@ char	*strreplace(char **word, char *rep, int i, int j)
 
 	// change to strjoin free function instead
 	if (j < i)
-		return(*word);
+		return (*word);
 	substr_words(&first, &second, *word, i, j);
 	if (!rep)
 	{
@@ -106,7 +106,7 @@ int	expand(t_state *state, char **word, int i, int hd_flag)
 			return (i - 1);
 		}
 		if (var_letter((*word)[j]) == 0)
-			break; // end of var and j is index after var
+			break ; // end of var and j is index after var
 		j++;
 	}
 	len = j - i - 1; // length of variable name
@@ -149,13 +149,12 @@ it is inside the single quote it will not expand
 */
 void	toexpand(t_state *state, char **word)
 {
-	int sq_flag;
-	int dq_flag;
+	int	sq_flag;
+	int	dq_flag;
 	int	i;
 
 	sq_flag = 0;
 	dq_flag = 0;
-
 	i = 0;
 	while ((*word)[i])
 	{
@@ -182,15 +181,15 @@ void	toexpand(t_state *state, char **word)
 	}
 }
 
-void	delete_empty_words(t_list * cmd)
+void	delete_empty_words(t_list *cmd)
 {
 	t_list	*word;
 	t_list	*before;
 	t_list	*after;
-	
+
 	word = ((t_node *)cmd->content)->words;
 	before = NULL;
-	while(word)
+	while (word)
 	{
 		after = word->next;
 		if (ft_strlen((char *) word->content) == 0)
@@ -220,10 +219,10 @@ void	expansion(t_state *state)
 	t_list	*word;
 
 	cmd = state->cmds;
-	while(cmd)
+	while (cmd)
 	{
 		word = ((t_node *)cmd->content)->words;
-		while(word)
+		while (word)
 		{
 			toexpand(state, (char **) &(word->content));
 			word = word->next;

@@ -115,6 +115,9 @@ void	fork_for_heredoc(t_node *cmd, t_list *curr)
 	int		pid;
 	int		wstatus;
 	char	*hd_output;
+	char	*hd_input;
+	int		len_in;
+	int		len_out;
 
 	if (pipe(fd) == -1)
 		// EXIT HANDLE
@@ -127,15 +130,12 @@ void	fork_for_heredoc(t_node *cmd, t_list *curr)
 	{
 		// CHILD PROCESS
 		setup_heredoc_signals_child();
-		char	*hd_input = NULL;
-		int		len;
-
+		hd_input = NULL;
 		hd_input = ft_here_doc(curr);
-		len = ft_strlen(hd_input) + 1;
+		len_in = ft_strlen(hd_input) + 1;
 		close(fd[READ_END]);
-
-		write(fd[WRITE_END], &len, sizeof(int));
-		write(fd[WRITE_END], hd_input, len);
+		write(fd[WRITE_END], &len_in, sizeof(int));
+		write(fd[WRITE_END], hd_input, len_in);
 		close(fd[WRITE_END]);
 		//curr->content = ft_strdup(hd_input);
 		//printf("heredoc input: %s\n", hd_input);
@@ -144,9 +144,6 @@ void	fork_for_heredoc(t_node *cmd, t_list *curr)
 	else
 	{
 		// PARENT PROCESS
-
-		int		len;
-
 		close(fd[WRITE_END]);
 		waitpid(pid, &wstatus, 0);
 		//if (waitpid(pid, &wstatus, 0) == -1)
@@ -154,9 +151,9 @@ void	fork_for_heredoc(t_node *cmd, t_list *curr)
 			//printf("What to do if waitpid for hd child fails?\n");
 		if (g_signal == 0)
 		{
-			read(fd[READ_END], &len, sizeof(int));
-			hd_output = malloc(len * sizeof(char));
-			if (read(fd[READ_END], hd_output, len * sizeof(char)) < 0)
+			read(fd[READ_END], &len_out, sizeof(int));
+			hd_output = malloc(len_out * sizeof(char));
+			if (read(fd[READ_END], hd_output, len_out * sizeof(char)) < 0)
 				printf("read function fails\n");
 			close(fd[READ_END]);
 			free(curr->content);
@@ -200,7 +197,7 @@ void	get_heredoc_input(t_node *cmd_content, t_list *words)
 						if (delim[i] == '\'' || delim[i] == '\"')
 						{
 							cmd_content->hd_expand_flag = 0;
-							break;
+							break ;
 						}
 						i++;
 					}
@@ -219,7 +216,7 @@ void	get_heredoc_input(t_node *cmd_content, t_list *words)
 /*takes t_state variable state and iterates over t_list variable cmds
 calls get_here_doc_input on t_node cmd_content
 and list of words in the node cmd_content*/
-void	heredoc_in(t_state * state)
+void	heredoc_in(t_state *state)
 {
 	t_list	*cmd;
 	t_node	*cmd_content;
@@ -250,9 +247,9 @@ void	heredoc_expansions(t_state *state, char **hd_content)
 
 	i = 0;
 	if (!hd_content)
-		return;
+		return ;
 	if (!(*hd_content))
-		return;
+		return ;
 	while ((*hd_content)[i])
 	{
 		if ((*hd_content)[i] == '$')

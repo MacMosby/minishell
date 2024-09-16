@@ -60,7 +60,7 @@ void	free_nodes(void *node)
 /*frees an array of strings*/
 void	free_strarr(char **strarr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!strarr)

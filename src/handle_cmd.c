@@ -29,11 +29,11 @@ int	check_for_builtin(char *cmd, char **builtins)
 /*checks is path str is a directory. Returns 1 if true and 0 if false*/
 int	check_for_dir(char *str)
 {
-	struct stat path_stat;
+	struct stat	path_stat;
 
 	if (access(str, F_OK) == 0)
 	{
-		if (stat(str, &path_stat) == - 1)
+		if (stat(str, &path_stat) == -1)
 		{
 			// print some error ???
 			perror("lstat");

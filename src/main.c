@@ -42,13 +42,12 @@ void	sig_exec(t_state *state)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_state state;
+	t_state	state;
 
 	/********DELETE?*********/
 	argc = ft_strlen(argv[0]);
 	argc++;
 	/************************/
-
 	init_minishell(&state, envp);
 	while (1)
 	{
@@ -59,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			// Ctl-D (EOF) handle
 			printf("exit\n");
-			break;
+			break ;
 		}
 		add_history(state.input);
 		setup_heredoc_signals_main();

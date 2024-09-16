@@ -45,8 +45,6 @@ void	redirect_in_out(t_state *data, t_node *curr, int i)
 	}
 }
 
-
-
 /* creates a child process and executes the command */
 void	fork_executor(t_state *data, t_node *curr, int i)
 {
@@ -82,7 +80,7 @@ void	fork_executor(t_state *data, t_node *curr, int i)
 void	execution_loop(t_state *data)
 {
 	t_list	*curr;
-	int	i;
+	int		i;
 
 	i = 0;
 	curr = data->cmds;
@@ -99,6 +97,8 @@ void	execution_loop(t_state *data)
 void	executor(t_state *data)
 {
 	t_node	*cmd;
+	int		fd_std_in;
+	int		fd_std_out;
 
 	// MARC START
 	// not needed if code exits earlier with no words ???
@@ -113,9 +113,6 @@ void	executor(t_state *data)
 	// MARC START
 	if (data->num_of_processes == 1 && cmd->cmd_flag == BUILTIN)
 	{
-		int	fd_std_in;
-		int	fd_std_out;
-
 		fd_std_in = dup(STDIN_FILENO);
 		fd_std_out = dup(STDOUT_FILENO);
 		// redirect to pipes, infiles and outfiles

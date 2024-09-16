@@ -32,9 +32,8 @@ char	**copy_env(char **env, int add_flag)
 {
 	int		count;
 	char	**env_copy;
-	int 	i;
+	int		i;
 	int		add;	// heredoc
-
 
 	add = 0;
 	if (add_flag)
@@ -52,7 +51,7 @@ char	**copy_env(char **env, int add_flag)
 	env_copy[count] = NULL;
 	if (add_flag)
 		env_copy[count + 1] = NULL;
-	return env_copy;
+	return (env_copy);
 }
 
 /*searches environment variables, returns pointer to value of var in env if it finds it
@@ -66,7 +65,7 @@ char	*find_var_value(t_state *state, char *var)
 		return (NULL);
 	len = ft_strlen(var);
 	i = 0;
-	while(state->env[i])
+	while (state->env[i])
 	{
 		if ((ft_strncmp(state->env[i], var, len) == 0)
 			&& (state->env[i][len] == '='))
@@ -84,7 +83,7 @@ char	*find_var_value(t_state *state, char *var)
 /*searches for var in env and sets it to value
 if it does not find the variable, it creates it
 if the value pointer is NULL, it does not set a value or removes set value*/
-void	set_env_var(t_state *state, char *var, char* value, int equal)
+void	set_env_var(t_state *state, char *var, char *value, int equal)
 {
 	int		i;
 	size_t	len;
@@ -93,7 +92,7 @@ void	set_env_var(t_state *state, char *var, char* value, int equal)
 	len = ft_strlen(var);
 	i = 0;
 	newenv = NULL;
-	while(state->env[i])
+	while (state->env[i])
 	{
 		if ((ft_strncmp(state->env[i], var, len) == 0)
 			&& (state->env[i][len] == '=' || state->env[i][len] == 0))
@@ -115,7 +114,7 @@ void	set_env_var(t_state *state, char *var, char* value, int equal)
 	// so we have to re-allocate the environment with an extra string "var=value" or "var="
 	newenv = copy_env(state->env, 1);
 	i = 0;
-	while(newenv[i])
+	while (newenv[i])
 		i++;
 	// MARC START
 	if (equal)

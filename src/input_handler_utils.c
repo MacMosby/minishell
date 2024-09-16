@@ -32,15 +32,15 @@ int	carrotcount(t_state *state, int start)
 	return (1); // only one carrot
 }
 
-/*takes index of start of word i 
+/*takes index of start of word i
 and finds the end i.e. (|, , >, <) or end of string
 returns end of word character index*/
 int	find_word_end(t_state *state, int i)
 {
-	char c;
+	char	c;
 
 	if (!state || !state->input) // Check if state and input are valid from chatgpt
-		return -1;
+		return (-1);
 	while ((c = state->input[i]))
 	{
 		while (c == '\'' || c == '\"')
@@ -69,10 +69,10 @@ if it reached end of string without finding, it throws an error
 int	find_closed_quote(t_state *state, int i)
 {
 	char	c;
-	
+
 	c = state->input[i];
 	i++;
-	while(state->input[i] != 0)
+	while (state->input[i] != 0)
 	{
 		if (state->input[i] == c)
 			return (i);
@@ -86,7 +86,7 @@ int	find_closed_quote(t_state *state, int i)
 }
 
 /*takes start and end indices of a word and mallocs a t_list variable
-with the content of the word 
+with the content of the word
 and adds it to the back of word list in state struct*/
 void	create_word(t_state *state, int start, int end)
 {
@@ -94,7 +94,6 @@ void	create_word(t_state *state, int start, int end)
 
 	//printf("start = %i\n", start);
 	//printf("end = %i\n", end);
-	
 	// creating new word
 	newword = (t_list *)malloc(sizeof(t_list));
 	if (newword == NULL)

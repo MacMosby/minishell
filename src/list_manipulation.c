@@ -22,21 +22,20 @@ of the nodes and creates an array out of the words and puts this into
 the node as char **args to be used in execve */
 void	wordlist_to_cmdarr(t_node *cmd)
 {
-	int	count;
+	int		count;
 	t_list	*curr;
 	char	**arr;
-	int	i;
+	int		i;
 
 	count = 0;
 	// if (!cmd) -> return
 	// if (!cmd->words) -> return
-
 	if (cmd)
 		count = ft_lstsize(cmd->words);
 	arr = (char **)malloc((count + 1) * sizeof(char *));
 	if (!arr)
 		// what should happen here ???
-		return;
+		return ;
 	curr = cmd->words;
 	i = 0;
 	while (i < count)
