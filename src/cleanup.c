@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 21:34:16 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 21:29:43 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/18 01:12:14 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	cleanup_shell(t_state *state)
 	// free hd_content and others ???
 	free(state->input); // free input
 	state->input = NULL;
+	free(state->pids);
+	free_pipes(state);
 }
 
 void	free_nodes(void *node)

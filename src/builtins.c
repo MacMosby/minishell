@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 17:53:07 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/08/21 22:41:01 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/18 00:28:04 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,10 +236,10 @@ int	ft_export(t_state *data, t_node *curr)
 {
 	int	i;
 	int	ret;
-	int	tmp;
+	//int	tmp;
 
 	ret = 0;
-	tmp = 0;
+	//tmp = 0;
 	i = 1;
 	if (!curr->args[i])
 	{
