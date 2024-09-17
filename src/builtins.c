@@ -401,17 +401,11 @@ int	ft_cd(t_state *state, t_node *curr)
 int	invoke_builtin(t_state *data, t_node *curr)
 {
 	if (ft_strncmp(curr->cmd, "echo", 5) == 0)
-	{
 		return (ft_echo(curr->args));
-	}
 	else if (ft_strncmp(curr->cmd, "cd", 3) == 0)
-	{
 		return (ft_cd(data, curr));
-	}
 	else if (ft_strncmp(curr->cmd, "pwd", 4) == 0)
-	{
 		return (ft_pwd());
-	}
 	else if (ft_strncmp(curr->cmd, "export", 7) == 0)
 		return (ft_export(data, curr));
 	else if (ft_strncmp(curr->cmd, "unset", 6) == 0)
@@ -419,10 +413,7 @@ int	invoke_builtin(t_state *data, t_node *curr)
 	else if (ft_strncmp(curr->cmd, "env", 4) == 0)
 		ft_env(data);
 	else if (ft_strncmp(curr->cmd, "exit", 5) == 0)
-	{
-		// call exit and pass data struct ???
 		ft_exit(data, curr);
-	}
 	// what should be the return value ?
 	return (1);
 }

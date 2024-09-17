@@ -66,7 +66,7 @@ int	carroting(t_state *state, int start)
 	carrots = carrotcount(state, start);
 	if (carrots == 3)
 	{
-		printf("minishell: syntax error, 3 or more carrots\n");
+		write(2, " syntax error near unexpected token `>'\n", 40);
 		state->exit_status = 2;
 		return (-1);
 	}
@@ -78,7 +78,24 @@ int	carroting(t_state *state, int start)
 	c = state->input[start];
 	if (c == '>' || c == '<' || c == '|' || c == 0)
 	{
-		printf("minishell: syntax error near unexpected token `newline'\n");
+		if (c == 0)
+			write(2, " syntax error near unexpected token `newline'\n", 46);
+		else if (c == '>')
+		{
+			if (state->input[start + 1] == '>')
+				write(2, " syntax error near unexpected token `>>'\n", 41);
+			else
+				write(2, " syntax error near unexpected token `>'\n", 40);
+		}
+		else if (c == '<')
+		{
+			if (state->input[start + 1] == '<')
+				write(2, " syntax error near unexpected token `<<'\n", 41);
+			else
+				write(2, " syntax error near unexpected token `<'\n", 40);
+		}
+		else if (c == '|')
+			write(2, " syntax error near unexpected token `|'\n", 40);
 		state->exit_status = 2;
 		return (-1);
 	}
@@ -121,14 +138,23 @@ int	piping(t_state *state, int i)
 	if (state->words == NULL)
 	{
 		// starts with pipe
-		printf("bash: syntax error near unexpected token `|'\n");
+		write(2, " syntax error near unexpected token `|'\n", 40);
 		// $? -> 2
+		state->exit_status = 2;
 		return (-1); // and cleanup
 	}
 	else if (state->input[j] == 0) // ends with pipe
+	{
+		write(2, " syntax error near unexpected token `|'\n", 40);
+		state->exit_status = 2;
 		return (-1); // syntax error
+	}
 	else if (state->input[j] == '|') // double pipe
+	{
+		write(2, " syntax error near unexpected token `|'\n", 40);
+		state->exit_status = 2;
 		return (-1); // syntax error
+	}
 	create_word(state, i, i);
 	return (j); // start of new word
 }
