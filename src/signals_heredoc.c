@@ -41,7 +41,7 @@ void	setup_heredoc_signals_child(void)
 	struct sigaction	sa_hd_sigint_child;
 
 	sa_hd_sigint_child.sa_handler = &handle_sigint_hd_child;
-	sa_hd_sigint_child.sa_flags = 0;
+	sa_hd_sigint_child.sa_flags = SA_RESTART;
 	sigemptyset(&sa_hd_sigint_child.sa_mask);
 	sigaction(SIGINT, &sa_hd_sigint_child, NULL);
 }
