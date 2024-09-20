@@ -41,8 +41,9 @@ int	find_word_end(t_state *state, int i)
 
 	if (!state || !state->input) // Check if state and input are valid from chatgpt
 		return (-1);
-	while ((c = state->input[i]))
+	while (state->input[i])
 	{
+		c = state->input[i];
 		while (c == '\'' || c == '\"')
 		{
 			i = find_closed_quote(state, i) + 1;
