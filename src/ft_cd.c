@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-/* takes an input string and changes the current working directory to the path given as string */
+/* takes an input string and changes the current working directory to the path
+given as string */
 int	ft_cd(t_state *state, t_node *curr)
 {
 	int		errno;
@@ -24,8 +25,7 @@ int	ft_cd(t_state *state, t_node *curr)
 	{
 		if (chdir(curr->args[1]) == -1)
 		{
-			if (errno == 2)
-				perror(" ");
+			perror(" ");
 			return (1);
 		}
 		else

@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /* checks if the input string is the -n flag for echo to not print \n */
-int	flag_check(char *str)
+int	flag_check(char *str, int *flag)
 {
 	int	i;
 
@@ -29,7 +29,10 @@ int	flag_check(char *str)
 			i++;
 		}
 		if (i > 1)
+		{
+			*flag = 1;
 			return (1);
+		}
 	}
 	return (0);
 }
@@ -44,9 +47,8 @@ int	ft_echo(char **arr)
 	i = 1;
 	flag = 0;
 	first = 1;
-	while (arr[i] && flag_check(arr[i]))
+	while (arr[i] && flag_check(arr[i], &flag))
 	{
-		flag = 1;
 		i++;
 	}
 	while (arr[i])

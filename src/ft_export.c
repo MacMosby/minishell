@@ -37,7 +37,6 @@ int	do_export(t_state *data, char *s)
 	}
 	key = ft_substr(s, 0, i);
 	set_env_var(data, key, NULL, 0);
-	// if no '=' is found
 	return (0);
 }
 
@@ -138,10 +137,8 @@ int	ft_export(t_state *data, t_node *curr)
 {
 	int	i;
 	int	ret;
-	//int	tmp;
 
 	ret = 0;
-	//tmp = 0;
 	i = 1;
 	if (!curr->args[i])
 	{

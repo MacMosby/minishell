@@ -28,33 +28,24 @@ int	ft_is_num(char *s)
 	return (1);
 }
 
-// needs to work with arguments ???
 void	ft_exit(t_state *data, t_node *curr)
 {
-	printf("exit\n");
+	if (data->num_of_processes == 1)
+		printf("exit\n");
 	if (curr->args[1] && !curr->args[2])
 	{
 		if (ft_is_num(curr->args[1]))
 			exit(ft_atoi(curr->args[1]));
 		write(2, " numeric argument required\n", 27);
-		// EXIT HANDLE
-		// MARC START
 		cleanup_shell_exit(data);
-		// MARC END
 		exit (2);
 	}
 	else if (curr->args[1] && curr->args[2])
 	{
 		write(2, " too many arguments\n", 20);
-		// EXIT HANDLE
-		// MARC START
 		cleanup_shell_exit(data);
-		// MARC END
 		exit (1);
 	}
-	// EXIT HANDLE
-	// MARC START
 	cleanup_shell_exit(data);
-	// MARC END
 	exit (0);
 }

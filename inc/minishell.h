@@ -174,7 +174,7 @@ int		invoke_builtin(t_state *data, t_node *curr);
 int		ft_cd(t_state *state, t_node *curr);
 
 // ft_echo.c
-int		flag_check(char *str);
+int		flag_check(char *str, int *flag);
 int		ft_echo(char **arr);
 
 // ft_env.c
