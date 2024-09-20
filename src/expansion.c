@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/14 19:13:21 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:39:21 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	expand(t_state *state, char **word, int i, int hd_flag)
 		if (var == NULL)
 		{
 			// malloc error
-			cleanup_shell(state);
+			cleanup_shell_exit(state);
 			exit(1);
 		}
 		// copy var from word.
