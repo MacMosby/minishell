@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 21:34:16 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/18 01:12:14 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:09:15 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	cleanup_shell(t_state *state)
 	// free hd_content and others ???
 	free(state->input); // free input
 	state->input = NULL;
-	free(state->pids);
+	//free(state->pids);
 	free_pipes(state);
 }
 

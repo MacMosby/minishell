@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:03:48 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/09/15 21:35:08 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:57:40 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	check_for_dir(char *str)
 
 void	handle_cmd(t_state *data, t_node *curr, char *str)
 {
-	if (!str)
+	if (!str || !ft_strlen(str)) // check empty string one more check in getpath
 		curr->cmd_flag = NO_CMD;
 	else if (check_for_builtin(str, data->builtins)) // If it is a builtin command
 	{

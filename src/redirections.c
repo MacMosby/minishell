@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:41:31 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/20 23:20:16 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:05:07 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	cmd_redirections(t_state *state, t_list *cmd)
 			if (cmd_node->fd_in > 0)
 				close(cmd_node->fd_in);
 			cmd_node->fd_in = -1;
+			word = word->next;
 		}
 		else if (carrots)
 		{
@@ -107,8 +108,10 @@ void	cmd_redirections(t_state *state, t_list *cmd)
 			if (set_fds(state, cmd_node, carrots, (char **) &(word->next->content)))
 				break ;
 			// MARC END
+			word = word->next;
 		}
-		word = word->next;
+		if (word)
+			word = word->next;
 	}
 }
 
