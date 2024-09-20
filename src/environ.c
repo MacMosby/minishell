@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:16:26 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/20 17:34:04 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:52:36 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,27 @@ char	**copy_env(char **env, int add_flag)
 	int		count;
 	char	**env_copy;
 	int		i;
-	int		add;	// heredoc
-
-	add = 0;
+	int		j;	// heredoc
+	char	*shlvl;
+	
+	j = 0;
+	shlvl = NULL;
 	if (add_flag)
-		add = 1;
+		j = 1;
 	count = 0;
 	i = 0;
 	while (env[count] != NULL)
 		count++;
-	env_copy = (char **)malloc((count + 1 + add) * sizeof(char *));
+	env_copy = (char **)malloc((count + 1 + j) * sizeof(char *));
 	while (i < count)
 	{
 		env_copy[i] = ft_strdup(env[i]);
 		if (ft_strncmp(env_copy[i], "SHLVL=", 6) == 0)
 		{
-			int sh_int = ft_atoi(env_copy[i] + 6) + 1;
-			env_copy[i] = strreplace(&(env_copy[i]), ft_itoa(sh_int), 6, ft_strlen(env_copy[i]));
+			j = ft_atoi(env_copy[i] + 6) + 1;
+			shlvl = ft_itoa(j);
+			env_copy[i] = strreplace(&(env_copy[i]), shlvl, 6, ft_strlen(env_copy[i]));
+			free(shlvl);
 		}
 		i++;
 	}
