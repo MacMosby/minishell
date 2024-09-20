@@ -51,8 +51,8 @@ int	main(int argc, char **argv, char **envp)
 	init_minishell(&state, envp);
 	while (1)
 	{
-		if (g_signal)
-				state.exit_status = 128 + g_signal;
+		/* if (g_signal)
+				state.exit_status = 128 + g_signal; */
 		g_signal = 0;
 		setup_cli_signals();
 		state.input = readline("minishell:~$ "); // display prompt
