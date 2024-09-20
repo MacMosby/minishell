@@ -149,7 +149,11 @@ void	fork_for_heredoc(t_node *cmd, t_list *curr)
 		//if (waitpid(pid, &wstatus, 0) == -1)
 			// what to do if waitpid fails ???
 			//printf("What to do if waitpid for hd child fails?\n");
-		if (g_signal == 0)
+		if (g_signal)
+			cmd->err_flag = 128 + g_signal;
+			// if we don't run through the heredoc we need to
+			// delete the EOF from the word list
+		else
 		{
 			read(fd[READ_END], &len_out, sizeof(int));
 			hd_output = malloc(len_out * sizeof(char));
@@ -158,12 +162,6 @@ void	fork_for_heredoc(t_node *cmd, t_list *curr)
 			close(fd[READ_END]);
 			free(curr->content);
 			curr->content = hd_output;
-		}
-		else
-		{
-			cmd->err_flag = 130;
-			// if we don't run through the heredoc we need to
-			// delete the EOF from the word list
 		}
 	}
 }

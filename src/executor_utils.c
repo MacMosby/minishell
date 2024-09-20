@@ -103,7 +103,8 @@ void	wait_loop(t_state *data)
 		if (waitpid(data->pids[i], &wstatus, 0) == -1)
 		{
 			//printf("Do we get here in case of a signal???\n");
-			data->exit_status = 130;
+			if (g_signal)
+				data->exit_status = 128 + g_signal;
 			// EXIT HANDLER ???
 			/* if (data->exit_status)
 				exit(data->exit_status);

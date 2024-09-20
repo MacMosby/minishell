@@ -27,6 +27,7 @@ int	invoke_builtin(t_state *data, t_node *curr)
 		return (ft_unset(data, curr));
 	else if (ft_strncmp(curr->cmd, "env", 4) == 0)
 		ft_env(data);
+	// what should be the return value ?
 	else if (ft_strncmp(curr->cmd, "exit", 5) == 0)
 		ft_exit(data, curr);
 	// what should be the return value ?
