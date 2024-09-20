@@ -168,16 +168,31 @@ void	close_pipes(t_state *data);
 void	wait_loop(t_state *data);
 
 // builtins.c
-int		ft_env(t_state *data);
-char	**copy_env_unset(char **env);
-int		ft_unset(t_state *data, t_node *curr);
-int		ft_export(t_state *data, t_node *curr);
-void	ft_exit(t_state *data, t_node *curr);
+int		invoke_builtin(t_state *data, t_node *curr);
+
+// ft_cd.c
+int		ft_cd(t_state *state, t_node *curr);
+
+// ft_echo.c
 int		flag_check(char *str);
 int		ft_echo(char **arr);
+
+// ft_env.c
+int		ft_env(t_state *data);
+
+// ft_exit.c
+void	ft_exit(t_state *data, t_node *curr);
+
+// ft_export.c
+int		do_export(t_state *data, char *s);
+int		ft_export(t_state *data, t_node *curr);
+
+// ft_pwd.c
 int		ft_pwd(void);
-int		ft_cd(t_state *state, t_node *curr);
-int		invoke_builtin(t_state *data, t_node *curr);
+
+// ft_unset.c
+char	**copy_env_unset(char **env);
+int		ft_unset(t_state *data, t_node *curr);
 
 // MARC START
 
