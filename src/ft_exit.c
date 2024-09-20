@@ -47,5 +47,5 @@ void	ft_exit(t_state *data, t_node *curr)
 		exit (1);
 	}
 	cleanup_shell_exit(data);
-	exit (0);
+	exit(data->exit_status);
 }

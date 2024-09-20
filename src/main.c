@@ -58,6 +58,8 @@ int	main(int argc, char **argv, char **envp)
 		state.input = readline("minishell:~$ "); // display prompt
 		if (state.input == NULL)
 		{
+			if (g_signal)
+				state.exit_status = 128 + g_signal;
 			// Ctl-D (EOF) handle
 			printf("exit\n");
 			break ;
@@ -77,7 +79,7 @@ int	main(int argc, char **argv, char **envp)
 		cleanup_shell(&state);
 	}
 	cleanup_shell_exit(&state);
-	return (0);
+	return (state.exit_status);
 }
 
 /****************************************/
