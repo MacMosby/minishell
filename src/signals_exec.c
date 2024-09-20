@@ -23,7 +23,7 @@ void	handle_sigint_exec(int sig)
 void	handle_sigquit_exec(int sig)
 {
 	g_signal = sig;
-	printf("Quit (core dumped)\n");
+	printf("Quit\n");
 }
 
 void	setup_exec_signals(void)
