@@ -40,11 +40,21 @@ char	**copy_env_unset(char **env)
 	return (env_copy);
 }
 
-int	do_unset(t_state *data, char *s)
+void	do_unset(t_state *data, int i)
+{
+	char	**new_env;
+
+	free(data->env[i]);
+	data->env[i] = NULL;
+	new_env = copy_env_unset(data->env);
+	//free_strarr(data->env);
+	data->env = new_env;
+}
+
+int	find_unset_var(t_state *data, char *s)
 {
 	int		i;
 	int		j;
-	char	**new_env;
 
 	i = 0;
 	while (data->env[i])
@@ -57,11 +67,7 @@ int	do_unset(t_state *data, char *s)
 				if ((ft_strncmp(ft_substr(data->env[i], 0, j), s, j) == 0)
 					&& (s[j] == 0))
 				{
-					free(data->env[i]);
-					data->env[i] = NULL;
-					new_env = copy_env_unset(data->env);
-					//free_strarr(data->env);
-					data->env = new_env;
+					do_unset(data, i);
 					return (0);
 				}
 				else
@@ -81,7 +87,7 @@ int	ft_unset(t_state *data, t_node *curr)
 	i = 1;
 	while (curr->args[i])
 	{
-		do_unset(data, curr->args[i]);
+		find_unset_var(data, curr->args[i]);
 		i++;
 	}
 	return (0);

@@ -56,19 +56,15 @@ int	main(int argc, char **argv, char **envp)
 		g_signal = 0;
 		setup_cli_signals();
 		state.input = readline("minishell:~$ "); // display prompt
+		if (g_signal)
+			state.exit_status = 128 + g_signal;
 		if (state.input == NULL)
 		{
-			if (g_signal)
-				state.exit_status = 128 + g_signal;
 			// Ctl-D (EOF) handle
 			printf("exit\n");
 			break ;
 		}
-		if (g_signal)
-		{
-			state.exit_status = 128 + g_signal;
-			g_signal = 0;
-		}
+		g_signal = 0;
 		add_history(state.input);
 		setup_heredoc_signals_main();
 		if (input_handler(&state) == 0)

@@ -181,7 +181,7 @@ int		ft_echo(char **arr);
 int		ft_env(t_state *data);
 
 // ft_exit.c
-void	ft_exit(t_state *data, t_node *curr);
+int	ft_exit(t_state *data, t_node *curr);
 
 // ft_export.c
 int		do_export(t_state *data, char *s);
