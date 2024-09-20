@@ -78,6 +78,8 @@ char	*find_var_value(t_state *state, char *var);
 
 // initialize.c
 void	init_minishell(t_state *state, char **envp);
+void	init_pipes(t_state *data, int i);
+void	init_pids(t_state *data);
 
 // cleanup.c
 void	cleanup_shell(t_state *shell);
@@ -86,7 +88,7 @@ void	free_nodes(void *node);
 void	free_strarr(char **strarr);
 
 // input_handller.c
-int	input_handler(t_state *state);
+int		input_handler(t_state *state);
 int		carroting(t_state *state, int start);
 int		wording(t_state *state, int start);
 int		piping(t_state *state, int i);
@@ -104,8 +106,10 @@ void	nodes(t_state *state);
 void	heredoc_in(t_state *state);
 void	get_heredoc_input(t_node *cmd_content, t_list *words);
 char	*ft_here_doc(t_list *word);
-char	*ft_join_free(char *s1, char *s2);
 void	heredoc_expansions(t_state *state, char **hd_content);
+
+// heredoc_utils.c
+char	*ft_join_free(char *s1, char *s2, size_t i, size_t j);
 
 // expansion.c
 void	expansion(t_state *state);
@@ -152,20 +156,17 @@ char	*ft_get_exec_path(char **path_split, char *cmd);
 char	*ft_get_env_path(char **env);
 void	ft_free_splits(char **splits);
 
-
 // executor.c
 void	executor(t_state *data);
 void	execution_loop(t_state *data);
 void	fork_executor(t_state *data, t_node *curr, int i);
-void	redirect_in_out(t_state *data, t_node *curr, int i);
+void	wait_loop(t_state *data);
 
 // executor_utils.c
 void	free_pipes(t_state *data);
-void	init_pipes(t_state *data);
-void	init_pids(t_state *data);
 void	redirect_to_pipes(t_state *data, int i);
 void	close_pipes(t_state *data);
-void	wait_loop(t_state *data);
+void	redirect_in_out(t_state *data, t_node *curr, int i);
 
 // builtins.c
 int		invoke_builtin(t_state *data, t_node *curr);
@@ -181,7 +182,7 @@ int		ft_echo(char **arr);
 int		ft_env(t_state *data);
 
 // ft_exit.c
-int	ft_exit(t_state *data, t_node *curr);
+int		ft_exit(t_state *data, t_node *curr);
 
 // ft_export.c
 int		do_export(t_state *data, char *s);

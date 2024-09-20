@@ -12,6 +12,45 @@
 
 #include "minishell.h"
 
+/* initializes pipes and store them in the data struct */
+void	init_pipes(t_state *data, int i)
+{
+	if (data->num_of_processes < 2)
+		return ;
+	data->pipes = (int **)malloc((data->num_of_processes - 1) * sizeof(int *));
+	if (!data->pipes)
+	{
+		cleanup_shell_exit(data);
+		exit(1);
+	}
+	while (i < data->num_of_processes - 1)
+	{
+		data->pipes[i] = (int *)malloc(2 * sizeof(int));
+		if (!data->pipes[i])
+		{
+			cleanup_shell_exit(data);
+			exit(1);
+		}
+		if (pipe(data->pipes[i]) == -1)
+		{
+			cleanup_shell_exit(data);
+			exit(1);
+		}
+		i++;
+	}
+}
+
+/* creates the data structure for the array of process IDs */
+void	init_pids(t_state *data)
+{
+	data->pids = (int *)malloc(data->num_of_processes * sizeof(int));
+	if (!data->pids)
+	{
+		cleanup_shell_exit(data);
+		exit(1);
+	}
+}
+
 void	init_builtins(t_state *state)
 {
 	state->builtins[0] = "echo";

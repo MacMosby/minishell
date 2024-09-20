@@ -12,6 +12,44 @@
 
 #include "minishell.h"
 
+void	redirect_output(t_node *curr)
+{
+	if (curr->fd_out != STDOUT_FILENO)
+	{
+		dup2(curr->fd_out, STDOUT_FILENO);
+		close(curr->fd_out);
+	}
+}
+
+/* redirects the input and output of the cmd to pipes and/or files */
+void	redirect_in_out(t_state *data, t_node *curr, int i)
+{
+	int	fd[2];
+
+	redirect_to_pipes(data, i);
+	if (curr->fd_in != STDIN_FILENO)
+	{
+		if (curr->fd_in == -1)
+		{
+			if (pipe(fd) == -1)
+			{
+				cleanup_shell_exit(data);
+				exit(1);
+			}
+			write(fd[WRITE_END], curr->hd_content, ft_strlen(curr->hd_content));
+			dup2(fd[READ_END], STDIN_FILENO);
+			close(fd[WRITE_END]);
+			close(fd[READ_END]);
+		}
+		else
+		{
+			dup2(curr->fd_in, STDIN_FILENO);
+			close(curr->fd_in);
+		}
+	}
+	redirect_output(curr);
+}
+
 void	free_pipes(t_state *data)
 {
 	int	i;
@@ -24,48 +62,9 @@ void	free_pipes(t_state *data)
 	}
 }
 
-/* initializes pipes and store them in the data struct */
-void	init_pipes(t_state *data)
-{
-	int	i;
-
-	//create pipe array of arrays
-	if (data->num_of_processes < 2)
-	{
-		data->pipes = NULL;
-		return ;
-	}
-	data->pipes = (int **)malloc((data->num_of_processes - 1) * sizeof(int *));
-	if (!data->pipes)
-		// EXIT HANDLE
-		exit(1);
-	i = 0;
-	while (i < data->num_of_processes - 1)
-	{
-		data->pipes[i] = (int *)malloc(2 * sizeof(int));
-		if (!data->pipes[i])
-			// EXIT HANDLE
-			exit(2);
-		if (pipe(data->pipes[i]) == -1)
-			// EXIT HANDLE
-			exit(3);
-		i++;
-	}
-}
-
-/* creates the data structure for the array of process IDs */
-void	init_pids(t_state *data)
-{
-	data->pids = (int *)malloc(data->num_of_processes * sizeof(int));
-	if (!data->pids)
-		// EXIT HANDLE
-		exit(1);
-}
-
 /* creates the redirections to pipes before looking for infiles/outfiles */
 void	redirect_to_pipes(t_state *data, int i)
 {
-	// don't pipe to next pipe in case of error
 	if (i > 0)
 	{
 		dup2(data->pipes[i - 1][READ_END], STDIN_FILENO);
@@ -88,39 +87,4 @@ void	close_pipes(t_state *data)
 		close(data->pipes[i][WRITE_END]);
 		i++;
 	}
-}
-
-/* iterates over PIDs to wait for all the child processes to finish */
-void	wait_loop(t_state *data)
-{
-	int	i;
-	int	wstatus;
-
-	i = 0;
-	while (i < data->num_of_processes)
-	{
-		// do we need to replace NULL or 0 ?
-		if (waitpid(data->pids[i], &wstatus, 0) == -1)
-		{
-			//printf("Do we get here in case of a signal???\n");
-			/* if (g_signal)
-				data->exit_status = 128 + g_signal; */
-			// EXIT HANDLER ???
-			/* if (data->exit_status)
-				exit(data->exit_status);
-			exit (1); */
-			//printf("WE GET HERE IF WAITPID FAILS (ctrl-c  or ctrl-\\on execution)- WHAT TO DO HERE?\n");
-		}
-		else
-		{
-			//printf("We also get here in case of a signal\n");
-			//printf("do we get here now? exit status: %d\n", wstatus);
-			if (WIFEXITED(wstatus)) // if this is true, the process terminated normally
-				data->exit_status = WEXITSTATUS(wstatus);
-			else
-				data->exit_status = 128 + g_signal;
-		}
-		i++;
-	}
-	//printf("End of program: exit status: %d\n", data->exit_status);
 }

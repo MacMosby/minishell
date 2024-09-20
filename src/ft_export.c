@@ -78,9 +78,36 @@ int	ft_max_len(char *s1, char *s2)
 	return (len2);
 }
 
+void	print_export_list_sub(char **env, char *last, char *min, int i)
+{
+	if (last)
+		min = NULL;
+	while (env[i])
+	{
+		if (!last)
+		{
+			if (ft_strncmp(min, env[i], ft_max_len(min, env[i])) > 0)
+				min = env[i];
+		}
+		else
+		{
+			if (ft_strncmp(env[i], last, ft_max_len(env[i], last)) > 0)
+			{
+				if (!min)
+					min = env[i];
+				else
+				{
+					if (ft_strncmp(min, env[i], ft_max_len(min, env[i])) > 0)
+						min = env[i];
+				}
+			}
+		}
+		i++;
+	}
+}
+
 void	print_export_list(char **env)
 {
-	int		i;
 	int		j;
 	int		len;
 	char	*last;
@@ -96,31 +123,7 @@ void	print_export_list(char **env)
 		len++;
 	while (j < len)
 	{
-		if (last)
-			min = NULL;
-		i = 0;
-		while (env[i])
-		{
-			if (!last)
-			{
-				if (ft_strncmp(min, env[i], ft_max_len(min, env[i])) > 0)
-					min = env[i];
-			}
-			else
-			{
-				if (ft_strncmp(env[i], last, ft_max_len(env[i], last)) > 0)
-				{
-					if (!min)
-						min = env[i];
-					else
-					{
-						if (ft_strncmp(min, env[i], ft_max_len(min, env[i])) > 0)
-							min = env[i];
-					}
-				}
-			}
-			i++;
-		}
+		print_export_list_sub(env, last, min, 0);
 		if (last && min)
 		{
 			if (!ft_strncmp(min, last, ft_max_len(min, last)))

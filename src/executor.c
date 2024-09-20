@@ -12,60 +12,25 @@
 
 #include "minishell.h"
 
-/* redirects the input and output of the cmd to pipes and/or files */
-void	redirect_in_out(t_state *data, t_node *curr, int i)
-{
-	int	fd[2];
-
-	// redirect to pipes initially
-	redirect_to_pipes(data, i);
-	// redirect to infiles/outfiles if we have them set
-	if (curr->fd_in != STDIN_FILENO)
-	{
-		if (curr->fd_in == -1)
-		{
-			if (pipe(fd) == -1)
-				// EXIT HANDLE
-				exit(1);
-			write(fd[WRITE_END], curr->hd_content, ft_strlen(curr->hd_content));
-			dup2(fd[READ_END], STDIN_FILENO);
-			close(fd[WRITE_END]);
-			close(fd[READ_END]);
-		}
-		else
-		{
-			dup2(curr->fd_in, STDIN_FILENO);
-			close(curr->fd_in);
-		}
-	}
-	if (curr->fd_out != STDOUT_FILENO)
-	{
-		dup2(curr->fd_out, STDOUT_FILENO);
-		close(curr->fd_out);
-	}
-}
-
 /* creates a child process and executes the command */
 void	fork_executor(t_state *data, t_node *curr, int i)
 {
 	data->pids[i] = fork();
 	if (data->pids[i] == -1)
-		// EXIT HANDLE
+	{
+		cleanup_shell_exit(data);
 		exit(1);
+	}
 	if (data->pids[i] == 0)
 	{
-		// redirect to pipes, infiles and outfiles
 		redirect_in_out(data, curr, i);
-		// close pipes
 		close_pipes(data);
-		// if we have a correct cmd and NOT NULL
 		if (curr->err_flag == CMD_OK && curr->cmd)
 		{
 			if (curr->cmd_flag == PATH)
 			{
 				if (execve(curr->cmd, curr->args, data->env) == -1)
-					// error handle here
-					// EXIT HANDLE
+					// EXIT HANDLE - do we need to clean the child process ?
 					exit(3);
 			}
 			else if (curr->cmd_flag == BUILTIN)
@@ -93,44 +58,64 @@ void	execution_loop(t_state *data)
 	close_pipes(data);
 }
 
+/* iterates over PIDs to wait for all the child processes to finish */
+void	wait_loop(t_state *data)
+{
+	int	i;
+	int	wstatus;
+
+	i = 0;
+	while (i < data->num_of_processes)
+	{
+		if (waitpid(data->pids[i], &wstatus, 0) == -1)
+		{
+			// ???
+			printf("We should never get here!!!\n");
+			/* if (g_signal)
+				data->exit_status = 128 + g_signal; */
+		}
+		else
+		{
+			if (WIFEXITED(wstatus))
+				data->exit_status = WEXITSTATUS(wstatus);
+			else
+				data->exit_status = 128 + g_signal;
+		}
+		i++;
+	}
+}
+
+void	execute_single_builtin(t_state *state, t_node *cmd)
+{
+	int	fd_std_in;
+	int	fd_std_out;
+
+	fd_std_in = dup(STDIN_FILENO);
+	fd_std_out = dup(STDOUT_FILENO);
+	redirect_in_out(state, cmd, 0);
+	if (cmd->err_flag == CMD_OK && cmd->cmd)
+		state->exit_status = invoke_builtin(state, cmd);
+	dup2(fd_std_in, STDIN_FILENO);
+	close(fd_std_in);
+	dup2(fd_std_out, STDOUT_FILENO);
+	close(fd_std_out);
+}
+
 /* iterate over the linked list and executes the commands one by one */
 void	executor(t_state *data)
 {
 	t_node	*cmd;
-	int		fd_std_in;
-	int		fd_std_out;
 
-	// MARC START
-	// not needed if code exits earlier with no words ???
 	if (!data->cmds)
 		return ;
-	// MARC END
 	cmd = (t_node *)data->cmds->content;
-	// initialize pipe array of array
-	init_pipes(data);
-	// initialize array of process IDs
+	init_pipes(data, 0);
 	init_pids(data);
-	// MARC START
 	if (data->num_of_processes == 1 && cmd->cmd_flag == BUILTIN)
-	{
-		fd_std_in = dup(STDIN_FILENO);
-		fd_std_out = dup(STDOUT_FILENO);
-		// redirect to pipes, infiles and outfiles
-		redirect_in_out(data, cmd, 0);
-		// if we have a correct builtin cmd and NOT NULL
-		if (cmd->err_flag == CMD_OK && cmd->cmd)
-			data->exit_status = invoke_builtin(data, cmd);
-		dup2(fd_std_in, STDIN_FILENO);
-		close(fd_std_in);
-		dup2(fd_std_out, STDOUT_FILENO);
-		close(fd_std_out);
-	}
+		execute_single_builtin(data, cmd);
 	else
 	{
 		execution_loop(data);
 		wait_loop(data);
 	}
-	// MARC END
-	// exit status ?
-	// cleanup missing
 }

@@ -12,38 +12,7 @@
 
 #include "minishell.h"
 
-/* takes two strings s1 and s2 as inputs, joins them and returns the result
-after freeing s1 and s2 */
-char	*ft_join_free(char *s1, char *s2)
-{
-	char	*str;
-	size_t	len;
-	size_t	i;
-	size_t	j;
 
-	if (!s1)
-		s1 = ft_strdup("");
-	len = ft_strlen(s1) + ft_strlen(s2);
-	str = (char *)malloc(len + 1);
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (i < ft_strlen(s1))
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (j < ft_strlen(s2))
-	{
-		str[i + j] = s2[j];
-		j++;
-	}
-	free(s1);
-	free(s2);
-	str[i + j] = 0;
-	return (str);
-}
 
 /* takes a list object word and its content as the delimiter to the here_doc
 implementation which takes several lines of input from the user until a line
@@ -64,7 +33,7 @@ char	*ft_here_doc(t_list *word)
 		// Ctl-D (EOF) handle
 		printf("TEST TEST HD\n");
 		//return ;
-		full_line = ft_join_free(full_line, ft_strdup(""));
+		full_line = ft_join_free(full_line, ft_strdup(""), 0 , 0);
 		free(word->content);
 		word->content = NULL;
 		return (full_line);
@@ -74,11 +43,11 @@ char	*ft_here_doc(t_list *word)
 	{
 		if (full_line)
 		{
-			tmp_line = ft_join_free(ft_strdup("\n"), tmp_line);
+			tmp_line = ft_join_free(ft_strdup("\n"), tmp_line, 0, 0);
 		}
 		else
 			full_line = ft_strdup("");
-		full_line = ft_join_free(full_line, tmp_line);
+		full_line = ft_join_free(full_line, tmp_line, 0, 0);
 		tmp_line = readline(">");
 		// MARC START
 		if (tmp_line == NULL)
@@ -86,7 +55,7 @@ char	*ft_here_doc(t_list *word)
 			// Ctl-D (EOF) handle
 			printf("ctrl-D in HD\n");
 			//return ;
-			full_line = ft_join_free(full_line, ft_strdup("\n"));
+			full_line = ft_join_free(full_line, ft_strdup("\n"), 0, 0);
 			free(word->content);
 			word->content = NULL;
 			free(tmp_line);
@@ -101,7 +70,7 @@ char	*ft_here_doc(t_list *word)
 		free(tmp_line);
 		return (full_line);
 	}
-	full_line = ft_join_free(full_line, ft_strdup("\n"));
+	full_line = ft_join_free(full_line, ft_strdup("\n"), 0, 0);
 	free(word->content);
 	word->content = NULL;
 	free(tmp_line);
