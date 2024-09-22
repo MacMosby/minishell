@@ -31,20 +31,13 @@ int	check_for_dir(char *str)
 {
 	struct stat	path_stat;
 
-	if (access(str, F_OK) == 0)
+	if (access(str, F_OK) == 0 && access(str, R_OK) == 0)
 	{
-		if (stat(str, &path_stat) == -1)
-		{
-			// print some error ???
-			perror("lstat");
-		}
+		stat(str, &path_stat);
+		if (S_ISDIR(path_stat.st_mode))
+			return (1);
 		else
-		{
-			if (S_ISDIR(path_stat.st_mode))
-				return (1);
-			else
-				return (0);
-		}
+			return (0);
 	}
 	return (0);
 }
