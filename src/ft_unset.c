@@ -49,7 +49,7 @@ void	do_unset(t_state *data, int i)
 	free(data->env[i]);
 	data->env[i] = NULL;
 	new_env = copy_env_unset(data, data->env);
-	//free_strarr(data->env);
+	free_strarr(data->env);
 	data->env = new_env;
 }
 
@@ -57,6 +57,7 @@ int	find_unset_var(t_state *data, char *s)
 {
 	int		i;
 	int		j;
+	char	*sub;
 
 	i = 0;
 	while (data->env[i])
@@ -66,14 +67,18 @@ int	find_unset_var(t_state *data, char *s)
 		{
 			if (data->env[i][j] == '=')
 			{
-				if ((ft_strncmp(ft_substr(data->env[i], 0, j), s, j) == 0)
-					&& (s[j] == 0))
+				sub = ft_substr(data->env[i], 0, j);
+				if ((ft_strncmp(sub, s, j) == 0) && (s[j] == 0))
 				{
+					free(sub);
 					do_unset(data, i);
 					return (0);
 				}
 				else
+				{
+					free(sub);
 					break ;
+				}
 			}
 			j++;
 		}
