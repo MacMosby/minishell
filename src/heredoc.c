@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+char	*clean_hd(t_state *state, t_list *word, char *full_line, int flag)
+{
+	if (flag == 0)
+		full_line = ft_join_free(state, full_line, ft_strdup(""), 0);
+	else if (flag == 1)
+		full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0);
+	else if (flag == 2)
+		full_line = ft_strdup("");
+	free(word->content);
+	word->content = NULL;
+	return (full_line);
+}
+
 /* takes a list object word and its content as the delimiter to the here_doc
 implementation which takes several lines of input from the user until a line
 is exactly the same as the delimiter and replaces the word content in the list
@@ -26,43 +39,78 @@ char	*ft_here_doc(t_state *state, t_list *word)
 	delim = word->content;
 	tmp_line = readline(">");
 	if (tmp_line == NULL)
-	{
+		return (clean_hd(state, word, full_line, 0));
+	/* {
 		full_line = ft_join_free(state, full_line, ft_strdup(""), 0);
 		free(word->content);
 		word->content = NULL;
 		return (full_line);
-	}
+	} */
+	// && tmp_line[len + 1] == 0 ???
 	while (ft_strncmp(tmp_line, delim, ft_strlen(delim)))
 	{
 		if (full_line)
-		{
 			tmp_line = ft_join_free(state, ft_strdup("\n"), tmp_line, 0);
-		}
 		else
 			full_line = ft_strdup("");
 		full_line = ft_join_free(state, full_line, tmp_line, 0);
 		tmp_line = readline(">");
 		if (tmp_line == NULL)
-		{
+			return (clean_hd(state, word, full_line, 1));
+		/* {
 			full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0);
 			free(word->content);
 			word->content = NULL;
-			free(tmp_line);
 			return (full_line);
-		}
+		} */
 	}
 	if (!full_line)
-	{
+		return (free(tmp_line), clean_hd(state, word, full_line, 2));
+	/* {
 		full_line = ft_strdup("");
 		free(word->content);
 		free(tmp_line);
 		return (full_line);
-	}
-	full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0);
+	} */
+	return (free(tmp_line), clean_hd(state, word, full_line, 1));
+	/* full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0);
 	free(word->content);
 	word->content = NULL;
-	free(tmp_line);
-	return (full_line);
+	return (full_line); */
+}
+
+void	heredoc_child(t_state *state, t_list *curr, int *fd)
+{
+	char	*hd_output;
+	int		len;
+
+	setup_heredoc_signals_child();
+	hd_output = NULL;
+	hd_output = ft_here_doc(state, curr);
+	len = ft_strlen(hd_output) + 1;
+	close(fd[READ_END]);
+	write(fd[WRITE_END], &len, sizeof(int));
+	write(fd[WRITE_END], hd_output, len);
+	close(fd[WRITE_END]);
+	free(hd_output);
+	cleanup_shell_exit(state);
+	exit (0);
+}
+
+void	heredoc_parent(t_state *state, t_list *curr, int *fd)
+{
+	char	*hd_output;
+	int		len;
+
+	hd_output = NULL;
+	read(fd[READ_END], &len, sizeof(int));
+	hd_output = malloc(len * sizeof(char));
+	if (!hd_output)
+		error_exit(state);
+	if (read(fd[READ_END], hd_output, len * sizeof(char)) < 0)
+		printf("read function fails\n");
+	free(curr->content);
+	curr->content = hd_output;
 }
 
 void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
@@ -70,8 +118,6 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 	int		fd[2];
 	int		pid;
 	int		wstatus;
-	char	*hd_output;
-	int		len_out;
 
 	if (pipe(fd) == -1)
 		error_exit(state);
@@ -79,22 +125,9 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 	if (pid == -1)
 		error_exit(state);
 	if (pid == 0)
-	{
-		setup_heredoc_signals_child();
-		hd_output = NULL;
-		hd_output = ft_here_doc(state, curr);
-		len_out = ft_strlen(hd_output) + 1;
-		close(fd[READ_END]);
-		write(fd[WRITE_END], &len_out, sizeof(int));
-		write(fd[WRITE_END], hd_output, len_out);
-		close(fd[WRITE_END]);
-		free(hd_output);
-		cleanup_shell_exit(state);
-		exit (0);
-	}
+		heredoc_child(state, curr, fd);
 	else
 	{
-		close(fd[WRITE_END]);
 		waitpid(pid, &wstatus, 0);
 		//if (waitpid(pid, &wstatus, 0) == -1)
 			//printf("What to do if waitpid for hd child fails?\n");
@@ -103,18 +136,33 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 			// if we don't run through the heredoc we need to
 			// delete the EOF from the word list
 		else
+			heredoc_parent(state, curr, fd);
+		close(fd[WRITE_END]);
+		close(fd[READ_END]);
+	}
+}
+
+void	get_heredoc_input(t_state *state, t_node *cmd_content, t_list *curr)
+{
+	char	*delim;
+	int		i;
+
+	i = 0;
+	delim = (char *) curr->content;
+	if (cmd_content)
+	{
+		while (delim[i])
 		{
-			read(fd[READ_END], &len_out, sizeof(int));
-			hd_output = malloc(len_out * sizeof(char));
-			if (!hd_output)
-				error_exit(state);
-			if (read(fd[READ_END], hd_output, len_out * sizeof(char)) < 0)
-				printf("read function fails\n");
-			close(fd[READ_END]);
-			free(curr->content);
-			curr->content = hd_output;
+			if (delim[i] == '\'' || delim[i] == '\"')
+			{
+				cmd_content->hd_expand_flag = 0;
+				break ;
+			}
+			i++;
 		}
 	}
+	removequotes((char **) &(curr->content));
+	fork_for_heredoc(state, cmd_content, curr);
 }
 
 /*iterates over list of words in cmd and if heredoc carrots are found,
@@ -122,13 +170,13 @@ it checks the next word i.e. delimiter and sets hd_expand_flag
 in t_node cmd_content if quotes are found in delimiter.
 Then it calls removequotes function on the delimiter, and
 calls ft_here_doc with the delimiter.*/
-void	get_heredoc_input(t_state *state, t_node *cmd_content, t_list *words)
+void	iterate_for_heredoc(t_state *state, t_node *cmd_content, t_list *words)
 {
 	t_list	*curr;
-	int		i;
-	char	*delim;
+	//int		i;
+	//char	*delim;
 
-	i = 0;
+	//i = 0;
 	curr = words;
 	while (curr)
 	{
@@ -137,7 +185,8 @@ void	get_heredoc_input(t_state *state, t_node *cmd_content, t_list *words)
 			curr = curr->next;
 			if (curr)
 			{
-				delim = (char *) curr->content;
+				get_heredoc_input(state, cmd_content, curr);
+				/* delim = (char *) curr->content;
 				if (cmd_content)
 				{
 					while (delim[i])
@@ -151,7 +200,7 @@ void	get_heredoc_input(t_state *state, t_node *cmd_content, t_list *words)
 					}
 				}
 				removequotes((char **) &(curr->content));
-				fork_for_heredoc(state, cmd_content, curr);
+				fork_for_heredoc(state, cmd_content, curr); */
 			}
 			else
 				return ;
@@ -177,7 +226,7 @@ void	heredoc_in(t_state *state)
 	{
 		cmd_content = (t_node *) cmd->content;
 		//print_list(cmd_content->words);
-		get_heredoc_input(state, cmd_content, (t_list *) cmd_content->words);
+		iterate_for_heredoc(state, cmd_content, (t_list *) cmd_content->words);
 		cmd = cmd->next;
 	}
 }

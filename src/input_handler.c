@@ -48,7 +48,7 @@ int	parsing(t_state *state, int i)
 			i = wording(state, i);
 		if (i < 0)
 		{
-			get_heredoc_input(state, NULL, state->words);
+			iterate_for_heredoc(state, NULL, state->words);
 			return (-1);
 		}
 	}

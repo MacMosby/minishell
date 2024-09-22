@@ -98,8 +98,7 @@ int		piping(t_state *state, int i);
 
 // input_carrots.c
 int		carroting(t_state *state, int start);
-int	carroting_errors(t_state *state, char c, int start);
-
+int		carroting_errors(t_state *state, char c, int start);
 
 // input_handler_utils.c
 int		carrotcount(t_state *state, int start);
@@ -112,7 +111,7 @@ void	nodes(t_state *state);
 
 // heredoc.c
 void	heredoc_in(t_state *state);
-void	get_heredoc_input(t_state *state, t_node *cmd_content, t_list *words);
+void	iterate_for_heredoc(t_state *state, t_node *cmd_content, t_list *words);
 char	*ft_here_doc(t_state *state, t_list *word);
 void	heredoc_expansions(t_state *state, char **hd_content);
 
