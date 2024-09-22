@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:03:48 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/09/22 16:07:49 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:34:18 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,15 @@ int	check_for_dir(char *str)
 
 void	handle_path(t_node *curr, char *str)
 {
-	if (access(str, F_OK) == 0) //if it exists
+	if (access(str, F_OK) == 0)
 	{
-		if (check_for_dir(str)) // If it is a directory
+		if (check_for_dir(str))
 		{
 			curr->err_flag = 126;
 			errno = EISDIR;
-			perror(" "); // delete space here
+			perror(" ");
 		}
-		else if (access(str, X_OK) == 0) // it is an executable file
+		else if (access(str, X_OK) == 0)
 		{
 			curr->cmd = ft_strdup(str);
 			curr->cmd_flag = PATH;
@@ -81,16 +81,15 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 {
 	if (!str)
 		curr->cmd_flag = NO_CMD;
-	else if (check_for_builtin(str, data->builtins)) // If it is a builtin command
+	else if (check_for_builtin(str, data->builtins))
 	{
 		curr->cmd = ft_strdup(str);
 		curr->cmd_flag = BUILTIN;
 	}
-	else if (ft_strchr(str, '/')) // if it is a path
+	else if (ft_strchr(str, '/'))
 		handle_path(curr, str);
 	else
 	{
-		// search for command in environment
 		curr->cmd = get_path(data, str);
 		if (curr->cmd)
 			curr->cmd_flag = PATH;
