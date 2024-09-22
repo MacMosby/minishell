@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 19:43:22 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:27:58 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,12 @@ char	*ft_join_free(t_state *state, char *s1, char *s2, size_t i);
 // expansion.c
 void	expansion(t_state *state);
 void	toexpand(t_state *state, char **word);
-int		expand(t_state *state, char **word, int i, int hd_flag);
 char	*strreplace(char **word, char *rep, int i, int j);
 int		var_letter(char c);
 void	delete_empty_words(t_list *cmd);
+
+// expansion_utils.c
+int		expand(t_state *state, char **word, int i, int hd_flag);
 
 // splitting .c
 void	splitting(t_state *state);

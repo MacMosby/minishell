@@ -6,7 +6,7 @@
 #    By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/21 17:52:21 by wel-safa          #+#    #+#              #
-#    Updated: 2024/09/22 19:16:30 by wel-safa         ###   ########.fr        #
+#    Updated: 2024/09/22 20:23:58 by wel-safa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ heredoc.c redirections.c redirections_utils.c list_manipulation.c get_path.c \
 handle_cmd.c executor.c executor_utils.c builtins.c signals_cli.c \
 signals_exec.c signals_heredoc.c ft_cd.c ft_echo.c ft_env.c ft_exit.c \
 ft_export.c ft_pwd.c ft_unset.c heredoc_utils.c executor_pipes.c \
-input_carrots.c)
+input_carrots.c expansion_utils.c)
 #--- OBJECTS ---
 OBJS := $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 #--- HEADERS ---
