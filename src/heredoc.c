@@ -33,7 +33,7 @@ char	*ft_here_doc(t_state *state, t_list *word)
 		// Ctl-D (EOF) handle
 		printf("TEST TEST HD\n");
 		//return ;
-		full_line = ft_join_free(state, full_line, ft_strdup(""), 0 , 0);
+		full_line = ft_join_free(state, full_line, ft_strdup(""), 0);
 		free(word->content);
 		word->content = NULL;
 		return (full_line);
@@ -43,11 +43,11 @@ char	*ft_here_doc(t_state *state, t_list *word)
 	{
 		if (full_line)
 		{
-			tmp_line = ft_join_free(state, ft_strdup("\n"), tmp_line, 0, 0);
+			tmp_line = ft_join_free(state, ft_strdup("\n"), tmp_line, 0);
 		}
 		else
 			full_line = ft_strdup("");
-		full_line = ft_join_free(state, full_line, tmp_line, 0, 0);
+		full_line = ft_join_free(state, full_line, tmp_line, 0);
 		tmp_line = readline(">");
 		// MARC START
 		if (tmp_line == NULL)
@@ -55,7 +55,7 @@ char	*ft_here_doc(t_state *state, t_list *word)
 			// Ctl-D (EOF) handle
 			printf("ctrl-D in HD\n");
 			//return ;
-			full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0, 0);
+			full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0);
 			free(word->content);
 			word->content = NULL;
 			free(tmp_line);
@@ -70,7 +70,7 @@ char	*ft_here_doc(t_state *state, t_list *word)
 		free(tmp_line);
 		return (full_line);
 	}
-	full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0, 0);
+	full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0);
 	free(word->content);
 	word->content = NULL;
 	free(tmp_line);

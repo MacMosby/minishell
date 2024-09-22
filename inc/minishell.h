@@ -110,7 +110,7 @@ char	*ft_here_doc(t_state *state, t_list *word);
 void	heredoc_expansions(t_state *state, char **hd_content);
 
 // heredoc_utils.c
-char	*ft_join_free(t_state *state, char *s1, char *s2, size_t i, size_t j);
+char	*ft_join_free(t_state *state, char *s1, char *s2, size_t i);
 
 // expansion.c
 void	expansion(t_state *state);
