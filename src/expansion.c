@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 17:07:39 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 20:21:18 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 /* takes word and two string pointers which it assigns substrings from word
 from index 0 to i and from index j+1 to len,
 disregarding chars between i and j*/
-void	substr_words(char **first, char **second, char *word, int i, int j)
+/*void	substr_words(char **first, char **second, char *word, int i, int j)
 {
 	int	len;
 
 	len = ft_strlen(word);
 	*first = ft_substr(word, 0, i);
-	*second = ft_substr(word, j + 1, len); // len? or len-j should be okay but check with other situations
-}
+	*second = ft_substr(word, j + 1, len); 
+	// len? or len-j should be okay but check with other situations
+}*/
 
 /* takes a string: word, cuts out the part from i to j
 and replaces it with another string: rep
@@ -35,23 +36,20 @@ char	*strreplace(char **word, char *rep, int i, int j)
 	char	*tmp;
 	char	*res;
 
-	// change to strjoin free function instead
 	if (j < i)
 		return (*word);
-	substr_words(&first, &second, *word, i, j);
+	first = ft_substr(*word, 0, i);
+	second = ft_substr(*word, j + 1, ft_strlen(*word));
 	if (!rep)
-	{
 		res = ft_strjoin(first, second);
-		free(first);
-		free(second);
-		free(*word);
-		return (res);
+	else
+	{
+		tmp = ft_strjoin(first, rep);
+		res = ft_strjoin(tmp, second);
+		free(tmp);
 	}
-	tmp = ft_strjoin(first, rep);
-	res = ft_strjoin(tmp, second);
 	free(first);
 	free(second);
-	free(tmp);
 	free(*word);
 	return (res);
 }
@@ -64,11 +62,11 @@ int	var_letter(char c)
 	return (0);
 }
 
-/*takes t_state struct and string pointer word and index i of the dollar sign found
-and hd_flag that signifies if it is a heredoc expansion or not.
+/*takes t_state struct and string pointer word and index i of the dollar sign
+found and hd_flag that signifies if it is a heredoc expansion or not.
 It finds variable after $ sign.
-if var is found, it searches env for var and replaces $VAR from word with its value
-otherwise it removes $VAR from word.
+if var is found, it searches env for var and replaces $VAR from word 
+with its value, otherwise it removes $VAR from word.
 if variable is not found, no expansions happen.
 except when hd_flag is 0 AND in such cases: $"hello" or $'hello'
 where the dollar sign is removed.
@@ -100,10 +98,10 @@ int	expand(t_state *state, char **word, int i, int hd_flag)
 			return (i - 1);
 		}
 		if (var_letter((*word)[j]) == 0)
-			break ; // end of var and j is index after var
+			break;
 		j++;
 	}
-	len = j - i - 1; // length of variable name
+	len = j - i - 1;
 	if (len > 0)
 	{
 		var = (char *)malloc((len + 1) * sizeof(char));
@@ -136,6 +134,8 @@ it detects whether $ is inside double or single quotes
 it expands $VAR for normal state or if it is inside double quote
 and there is a variable. If there is no variable or
 it is inside the single quote it will not expand
+VAR cuts off at char that is not alphanumric or not an underscore.
+if quote is right after $ sign, the result is removing the $ sign.
 */
 void	toexpand(t_state *state, char **word)
 {
@@ -155,16 +155,8 @@ void	toexpand(t_state *state, char **word)
 		else if ((*word)[i] == '$')
 		{
 			if (!sq_flag && !dq_flag && (*word)[i + 1] != 0)
-				// not inside any quotes
-				// find variable to expand
-				// Variable cuts off at char that is not alphanumric or not an underscore.
-				// if quote is right after $ sign there will be no var
-				// and nothing to expand, just remove $ sign
 				i = expand(state, word, i, 0);
 			else if (dq_flag && (*word)[i + 1] != '\"')
-				// inside double quotes AND there is a VAR assigned after $
-				// for example "hello $ " or "hello $",
-				// will be ignored and kept in the word
 				i = expand(state, word, i, 0);
 		}
 		i++;
