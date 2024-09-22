@@ -54,10 +54,7 @@ char	*ft_get_exec_path(t_state *state, char **path_split, char *cmd)
 		ft_strlcat(path, "/", path_size);
 		ft_strlcat(path, cmd, path_size);
 		if (access(path, X_OK) == 0)
-		{
-			//printf("Path: %s\n", path);
 			return (path);
-		}
 		free(path);
 	}
 	return (NULL);
@@ -84,13 +81,9 @@ char	*get_path(t_state *data, char *cmd)
 	if (ft_strlen(cmd) == 0)
 		return (NULL);
 	env_path = ft_get_env_path(data->env);
-	//printf("path: %s", env_path);
 	if (!env_path)
 	{
-		// ERROR CORRECT ??? - WHAT TO DO HERE ???
-		write(2, "Error: PATH variable not found in envp\n", 40);
-		// freeing stuff ???
-		//free_close(pipex, 1, 1, 0);
+		write(2, " No such file or directory\n", 27);
 		return (NULL);
 	}
 	path_split = ft_split(env_path + 5, ':');
@@ -99,7 +92,6 @@ char	*get_path(t_state *data, char *cmd)
 	if (exec_path)
 		return (exec_path);
 	free(exec_path);
-	// ERROR CORRECT ??? - WHAT TO DO HERE ???
-	// write(2, "Error: Command not found??\n", 28);
+	write(2, " command not found\n", 19);
 	return (NULL);
 }

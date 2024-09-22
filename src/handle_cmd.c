@@ -95,10 +95,7 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 		if (curr->cmd)
 			curr->cmd_flag = PATH;
 		else
-		{
 			curr->err_flag = 127;
-			write(2, " command not found\n", 19); // delete space after
-		}
 	}
 }
 
