@@ -14,32 +14,6 @@
 
 int	g_signal = 0;
 
-void	sig_cli(t_state *state)
-{
-	/* printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay(); */
-	printf("WE GET HERE IF WE GET SIGINT ON THE COMMAND LINE\n");
-	state->exit_status = 130;
-	g_signal = 0;
-}
-
-void	sig_hd(t_state *state)
-{
-	printf("WE GET HERE IF WE GET SIGINT IN THE HEREDOC OR ON THE COMMAND LINE\n");
-	state->exit_status = 130;
-	g_signal = 0;
-}
-
-void	sig_exec(t_state *state)
-{
-	printf("WE GET HERE IF WE GET SIGINT DURING EXECUTION");
-	state->exit_status = 130;
-	//printf("exit status: %d\n", state->exit_status);
-	g_signal = 0;
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_state	state;
@@ -64,8 +38,8 @@ int	main(int argc, char **argv, char **envp)
 			printf("exit\n");
 			break ;
 		}
-		g_signal = 0;
 		add_history(state.input);
+		g_signal = 0;
 		setup_heredoc_signals_main();
 		if (input_handler(&state) == 0)
 		{
@@ -126,3 +100,29 @@ int	main(int argc, char **argv, char **envp)
 	}
 }*/
 /****************************************/
+
+/* void	sig_cli(t_state *state)
+{
+	//printf("\n");
+	//rl_on_new_line();
+	//rl_replace_line("", 0);
+	//rl_redisplay();
+	printf("WE GET HERE IF WE GET SIGINT ON THE COMMAND LINE\n");
+	state->exit_status = 130;
+	g_signal = 0;
+} */
+
+/* void	sig_hd(t_state *state)
+{
+	printf("WE GET HERE IF WE GET SIGINT IN THE HEREDOC OR ON THE COMMAND LINE\n");
+	state->exit_status = 130;
+	g_signal = 0;
+} */
+
+/* void	sig_exec(t_state *state)
+{
+	printf("WE GET HERE IF WE GET SIGINT DURING EXECUTION");
+	state->exit_status = 130;
+	//printf("exit status: %d\n", state->exit_status);
+	g_signal = 0;
+} */
