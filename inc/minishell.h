@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 19:17:35 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 19:21:54 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int		piping(t_state *state, int i);
 
 // input_carrots.c
 int		carroting(t_state *state, int start);
-void	carroting_errors(t_state *state, char c, int start);
+int	carroting_errors(t_state *state, char c, int start);
 
 
 // input_handler_utils.c
