@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 21:34:16 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 16:25:12 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 23:55:19 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,9 @@ void	cleanup_shell_exit(t_state *state)
 
 void	cleanup_shell(t_state *state)
 {
-	// ask for heredoc input
-
-	ft_lstclear(&(state->words), free); // free list of words
+	ft_lstclear(&(state->words), free);
 	ft_lstclear(&(state->cmds), free_nodes);
-	// free hd_content and others ???
-	free(state->input); // free input
+	free(state->input);
 	state->input = NULL;
 	free(state->pids);
 	state->pids = NULL;

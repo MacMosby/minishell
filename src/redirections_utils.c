@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 19:53:40 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/19 20:54:16 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 23:54:23 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ int	set_fd_out(t_node *curr, char *file, int append)
 returns 0 on sucess and 1 on error if what's left is an empty string*/
 int	filename_cut_spaces(char **filename)
 {
-	// need to test with filename that is one letter and with empty string filename, etc.
 	int	i;
 	int	len;
-
+	// need to test with filename that is one letter and with empty string filename, etc.
+	// check all, append, in, out, heredoc
 	i = 0;
 	while ((*filename)[i] == ' ')
 		i++;
