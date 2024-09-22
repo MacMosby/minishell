@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+         #
+#    By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/21 17:52:21 by wel-safa          #+#    #+#              #
-#    Updated: 2024/08/21 21:44:55 by wel-safa         ###   ########.fr        #
+#    Updated: 2024/09/22 19:16:30 by wel-safa         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ input_handler.c input_handler_utils.c expansion.c splitting.c quotes.c nodes.c \
 heredoc.c redirections.c redirections_utils.c list_manipulation.c get_path.c \
 handle_cmd.c executor.c executor_utils.c builtins.c signals_cli.c \
 signals_exec.c signals_heredoc.c ft_cd.c ft_echo.c ft_env.c ft_exit.c \
-ft_export.c ft_pwd.c ft_unset.c heredoc_utils.c executor_pipes.c)
+ft_export.c ft_pwd.c ft_unset.c heredoc_utils.c executor_pipes.c \
+input_carrots.c)
 #--- OBJECTS ---
 OBJS := $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 #--- HEADERS ---
