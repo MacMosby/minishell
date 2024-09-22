@@ -15,6 +15,8 @@
 /* creates a child process and executes the command */
 void	fork_executor(t_state *data, t_node *curr, int i)
 {
+	int	exit_status;
+
 	data->pids[i] = fork();
 	if (data->pids[i] == -1)
 		error_exit(data);
@@ -28,17 +30,23 @@ void	fork_executor(t_state *data, t_node *curr, int i)
 			if (curr->cmd_flag == PATH)
 			{
 				if (execve(curr->cmd, curr->args, data->env) == -1)
-					// EXIT HANDLE - do we need to clean the child process ?
+				{
+					cleanup_shell_exit(data);
 					exit(3);
+				}
 			}
 			else if (curr->cmd_flag == BUILTIN)
-				exit(invoke_builtin(data, curr));
+			{
+				exit_status = invoke_builtin(data, curr);
+				cleanup_shell_exit(data);
+				exit(exit_status);
+			}
 		}
 		else
 		{
-			int err_flag_cpy = curr->err_flag;
+			exit_status = curr->err_flag;
 			cleanup_shell_exit(data);
-			exit(err_flag_cpy);
+			exit(exit_status);
 		}
 	}
 }

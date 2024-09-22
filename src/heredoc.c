@@ -89,12 +89,10 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 	int		len_out;
 
 	if (pipe(fd) == -1)
-		// EXIT HANDLE
-		exit (1);
+		error_exit(state);
 	pid = fork();
 	if (pid == -1)
-		// EXIT HANDLE
-		exit (1);
+		error_exit(state);
 	if (pid == 0)
 	{
 		// CHILD PROCESS
@@ -108,6 +106,7 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 		close(fd[WRITE_END]);
 		//curr->content = ft_strdup(hd_input);
 		//printf("heredoc input: %s\n", hd_input);
+		cleanup_shell_exit(state);
 		exit (0);
 	}
 	else
