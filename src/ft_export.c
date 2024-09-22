@@ -140,8 +140,10 @@ int	ft_export(t_state *data, t_node *curr)
 {
 	int	i;
 	int	ret;
+	int	status;
 
 	ret = 0;
+	status = 0;
 	i = 1;
 	if (!curr->args[i])
 	{
@@ -151,9 +153,11 @@ int	ft_export(t_state *data, t_node *curr)
 	while (curr->args[i])
 	{
 		ret = do_export(data, curr->args[i]);
+		if (ret)
+			status = ret;
 		i++;
 	}
-	if (ret)
+	if (status)
 		write(2, " not a valid identifier\n", 24);
-	return (ret);
+	return (status);
 }
