@@ -69,21 +69,37 @@ void	print_export_line(char *s)
 	printf("\n");
 }
 
-int	ft_max_len(char *s1, char *s2)
+char	*find_min_export_line(char **env, char *min, char *last, int i)
 {
-	int	len1;
-	int	len2;
-
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	if (len1 > len2)
-		return (len1);
-	return (len2);
+	if (last)
+		min = NULL;
+	while (env[i])
+	{
+		if (!last)
+		{
+			if (ft_strncmp(min, env[i], ft_max_len(min, env[i])) > 0)
+				min = env[i];
+		}
+		else
+		{
+			if (ft_strncmp(env[i], last, ft_max_len(env[i], last)) > 0)
+			{
+				if (!min)
+					min = env[i];
+				else
+				{
+					if (ft_strncmp(min, env[i], ft_max_len(min, env[i])) > 0)
+						min = env[i];
+				}
+			}
+		}
+		i++;
+	}
+	return (min);
 }
 
 void	print_export_list(char **env)
 {
-	int		i;
 	int		j;
 	int		len;
 	char	*last;
@@ -99,31 +115,7 @@ void	print_export_list(char **env)
 		len++;
 	while (j < len)
 	{
-		if (last)
-			min = NULL;
-		i = 0;
-		while (env[i])
-		{
-			if (!last)
-			{
-				if (ft_strncmp(min, env[i], ft_max_len(min, env[i])) > 0)
-					min = env[i];
-			}
-			else
-			{
-				if (ft_strncmp(env[i], last, ft_max_len(env[i], last)) > 0)
-				{
-					if (!min)
-						min = env[i];
-					else
-					{
-						if (ft_strncmp(min, env[i], ft_max_len(min, env[i])) > 0)
-							min = env[i];
-					}
-				}
-			}
-			i++;
-		}
+		min = find_min_export_line(env, min, last, 0);
 		if (last && min)
 		{
 			if (!ft_strncmp(min, last, ft_max_len(min, last)))

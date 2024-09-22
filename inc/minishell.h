@@ -199,6 +199,9 @@ int		ft_exit(t_state *data, t_node *curr);
 int		do_export(t_state *data, char *s);
 int		ft_export(t_state *data, t_node *curr);
 
+// ft_export_utils.c
+int		ft_max_len(char *s1, char *s2);
+
 // ft_pwd.c
 int		ft_pwd(void);
 
