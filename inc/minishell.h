@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 18:25:06 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:50:50 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	error_exit(t_state *state);
 
 // input_handller.c
 int		input_handler(t_state *state);
+int		parsing(t_state *state, int i);
 int		carroting(t_state *state, int start);
 int		wording(t_state *state, int start);
 int		piping(t_state *state, int i);

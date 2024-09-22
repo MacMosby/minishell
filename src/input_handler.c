@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 18:41:06 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:59:05 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,28 @@
 
 int	input_handler(t_state *state)
 {
-	int		i;
+	if (parsing(state, 0) < 0)
+		return (-1);
+	nodes(state);
+	heredoc_in(state);
+	if (g_signal)
+		return (0);
+	redirections(state);
+	expansion(state);
+	splitting(state);
+	quotes(state);
+	cmd_loop(state);
+	return (0);
+}
 
+int	parsing(t_state *state, int i)
+{
 	if (!state)
 		return (-1);
 	if (!state->input)
 		return (-1);
 	if (ft_strlen(state->input) == 0)
 		return (-1);
-	i = 0;
 	while (state->input[i])
 	{
 		if (state->input[i] == ' ')
@@ -39,15 +52,6 @@ int	input_handler(t_state *state)
 			return (-1);
 		}
 	}
-	nodes(state);
-	heredoc_in(state);
-	if (g_signal)
-		return (0);
-	redirections(state);
-	expansion(state);
-	splitting(state);
-	quotes(state);
-	cmd_loop(state);
 	return (0);
 }
 
@@ -64,14 +68,17 @@ int	carroting(t_state *state, int start)
 	int		end;
 
 	carrots = carrotcount(state, start);
+	c = state->input[start];
 	if (carrots == 3)
 	{
-		write(2, " syntax error near unexpected token `>'\n", 40);
+		if (c == '>')
+			write(2, " syntax error near unexpected token `>'\n", 40);
+		else
+			write(2, " syntax error near unexpected token `<'\n", 40);
 		state->exit_status = 2;
 		return (-1);
 	}
 	create_word(state, start, start + carrots - 1);
-	c = state->input[start];
 	start = start + carrots;
 	while (state->input[start] == ' ')
 		start++;
@@ -139,20 +146,20 @@ int	piping(t_state *state, int i)
 	{
 		write(2, " syntax error near unexpected token `|'\n", 40);
 		state->exit_status = 2;
-		return (-1); // and cleanup
+		return (-1);
 	}
-	else if (state->input[j] == 0) // ends with pipe
+	else if (state->input[j] == 0)
 	{
 		write(2, " syntax error near unexpected token `|'\n", 40);
 		state->exit_status = 2;
-		return (-1); // syntax error
+		return (-1);
 	}
-	else if (state->input[j] == '|') // double pipe
+	else if (state->input[j] == '|')
 	{
 		write(2, " syntax error near unexpected token `|'\n", 40);
 		state->exit_status = 2;
-		return (-1); // syntax error
+		return (-1);
 	}
 	create_word(state, i, i);
-	return (j); // start of new word
+	return (j);
 }
