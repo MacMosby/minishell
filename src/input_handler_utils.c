@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 20:54:36 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 14:59:58 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:58:40 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	find_closed_quote(t_state *state, int i)
 	// unclosed quote detected
 	// error
 	// cleanup
-	write(2, "bash: syntax error unclosed quotes\n", 35);
+	write(2, "syntax error unclosed quotes\n", 35);
 	return (-2);
 }
 

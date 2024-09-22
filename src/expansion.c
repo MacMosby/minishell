@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 19:26:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/20 17:39:21 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 17:07:39 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	expand(t_state *state, char **word, int i, int hd_flag)
 
 	j = i + 1;
 	var = NULL;
+	rep = NULL;
 	// MARC START
 	// what if $? ??? --> var_letter returns 0 even though it should not
 	/* if (ft_strncmp("$?", *word, 2) == 0)
@@ -93,13 +94,14 @@ int	expand(t_state *state, char **word, int i, int hd_flag)
 	// MARC END
 	while ((*word)[j])
 	{
-		// MARC START
 		if ((*word)[j] == '?' && (j - i == 1))
 		{
-			*word = strreplace(word, ft_itoa(state->exit_status), i, j);
-			return (i - 1 + ft_strlen(ft_itoa(state->exit_status)));
+			rep = ft_itoa(state->exit_status);
+			*word = strreplace(word, rep, i, j);
+			len = ft_strlen(rep);
+			free(rep);
+			return (i - 1 + len);
 		}
-		// MARC END
 		if (ft_isdigit((*word)[j]) && (j - i == 1))
 		{
 			*word = strreplace(word, NULL, i, i + 1);

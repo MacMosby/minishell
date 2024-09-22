@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:45:10 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/09/22 16:21:36 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:51:45 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	free_pipes(t_state *data)
 	int	i;
 
 	i = 0;
+	if(!data->pipes)
+		return;
 	while (i < data->num_of_processes - 1)
 	{
 		free(data->pipes[i]);
