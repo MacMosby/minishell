@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 18:10:50 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/15 21:17:13 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:33:26 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,38 @@
 
 int	g_signal = 0;
 
+void	exec_minishell(t_state *state)
+{
+	setup_heredoc_signals_main();
+	if (input_handler(state) == 0)
+	{
+		setup_exec_signals();
+		executor(state);
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_state	state;
 
-	/********DELETE?*********/
-	argc = ft_strlen(argv[0]);
-	argc++;
-	/************************/
-	init_minishell(&state, envp);
+	init_minishell(&state, argc, argv, envp);
 	while (1)
 	{
 		/* if (g_signal)
 				state.exit_status = 128 + g_signal; */
 		g_signal = 0;
 		setup_cli_signals();
-		state.input = readline("minishell:~$ "); // display prompt
+		state.input = readline("minishell:~$ ");
 		if (g_signal)
 			state.exit_status = 128 + g_signal;
 		if (state.input == NULL)
 		{
-			// Ctl-D (EOF) handle
 			printf("exit\n");
 			break ;
 		}
 		add_history(state.input);
 		g_signal = 0;
-		setup_heredoc_signals_main();
-		if (input_handler(&state) == 0)
-		{
-			setup_exec_signals();
-			executor(&state);
-		}
+		exec_minishell(&state);
 		cleanup_shell(&state);
 	}
 	cleanup_shell_exit(&state);

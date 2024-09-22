@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:20:30 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/21 21:31:08 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:14:29 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	init_builtins(t_state *state)
 	state->builtins[7] = NULL;
 }
 
-void	init_minishell(t_state *state, char **envp)
+void	init_minishell(t_state *state, int argc, char **argv, char **envp)
 {
 	state->input = NULL;
 	state->exit_status = 0;
@@ -63,4 +63,5 @@ void	init_minishell(t_state *state, char **envp)
 	state->pids = NULL;
 	init_builtins(state);
 	set_env(state, envp);
+	argc = ft_strlen(argv[0]);
 }

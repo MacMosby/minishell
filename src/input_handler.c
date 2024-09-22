@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/15 21:20:54 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:41:06 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ int	carroting(t_state *state, int start)
 	}
 	end = find_word_end(state, start);
 	if (end < 0 || end < start)
-		return (-1); // unclosed quote or no word found
-	create_word(state, start, end); // create word or filename or delim as word
-	return (end + 1); // return index of next character
+		return (-1);
+	create_word(state, start, end);
+	return (end + 1);
 }
 
 /*takes start of word and finds end and creates word
@@ -115,8 +115,8 @@ int	wording(t_state *state, int start)
 	end = find_word_end(state, start);
 	if (end < 0)
 	{
-		// $?
-		return (-1); // unclosed quote
+		state->exit_status = 2;
+		return (-1);
 	}
 	create_word(state, start, end);
 	return (end + 1);
@@ -137,9 +137,7 @@ int	piping(t_state *state, int i)
 		j++;
 	if (state->words == NULL)
 	{
-		// starts with pipe
 		write(2, " syntax error near unexpected token `|'\n", 40);
-		// $? -> 2
 		state->exit_status = 2;
 		return (-1); // and cleanup
 	}

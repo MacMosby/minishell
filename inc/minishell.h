@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 16:29:22 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:25:06 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*create_new_var(t_state *state, char *var, char *value);
 char	*find_var_value(t_state *state, char *var);
 
 // initialize.c
-void	init_minishell(t_state *state, char **envp);
+void	init_minishell(t_state *state, int ac, char **av, char **envp);
 void	init_pipes(t_state *data, int i);
 void	init_pids(t_state *data);
 
