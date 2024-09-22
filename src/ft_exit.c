@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrodenbu <mrodenbu@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 14:45:06 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/09/20 14:45:08 by mrodenbu         ###   ########.fr       */
+/*   Updated: 2024/09/22 15:36:47 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,11 @@ int	ft_is_num(char *s)
 
 int	ft_exit(t_state *data, t_node *curr)
 {
-	if (data->num_of_processes == 1 && !curr->args[2])
-		printf("exit\n");
 	if (curr->args[1] && !curr->args[2])
 	{
 		if (ft_is_num(curr->args[1]))
 			exit(ft_atoi(curr->args[1]));
+		printf("exit\n");
 		write(2, " numeric argument required\n", 27);
 		cleanup_shell_exit(data);
 		exit (2);
@@ -45,6 +44,7 @@ int	ft_exit(t_state *data, t_node *curr)
 		write(2, " too many arguments\n", 20);
 		return (1);
 	}
+	printf("exit\n");
 	cleanup_shell_exit(data);
 	exit(data->exit_status);
 }

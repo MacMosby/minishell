@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/15 20:51:46 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 15:05:20 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # define READ_END 0
 # define WRITE_END 1
 
-# define CMD_ERR 1
 # define CMD_OK 0
 
 # define PATH 2

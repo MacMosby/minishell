@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nodes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:19:55 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/20 23:10:06 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 15:05:42 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_node	*initialize_node(t_state *state)
 	node->args = NULL;
 	node->cmd = NULL;
 	node->cmd_flag = NO_CMD;
-	node->err_flag = 0;
+	node->err_flag = CMD_OK;
 	node->fd_in = STDIN_FILENO;
 	node->fd_out = STDOUT_FILENO;
 	node->hd_content = NULL;

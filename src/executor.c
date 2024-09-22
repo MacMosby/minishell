@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:25:02 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/09/14 21:38:59 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 15:31:18 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	fork_executor(t_state *data, t_node *curr, int i)
 	{
 		redirect_in_out(data, curr, i);
 		close_pipes(data);
+		// free things
 		if (curr->err_flag == CMD_OK && curr->cmd)
 		{
 			if (curr->cmd_flag == PATH)
@@ -34,7 +35,11 @@ void	fork_executor(t_state *data, t_node *curr, int i)
 				exit(invoke_builtin(data, curr));
 		}
 		else
-			exit(curr->err_flag);
+		{
+			int err_flag_cpy = curr->err_flag;
+			cleanup_shell_exit(data);
+			exit(err_flag_cpy);
+		}
 	}
 }
 
