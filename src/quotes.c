@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:42:36 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/08/20 23:36:17 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:29:32 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	removequotes(char **word)
 			j = find_end_quote(*word, i);
 			*word = strreplace(word, NULL, i, i);
 			*word = strreplace(word, NULL, j - 1, j - 1);
-			i = j - 2; // start from end of word after removing quotes
+			i = j - 2;
 		}
 		i++;
 	}

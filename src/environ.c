@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 18:16:26 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/20 17:52:36 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:59:43 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@ void	set_env(t_state *state, char **envp)
 {
 	state->env = copy_env(state, envp, 0);
 
-	/*********************TO DO**********************/
-	// check essential environment variables
-	// if they do not exit, create essential ones
-	// essential ones: PATH, HOME, SHELL, USER ???
-	/************************************************/
 }
 
 /*Returns a exact malloced copy of env if add_flag is false.
@@ -33,7 +28,7 @@ char	**copy_env(t_state *state, char **env, int add_flag)
 	int		count;
 	char	**env_copy;
 	int		i;
-	int		j;	// heredoc
+	int		j;
 	char	*shlvl;
 
 	j = 0;
