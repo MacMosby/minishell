@@ -19,23 +19,14 @@ void	init_pipes(t_state *data, int i)
 		return ;
 	data->pipes = (int **)malloc((data->num_of_processes - 1) * sizeof(int *));
 	if (!data->pipes)
-	{
-		cleanup_shell_exit(data);
-		exit(1);
-	}
+		error_exit(data);
 	while (i < data->num_of_processes - 1)
 	{
 		data->pipes[i] = (int *)malloc(2 * sizeof(int));
 		if (!data->pipes[i])
-		{
-			cleanup_shell_exit(data);
-			exit(1);
-		}
+			error_exit(data);
 		if (pipe(data->pipes[i]) == -1)
-		{
-			cleanup_shell_exit(data);
-			exit(1);
-		}
+			error_exit(data);
 		i++;
 	}
 }
@@ -45,10 +36,7 @@ void	init_pids(t_state *data)
 {
 	data->pids = (int *)malloc(data->num_of_processes * sizeof(int));
 	if (!data->pids)
-	{
-		cleanup_shell_exit(data);
-		exit(1);
-	}
+		error_exit(data);
 }
 
 void	init_builtins(t_state *state)

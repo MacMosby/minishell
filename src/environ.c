@@ -46,10 +46,7 @@ char	**copy_env(t_state *state, char **env, int add_flag)
 		count++;
 	env_copy = (char **)malloc((count + 1 + j) * sizeof(char *));
 	if (!env_copy)
-	{
-		cleanup_shell_exit(state);
-		exit(1);
-	}
+		error_exit(state);
 	while (i < count)
 	{
 		env_copy[i] = ft_strdup(env[i]);
@@ -156,10 +153,7 @@ char	*create_new_var(t_state *state, char *var, char *value)
 		value_len = ft_strlen(value);
 	env_var = (char *)malloc(sizeof(char) * (var_len + value_len + 2));
 	if (!env_var)
-	{
-		cleanup_shell_exit(state);
-		exit(1);
-	}
+		error_exit(state);
 	ft_memcpy(env_var, var, var_len);
 	ft_memcpy(env_var + var_len, "=", 1);
 	if (value)

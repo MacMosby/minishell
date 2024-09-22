@@ -49,10 +49,7 @@ char	*ft_get_exec_path(t_state *state, char **path_split, char *cmd)
 		path_size = ft_strlen(path_split[i]) + ft_strlen(cmd) + 2;
 		path = (char *)ft_calloc(sizeof(char), path_size);
 		if (!path)
-		{
-			cleanup_shell_exit(state);
-			exit(1);
-		}
+			error_exit(state);
 		ft_strlcat(path, path_split[i], path_size);
 		ft_strlcat(path, "/", path_size);
 		ft_strlcat(path, cmd, path_size);

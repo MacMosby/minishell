@@ -20,6 +20,13 @@
 ...
 ....
 */
+
+void	error_exit(t_state *state)
+{
+	cleanup_shell_exit(state);
+	exit(1);
+}
+
 void	cleanup_shell_exit(t_state *state)
 {
 	cleanup_shell(state);

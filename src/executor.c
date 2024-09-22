@@ -17,10 +17,7 @@ void	fork_executor(t_state *data, t_node *curr, int i)
 {
 	data->pids[i] = fork();
 	if (data->pids[i] == -1)
-	{
-		cleanup_shell_exit(data);
-		exit(1);
-	}
+		error_exit(data);
 	if (data->pids[i] == 0)
 	{
 		redirect_in_out(data, curr, i);

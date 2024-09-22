@@ -86,6 +86,7 @@ void	cleanup_shell(t_state *shell);
 void	cleanup_shell_exit(t_state *state);
 void	free_nodes(void *node);
 void	free_strarr(char **strarr);
+void	error_exit(t_state *state);
 
 // input_handller.c
 int		input_handler(t_state *state);

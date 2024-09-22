@@ -32,10 +32,7 @@ void	redirect_in_out(t_state *data, t_node *curr, int i)
 		if (curr->fd_in == -1)
 		{
 			if (pipe(fd) == -1)
-			{
-				cleanup_shell_exit(data);
-				exit(1);
-			}
+				error_exit(data);
 			write(fd[WRITE_END], curr->hd_content, ft_strlen(curr->hd_content));
 			dup2(fd[READ_END], STDIN_FILENO);
 			close(fd[WRITE_END]);

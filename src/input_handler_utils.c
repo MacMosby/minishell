@@ -98,16 +98,10 @@ void	create_word(t_state *state, int start, int end)
 	// creating new word
 	newword = (t_list *)malloc(sizeof(t_list));
 	if (!newword)
-	{
-		cleanup_shell_exit(state);
-		exit (1);
-	}
+		error_exit(state);
 	newword->content = (char *)malloc((end - start + 2) * sizeof(char));
 	if (!newword->content)
-	{
-		cleanup_shell_exit(state);
-		exit(1);
-	}
+		error_exit(state);
 	ft_strlcpy(newword->content, state->input + start, end - start + 2);
 	//printf("%s\n", (char *)(newword->content));
 	newword->next = NULL;

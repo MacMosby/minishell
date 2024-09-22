@@ -29,10 +29,7 @@ char	**copy_env_unset(t_state *state, char **env)
 		count++;
 	env_copy = (char **)malloc((count + 1 - 1) * sizeof(char *));
 	if (!env_copy)
-	{
-		cleanup_shell_exit(state);
-		exit(1);
-	}
+		error_exit(state);
 	while (i < count)
 	{
 		if (env[i])

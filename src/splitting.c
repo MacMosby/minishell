@@ -25,16 +25,10 @@ void	split_words_create(t_state *state, int s, int e, char **word, t_list **neww
 		return ;
 	newword = (t_list *)malloc(sizeof(t_list));
 	if (!newword)
-	{
-		cleanup_shell_exit(state);
-		exit(1);
-	}
+		error_exit(state);
 	newword->content = (char *)malloc((e - s + 2) * sizeof(char));
 	if (!newword->content)
-	{
-		cleanup_shell_exit(state);
-		exit(1);
-	}
+		error_exit(state);
 	ft_strlcpy(newword->content, *word + s, e - s + 2);
 	newword->next = NULL;
 	ft_lstadd_back(newwordlist, newword);

@@ -34,10 +34,7 @@ void	wordlist_to_cmdarr(t_state *state, t_node *cmd)
 		count = ft_lstsize(cmd->words);
 	arr = (char **)malloc((count + 1) * sizeof(char *));
 	if (!arr)
-	{
-		cleanup_shell_exit(state);
-		exit(1);
-	}
+		error_exit(state);
 	curr = cmd->words;
 	i = 0;
 	while (i < count)

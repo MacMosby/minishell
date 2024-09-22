@@ -114,10 +114,7 @@ int	expand(t_state *state, char **word, int i, int hd_flag)
 	{
 		var = (char *)malloc((len + 1) * sizeof(char));
 		if (!var)
-		{
-			cleanup_shell_exit(state);
-			exit(1);
-		}
+			error_exit(state);
 		// copy var from word.
 		ft_memcpy(var, (*word) + i + 1, len);
 		var[len] = '\0';

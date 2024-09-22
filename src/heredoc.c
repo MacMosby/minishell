@@ -127,10 +127,7 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 			read(fd[READ_END], &len_out, sizeof(int));
 			hd_output = malloc(len_out * sizeof(char));
 			if (!hd_output)
-			{
-				cleanup_shell_exit(state);
-				exit(1);
-			}
+				error_exit(state);
 			if (read(fd[READ_END], hd_output, len_out * sizeof(char)) < 0)
 				printf("read function fails\n");
 			close(fd[READ_END]);
