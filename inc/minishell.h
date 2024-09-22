@@ -201,7 +201,7 @@ int		ft_export(t_state *data, t_node *curr);
 int		ft_pwd(void);
 
 // ft_unset.c
-char	**copy_env_unset(t_state *state, char **env);
+char	**copy_env_unset(t_state *state, char **env, int count);
 int		ft_unset(t_state *data, t_node *curr);
 
 // signals_cli.c

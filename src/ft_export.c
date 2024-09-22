@@ -64,6 +64,8 @@ void	print_export_line(char *s)
 	{
 		printf("=\"%s\"", value);
 	}
+	free(key);
+	free(value);
 	printf("\n");
 }
 
