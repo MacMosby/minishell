@@ -164,13 +164,15 @@ void	ft_free_splits(char **splits);
 void	executor(t_state *data);
 void	execution_loop(t_state *data);
 void	fork_executor(t_state *data, t_node *curr, int i);
-void	wait_loop(t_state *data);
 
 // executor_utils.c
-void	free_pipes(t_state *data);
 void	redirect_to_pipes(t_state *data, int i);
-void	close_pipes(t_state *data);
 void	redirect_in_out(t_state *data, t_node *curr, int i);
+void	wait_loop(t_state *data);
+
+// executor_pipes.c
+void	free_pipes(t_state *data);
+void	close_pipes(t_state *data);
 
 // builtins.c
 int		invoke_builtin(t_state *data, t_node *curr);

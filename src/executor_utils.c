@@ -47,22 +47,6 @@ void	redirect_in_out(t_state *data, t_node *curr, int i)
 	redirect_output(curr);
 }
 
-void	free_pipes(t_state *data)
-{
-	int	i;
-
-	i = 0;
-	if (!data->pipes)
-		return ;
-	while (i < data->num_of_processes - 1)
-	{
-		free(data->pipes[i]);
-		i++;
-	}
-	free(data->pipes);
-	data->pipes = NULL;
-}
-
 /* creates the redirections to pipes before looking for infiles/outfiles */
 void	redirect_to_pipes(t_state *data, int i)
 {
@@ -76,16 +60,20 @@ void	redirect_to_pipes(t_state *data, int i)
 	}
 }
 
-/* iterates over the pipes and closes them */
-void	close_pipes(t_state *data)
+/* iterates over PIDs to wait for all the child processes to finish */
+void	wait_loop(t_state *data)
 {
 	int	i;
+	int	wstatus;
 
 	i = 0;
-	while (i < data->num_of_processes - 1)
+	while (i < data->num_of_processes)
 	{
-		close(data->pipes[i][READ_END]);
-		close(data->pipes[i][WRITE_END]);
+		waitpid(data->pids[i], &wstatus, 0);
+		if (WIFEXITED(wstatus))
+			data->exit_status = WEXITSTATUS(wstatus);
+		else
+			data->exit_status = 128 + g_signal;
 		i++;
 	}
 }

@@ -12,6 +12,26 @@
 
 #include "minishell.h"
 
+void	do_cmd_execution(t_state *state, t_node *curr)
+{
+	int	exit_status;
+
+	if (curr->cmd_flag == PATH)
+	{
+		if (execve(curr->cmd, curr->args, state->env) == -1)
+		{
+			cleanup_shell_exit(state);
+			exit(3);
+		}
+	}
+	else if (curr->cmd_flag == BUILTIN)
+	{
+		exit_status = invoke_builtin(state, curr);
+		cleanup_shell_exit(state);
+		exit(exit_status);
+	}
+}
+
 /* creates a child process and executes the command */
 void	fork_executor(t_state *data, t_node *curr, int i)
 {
@@ -24,24 +44,8 @@ void	fork_executor(t_state *data, t_node *curr, int i)
 	{
 		redirect_in_out(data, curr, i);
 		close_pipes(data);
-		// free things
 		if (curr->err_flag == CMD_OK && curr->cmd)
-		{
-			if (curr->cmd_flag == PATH)
-			{
-				if (execve(curr->cmd, curr->args, data->env) == -1)
-				{
-					cleanup_shell_exit(data);
-					exit(3);
-				}
-			}
-			else if (curr->cmd_flag == BUILTIN)
-			{
-				exit_status = invoke_builtin(data, curr);
-				cleanup_shell_exit(data);
-				exit(exit_status);
-			}
-		}
+			do_cmd_execution(data, curr);
 		else
 		{
 			exit_status = curr->err_flag;
@@ -66,33 +70,6 @@ void	execution_loop(t_state *data)
 		i++;
 	}
 	close_pipes(data);
-}
-
-/* iterates over PIDs to wait for all the child processes to finish */
-void	wait_loop(t_state *data)
-{
-	int	i;
-	int	wstatus;
-
-	i = 0;
-	while (i < data->num_of_processes)
-	{
-		if (waitpid(data->pids[i], &wstatus, 0) == -1)
-		{
-			// ???
-			printf("We should never get here!!!\n");
-			/* if (g_signal)
-				data->exit_status = 128 + g_signal; */
-		}
-		else
-		{
-			if (WIFEXITED(wstatus))
-				data->exit_status = WEXITSTATUS(wstatus);
-			else
-				data->exit_status = 128 + g_signal;
-		}
-		i++;
-	}
 }
 
 void	execute_single_builtin(t_state *state, t_node *cmd)
