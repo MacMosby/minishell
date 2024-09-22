@@ -84,8 +84,6 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 	int		pid;
 	int		wstatus;
 	char	*hd_output;
-	char	*hd_input;
-	int		len_in;
 	int		len_out;
 
 	if (pipe(fd) == -1)
@@ -97,14 +95,14 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 	{
 		// CHILD PROCESS
 		setup_heredoc_signals_child();
-		hd_input = NULL;
-		hd_input = ft_here_doc(state, curr);
-		len_in = ft_strlen(hd_input) + 1;
+		hd_output = NULL;
+		hd_output = ft_here_doc(state, curr);
+		len_out = ft_strlen(hd_output) + 1;
 		close(fd[READ_END]);
-		write(fd[WRITE_END], &len_in, sizeof(int));
-		write(fd[WRITE_END], hd_input, len_in);
+		write(fd[WRITE_END], &len_out, sizeof(int));
+		write(fd[WRITE_END], hd_output, len_out);
 		close(fd[WRITE_END]);
-		free(hd_input);
+		free(hd_output);
 		//curr->content = ft_strdup(hd_input);
 		//printf("heredoc input: %s\n", hd_input);
 		cleanup_shell_exit(state);
