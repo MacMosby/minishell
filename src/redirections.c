@@ -92,21 +92,22 @@ void	cmd_redirections(t_state *state, t_list *cmd)
 			if (cmd_node->fd_in > 0)
 				close(cmd_node->fd_in);
 			cmd_node->fd_in = -1;
+			word = word->next;
 		}
 		else if (carrots)
 		{
 			if (set_fds(state, cmd_node, carrots, (char **) &(word->next->content)))
 				break ;
+			word = word->next;
 		}
-		word = word->next;
 		if (word)
 			word = word->next;
 	}
 }
 
-/*takes t_state ptr variable and iterates over commands and calls
-cmd_redirections function on each. Then it iterates over commands again to
-delete redirection words from list of words in each command node*/
+/*takes t_state ptr variable and iterates over commands and calls cmd_redirections
+function on each. Then it iterates over commands again to delete redirection words
+from list of words in each command node*/
 void	redirections(t_state *state) // should it be int to return error?
 {
 	t_list	*cmd;
