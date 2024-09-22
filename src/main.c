@@ -31,9 +31,6 @@ int	main(int argc, char **argv, char **envp)
 	init_minishell(&state, argc, argv, envp);
 	while (1)
 	{
-		/* if (g_signal)
-				state.exit_status = 128 + g_signal; */
-		g_signal = 0;
 		setup_cli_signals();
 		state.input = readline("minishell:~$ ");
 		if (g_signal)
@@ -44,7 +41,6 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		add_history(state.input);
-		g_signal = 0;
 		exec_minishell(&state);
 		cleanup_shell(&state);
 	}

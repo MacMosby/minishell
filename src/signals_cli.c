@@ -28,6 +28,7 @@ void	setup_cli_signals(void)
 	struct sigaction	sa_cli_sigint;
 	struct sigaction	sa_cli_sigquit;
 
+	g_signal = 0;
 	sa_cli_sigint.sa_handler = &handle_sigint_cli;
 	sa_cli_sigint.sa_flags = 0;
 	sigemptyset(&sa_cli_sigint.sa_mask);

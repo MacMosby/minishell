@@ -30,6 +30,7 @@ void	setup_heredoc_signals_main(void)
 {
 	struct sigaction	sa_hd_sigint_main;
 
+	g_signal = 0;
 	sa_hd_sigint_main.sa_handler = &handle_sigint_hd_main;
 	sa_hd_sigint_main.sa_flags = 0;
 	sigemptyset(&sa_hd_sigint_main.sa_mask);

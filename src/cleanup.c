@@ -39,7 +39,7 @@ void	cleanup_shell(t_state *state)
 {
 	// ask for heredoc input
 
-	ft_lstclear(&(state->words), free);	// free list of words
+	ft_lstclear(&(state->words), free); // free list of words
 	ft_lstclear(&(state->cmds), free_nodes);
 	// free hd_content and others ???
 	free(state->input); // free input
