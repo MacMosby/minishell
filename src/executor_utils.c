@@ -52,8 +52,8 @@ void	free_pipes(t_state *data)
 	int	i;
 
 	i = 0;
-	if(!data->pipes)
-		return;
+	if (!data->pipes)
+		return ;
 	while (i < data->num_of_processes - 1)
 	{
 		free(data->pipes[i]);

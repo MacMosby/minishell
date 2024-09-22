@@ -49,6 +49,34 @@ int	check_for_dir(char *str)
 	return (0);
 }
 
+void	handle_path(t_node *curr, char *str)
+{
+	if (access(str, F_OK) == 0) //if it exists
+	{
+		if (check_for_dir(str)) // If it is a directory
+		{
+			curr->err_flag = 126;
+			errno = EISDIR;
+			perror(" "); // delete space here
+		}
+		else if (access(str, X_OK) == 0) // it is an executable file
+		{
+			curr->cmd = ft_strdup(str);
+			curr->cmd_flag = PATH;
+		}
+		else
+		{
+			curr->err_flag = 126;
+			perror(" ");
+		}
+	}
+	else
+	{
+		curr->err_flag = 127;
+		perror(" ");
+	}
+}
+
 void	handle_cmd(t_state *data, t_node *curr, char *str)
 {
 	if (!str)
@@ -59,36 +87,7 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 		curr->cmd_flag = BUILTIN;
 	}
 	else if (ft_strchr(str, '/')) // if it is a path
-	{
-		if (access(str, F_OK) == 0) //if it exists
-		{
-			if (check_for_dir(str)) // If it is a directory
-			{
-				curr->err_flag = 126;
-				errno = EISDIR;
-				perror(" "); // delete space here
-				//data->exit_status = 126;
-			}
-			else if (access(str, X_OK) == 0) // it is an executable file
-			{
-				curr->cmd = ft_strdup(str);
-				curr->cmd_flag = PATH;
-				//printf("we are here!!!!\n");
-			}
-			else
-			{
-				// exit status has to be 126
-				curr->err_flag = 126;
-				perror(" ");
-				//data->exit_status = 126;
-			}
-		}
-		else
-		{
-			curr->err_flag = 127;
-			perror(" ");
-		}
-	}
+		handle_path(curr, str);
 	else
 	{
 		// search for command in environment
@@ -97,10 +96,8 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 			curr->cmd_flag = PATH;
 		else
 		{
-			// exit status has to be 127 -
 			curr->err_flag = 127;
 			write(2, " command not found\n", 19); // delete space after
-			//data->exit_status = 127;
 		}
 	}
 }

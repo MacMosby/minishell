@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-
-
 /* takes a list object word and its content as the delimiter to the here_doc
 implementation which takes several lines of input from the user until a line
 is exactly the same as the delimiter and replaces the word content in the list
@@ -27,18 +25,13 @@ char	*ft_here_doc(t_state *state, t_list *word)
 	full_line = NULL;
 	delim = word->content;
 	tmp_line = readline(">");
-	// MARC START
 	if (tmp_line == NULL)
 	{
-		// Ctl-D (EOF) handle
-		printf("TEST TEST HD\n");
-		//return ;
 		full_line = ft_join_free(state, full_line, ft_strdup(""), 0);
 		free(word->content);
 		word->content = NULL;
 		return (full_line);
 	}
-	// MARC END
 	while (ft_strncmp(tmp_line, delim, ft_strlen(delim)))
 	{
 		if (full_line)
@@ -49,19 +42,14 @@ char	*ft_here_doc(t_state *state, t_list *word)
 			full_line = ft_strdup("");
 		full_line = ft_join_free(state, full_line, tmp_line, 0);
 		tmp_line = readline(">");
-		// MARC START
 		if (tmp_line == NULL)
 		{
-			// Ctl-D (EOF) handle
-			printf("ctrl-D in HD\n");
-			//return ;
 			full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0);
 			free(word->content);
 			word->content = NULL;
 			free(tmp_line);
 			return (full_line);
 		}
-		// MARC END
 	}
 	if (!full_line)
 	{
@@ -74,7 +62,6 @@ char	*ft_here_doc(t_state *state, t_list *word)
 	free(word->content);
 	word->content = NULL;
 	free(tmp_line);
-	//word->content = full_line;
 	return (full_line);
 }
 
@@ -93,7 +80,6 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 		error_exit(state);
 	if (pid == 0)
 	{
-		// CHILD PROCESS
 		setup_heredoc_signals_child();
 		hd_output = NULL;
 		hd_output = ft_here_doc(state, curr);
@@ -103,18 +89,14 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 		write(fd[WRITE_END], hd_output, len_out);
 		close(fd[WRITE_END]);
 		free(hd_output);
-		//curr->content = ft_strdup(hd_input);
-		//printf("heredoc input: %s\n", hd_input);
 		cleanup_shell_exit(state);
 		exit (0);
 	}
 	else
 	{
-		// PARENT PROCESS
 		close(fd[WRITE_END]);
 		waitpid(pid, &wstatus, 0);
 		//if (waitpid(pid, &wstatus, 0) == -1)
-			// what to do if waitpid fails ???
 			//printf("What to do if waitpid for hd child fails?\n");
 		if (g_signal)
 			cmd->err_flag = 128 + g_signal;
@@ -152,7 +134,6 @@ void	get_heredoc_input(t_state *state, t_node *cmd_content, t_list *words)
 	{
 		if (ft_strncmp(curr->content, "<<", 2) == 0)
 		{
-			// what if "<<" is the last word ?
 			curr = curr->next;
 			if (curr)
 			{
@@ -171,7 +152,6 @@ void	get_heredoc_input(t_state *state, t_node *cmd_content, t_list *words)
 				}
 				removequotes((char **) &(curr->content));
 				fork_for_heredoc(state, cmd_content, curr);
-				//ft_here_doc(curr);
 			}
 			else
 				return ;
@@ -187,14 +167,10 @@ void	heredoc_in(t_state *state)
 {
 	t_list	*cmd;
 	t_node	*cmd_content;
-	//int		pid;
-	//int		wstatus;
 
 	cmd = state->cmds;
-	// MARC START
 	if (!cmd)
 		return ;
-	// MARC END
 	// is the next line necessary? three lines later we do the same!?
 	cmd_content = (t_node *) cmd->content;
 	while (cmd)
