@@ -118,7 +118,7 @@ void	cmd_loop(t_state *state)
 		else
 			str = NULL;
 		handle_cmd(state, (t_node *)cmd->content, str);
-		wordlist_to_cmdarr((t_node *)cmd->content);
+		wordlist_to_cmdarr(state, (t_node *)cmd->content);
 		cmd = cmd->next;
 	}
 	state->num_of_processes = ft_lstsize(state->cmds);

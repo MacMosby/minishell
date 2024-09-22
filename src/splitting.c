@@ -16,7 +16,7 @@
 string pointer word and t_list double pointer newwordlist
 it creates new word from index s to e of char **word
 and adds it to newwordlist*/
-void	split_words_create(int s, int e, char **word, t_list **newwordlist)
+void	split_words_create(t_state *state, int s, int e, char **word, t_list **newwordlist)
 {
 	t_list	*newword;
 
@@ -24,16 +24,17 @@ void	split_words_create(int s, int e, char **word, t_list **newwordlist)
 		// happens when space at beginning or end of word
 		return ;
 	newword = (t_list *)malloc(sizeof(t_list));
-	if (newword == NULL)
+	if (!newword)
 	{
-		// cleanup_shell(state);
-		// malloc protection
+		cleanup_shell_exit(state);
 		exit(1);
 	}
 	newword->content = (char *)malloc((e - s + 2) * sizeof(char));
-	if (newword->content == NULL)
-		// malloc protection
+	if (!newword->content)
+	{
+		cleanup_shell_exit(state);
 		exit(1);
+	}
 	ft_strlcpy(newword->content, *word + s, e - s + 2);
 	newword->next = NULL;
 	ft_lstadd_back(newwordlist, newword);
@@ -45,7 +46,7 @@ adds them to list newwordlist
 if space is at beginning or end of word,
 it will return a list of one word removing the space
 */
-void	split_words(char **word, t_list **newwordlist)
+void	split_words(t_state *state, char **word, t_list **newwordlist)
 {
 	int		sq_flag;
 	int		dq_flag;
@@ -62,8 +63,8 @@ void	split_words(char **word, t_list **newwordlist)
 			dq_flag = !dq_flag;
 		if ((*word)[i] == ' ' && !sq_flag && !dq_flag)
 		{
-			split_words_create(0, i - 1, word, newwordlist);
-			split_words_create(i + 1, ((int)ft_strlen(*word)) - 1, word, newwordlist);
+			split_words_create(state, 0, i - 1, word, newwordlist);
+			split_words_create(state, i + 1, ((int)ft_strlen(*word)) - 1, word, newwordlist);
 			break ;
 		}
 		i++;
@@ -75,7 +76,7 @@ if it finds a word with space not inside quotes, it splits into two words,
 and inserts new list of two words
 in place of the one word in the t_list words in t_node cmd_content,
 it then loops again on second replaced word*/
-void	splitting_cmd_words(t_node *cmd_content)
+void	splitting_cmd_words(t_state *state, t_node *cmd_content)
 {
 	//printf("\nsplitting...\n");
 	t_list	*word;
@@ -90,7 +91,7 @@ void	splitting_cmd_words(t_node *cmd_content)
 	{
 		after = word->next;
 		newwordlist = NULL;
-		split_words((char **) &(word->content), &newwordlist);
+		split_words(state, (char **) &(word->content), &newwordlist);
 		if (newwordlist)
 		{
 			if (before)
@@ -121,7 +122,7 @@ void	splitting(t_state *state)
 	cmd = state->cmds;
 	while (cmd)
 	{
-		splitting_cmd_words((t_node *)(cmd->content));
+		splitting_cmd_words(state, (t_node *)(cmd->content));
 		cmd = cmd->next;
 	}
 }

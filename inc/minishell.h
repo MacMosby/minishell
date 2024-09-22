@@ -71,9 +71,9 @@ extern int	g_signal;
 
 // environ.c
 void	set_env(t_state *state, char **envp);
-char	**copy_env(char **env, int add_flag);
+char	**copy_env(t_state *state, char **env, int add_flag);
 void	set_env_var(t_state *shell, char *var, char *value, int equal);
-char	*create_new_var(char *var, char *value);
+char	*create_new_var(t_state *state, char *var, char *value);
 char	*find_var_value(t_state *state, char *var);
 
 // initialize.c
@@ -104,12 +104,12 @@ void	nodes(t_state *state);
 
 // heredoc.c
 void	heredoc_in(t_state *state);
-void	get_heredoc_input(t_node *cmd_content, t_list *words);
-char	*ft_here_doc(t_list *word);
+void	get_heredoc_input(t_state *state, t_node *cmd_content, t_list *words);
+char	*ft_here_doc(t_state *state, t_list *word);
 void	heredoc_expansions(t_state *state, char **hd_content);
 
 // heredoc_utils.c
-char	*ft_join_free(char *s1, char *s2, size_t i, size_t j);
+char	*ft_join_free(t_state *state, char *s1, char *s2, size_t i, size_t j);
 
 // expansion.c
 void	expansion(t_state *state);
@@ -141,7 +141,7 @@ int		set_fd_out(t_node *curr, char *file, int append);
 int		set_fd_in(t_state *state, t_node *curr, char *file);
 
 // list_manipulation.c
-void	wordlist_to_cmdarr(t_node *cmd);
+void	wordlist_to_cmdarr(t_state *state, t_node *cmd);
 void	delete_redirections(t_list **words);
 
 // handle_cmd.c
@@ -152,7 +152,7 @@ int		check_for_builtin(char *cmd, char **builtins);
 
 // get_path.c
 char	*get_path(t_state *data, char *cmd);
-char	*ft_get_exec_path(char **path_split, char *cmd);
+char	*ft_get_exec_path(t_state *state, char **path_split, char *cmd);
 char	*ft_get_env_path(char **env);
 void	ft_free_splits(char **splits);
 
@@ -192,7 +192,7 @@ int		ft_export(t_state *data, t_node *curr);
 int		ft_pwd(void);
 
 // ft_unset.c
-char	**copy_env_unset(char **env);
+char	**copy_env_unset(t_state *state, char **env);
 int		ft_unset(t_state *data, t_node *curr);
 
 // MARC START

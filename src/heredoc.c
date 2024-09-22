@@ -18,7 +18,7 @@
 implementation which takes several lines of input from the user until a line
 is exactly the same as the delimiter and replaces the word content in the list
 with the user input exluding the delimiter */
-char	*ft_here_doc(t_list *word)
+char	*ft_here_doc(t_state *state, t_list *word)
 {
 	char	*delim;
 	char	*tmp_line;
@@ -33,7 +33,7 @@ char	*ft_here_doc(t_list *word)
 		// Ctl-D (EOF) handle
 		printf("TEST TEST HD\n");
 		//return ;
-		full_line = ft_join_free(full_line, ft_strdup(""), 0 , 0);
+		full_line = ft_join_free(state, full_line, ft_strdup(""), 0 , 0);
 		free(word->content);
 		word->content = NULL;
 		return (full_line);
@@ -43,11 +43,11 @@ char	*ft_here_doc(t_list *word)
 	{
 		if (full_line)
 		{
-			tmp_line = ft_join_free(ft_strdup("\n"), tmp_line, 0, 0);
+			tmp_line = ft_join_free(state, ft_strdup("\n"), tmp_line, 0, 0);
 		}
 		else
 			full_line = ft_strdup("");
-		full_line = ft_join_free(full_line, tmp_line, 0, 0);
+		full_line = ft_join_free(state, full_line, tmp_line, 0, 0);
 		tmp_line = readline(">");
 		// MARC START
 		if (tmp_line == NULL)
@@ -55,7 +55,7 @@ char	*ft_here_doc(t_list *word)
 			// Ctl-D (EOF) handle
 			printf("ctrl-D in HD\n");
 			//return ;
-			full_line = ft_join_free(full_line, ft_strdup("\n"), 0, 0);
+			full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0, 0);
 			free(word->content);
 			word->content = NULL;
 			free(tmp_line);
@@ -70,7 +70,7 @@ char	*ft_here_doc(t_list *word)
 		free(tmp_line);
 		return (full_line);
 	}
-	full_line = ft_join_free(full_line, ft_strdup("\n"), 0, 0);
+	full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0, 0);
 	free(word->content);
 	word->content = NULL;
 	free(tmp_line);
@@ -78,7 +78,7 @@ char	*ft_here_doc(t_list *word)
 	return (full_line);
 }
 
-void	fork_for_heredoc(t_node *cmd, t_list *curr)
+void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 {
 	int		fd[2];
 	int		pid;
@@ -100,7 +100,7 @@ void	fork_for_heredoc(t_node *cmd, t_list *curr)
 		// CHILD PROCESS
 		setup_heredoc_signals_child();
 		hd_input = NULL;
-		hd_input = ft_here_doc(curr);
+		hd_input = ft_here_doc(state, curr);
 		len_in = ft_strlen(hd_input) + 1;
 		close(fd[READ_END]);
 		write(fd[WRITE_END], &len_in, sizeof(int));
@@ -126,6 +126,11 @@ void	fork_for_heredoc(t_node *cmd, t_list *curr)
 		{
 			read(fd[READ_END], &len_out, sizeof(int));
 			hd_output = malloc(len_out * sizeof(char));
+			if (!hd_output)
+			{
+				cleanup_shell_exit(state);
+				exit(1);
+			}
 			if (read(fd[READ_END], hd_output, len_out * sizeof(char)) < 0)
 				printf("read function fails\n");
 			close(fd[READ_END]);
@@ -140,7 +145,7 @@ it checks the next word i.e. delimiter and sets hd_expand_flag
 in t_node cmd_content if quotes are found in delimiter.
 Then it calls removequotes function on the delimiter, and
 calls ft_here_doc with the delimiter.*/
-void	get_heredoc_input(t_node *cmd_content, t_list *words)
+void	get_heredoc_input(t_state *state, t_node *cmd_content, t_list *words)
 {
 	t_list	*curr;
 	int		i;
@@ -170,7 +175,7 @@ void	get_heredoc_input(t_node *cmd_content, t_list *words)
 					}
 				}
 				removequotes((char **) &(curr->content));
-				fork_for_heredoc(cmd_content, curr);
+				fork_for_heredoc(state, cmd_content, curr);
 				//ft_here_doc(curr);
 			}
 			else
@@ -201,7 +206,7 @@ void	heredoc_in(t_state *state)
 	{
 		cmd_content = (t_node *) cmd->content;
 		//print_list(cmd_content->words);
-		get_heredoc_input(cmd_content, (t_list *) cmd_content->words);
+		get_heredoc_input(state, cmd_content, (t_list *) cmd_content->words);
 		cmd = cmd->next;
 	}
 }

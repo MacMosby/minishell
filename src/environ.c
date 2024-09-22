@@ -14,7 +14,7 @@
 
 void	set_env(t_state *state, char **envp)
 {
-	state->env = copy_env(envp, 0);
+	state->env = copy_env(state, envp, 0);
 
 	/*********************TO DO**********************/
 	// check essential environment variables
@@ -28,14 +28,14 @@ if add_flag is true, it returns a malloced copy of env
 with an extra NULL pointer at the end so with two NULL pointers
 instead of just one.
 */
-char	**copy_env(char **env, int add_flag)
+char	**copy_env(t_state *state, char **env, int add_flag)
 {
 	int		count;
 	char	**env_copy;
 	int		i;
 	int		j;	// heredoc
 	char	*shlvl;
-	
+
 	j = 0;
 	shlvl = NULL;
 	if (add_flag)
@@ -45,6 +45,11 @@ char	**copy_env(char **env, int add_flag)
 	while (env[count] != NULL)
 		count++;
 	env_copy = (char **)malloc((count + 1 + j) * sizeof(char *));
+	if (!env_copy)
+	{
+		cleanup_shell_exit(state);
+		exit(1);
+	}
 	while (i < count)
 	{
 		env_copy[i] = ft_strdup(env[i]);
@@ -111,7 +116,7 @@ void	set_env_var(t_state *state, char *var, char *value, int equal)
 			free(state->env[i]);
 			// MARC START
 			if (equal)
-				state->env[i] = create_new_var(var, value);
+				state->env[i] = create_new_var(state, var, value);
 			else
 				state->env[i] = ft_strdup(var);
 			// MARC END
@@ -121,13 +126,13 @@ void	set_env_var(t_state *state, char *var, char *value, int equal)
 	}
 	// Need to create a variable in the env variable.
 	// so we have to re-allocate the environment with an extra string "var=value" or "var="
-	newenv = copy_env(state->env, 1);
+	newenv = copy_env(state, state->env, 1);
 	i = 0;
 	while (newenv[i])
 		i++;
 	// MARC START
 	if (equal)
-		newenv[i] = create_new_var(var, value);
+		newenv[i] = create_new_var(state, var, value);
 	else
 		newenv[i] = ft_strdup(var);
 	// MARC END
@@ -137,7 +142,7 @@ void	set_env_var(t_state *state, char *var, char *value, int equal)
 
 /*Takes strings var and value and returns a malloced string "var=value"
 if value is NULL, it returns "var="*/
-char	*create_new_var(char *var, char *value)
+char	*create_new_var(t_state *state, char *var, char *value)
 {
 	char	*env_var;
 	size_t	var_len;
@@ -150,9 +155,11 @@ char	*create_new_var(char *var, char *value)
 	if (value)
 		value_len = ft_strlen(value);
 	env_var = (char *)malloc(sizeof(char) * (var_len + value_len + 2));
-	if (env_var == NULL)
-		// protect malloc
+	if (!env_var)
+	{
+		cleanup_shell_exit(state);
 		exit(1);
+	}
 	ft_memcpy(env_var, var, var_len);
 	ft_memcpy(env_var + var_len, "=", 1);
 	if (value)

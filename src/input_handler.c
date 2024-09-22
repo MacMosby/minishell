@@ -35,7 +35,7 @@ int	input_handler(t_state *state)
 			i = wording(state, i);
 		if (i < 0)
 		{
-			get_heredoc_input(NULL, state->words);
+			get_heredoc_input(state, NULL, state->words);
 			return (-1);
 		}
 	}

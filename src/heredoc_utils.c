@@ -14,7 +14,7 @@
 
 /* takes two strings s1 and s2 as inputs, joins them and returns the result
 after freeing s1 and s2 */
-char	*ft_join_free(char *s1, char *s2, size_t i, size_t j)
+char	*ft_join_free(t_state *state, char *s1, char *s2, size_t i, size_t j)
 {
 	char	*str;
 	size_t	len;
@@ -24,7 +24,10 @@ char	*ft_join_free(char *s1, char *s2, size_t i, size_t j)
 	len = ft_strlen(s1) + ft_strlen(s2);
 	str = (char *)malloc(len + 1);
 	if (!str)
-		return (NULL);
+	{
+		cleanup_shell_exit(state);
+		exit(1);
+	}
 	while (i < ft_strlen(s1))
 	{
 		str[i] = s1[i];

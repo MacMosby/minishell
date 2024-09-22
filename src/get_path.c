@@ -37,7 +37,7 @@ char	*ft_get_env_path(char **env)
 	return (NULL);
 }
 
-char	*ft_get_exec_path(char **path_split, char *cmd)
+char	*ft_get_exec_path(t_state *state, char **path_split, char *cmd)
 {
 	int		i;
 	char	*path;
@@ -48,12 +48,10 @@ char	*ft_get_exec_path(char **path_split, char *cmd)
 	{
 		path_size = ft_strlen(path_split[i]) + ft_strlen(cmd) + 2;
 		path = (char *)ft_calloc(sizeof(char), path_size);
-		if (path == NULL)
+		if (!path)
 		{
-			free(path);
-			// ERROR CORRECT ??? - WHAT TO DO HERE ???
-			write(2, "Error: Malloc error in ft_exec_path_find\n", 42);
-			return (NULL);
+			cleanup_shell_exit(state);
+			exit(1);
 		}
 		ft_strlcat(path, path_split[i], path_size);
 		ft_strlcat(path, "/", path_size);
@@ -99,7 +97,7 @@ char	*get_path(t_state *data, char *cmd)
 		return (NULL);
 	}
 	path_split = ft_split(env_path + 5, ':');
-	exec_path = ft_get_exec_path(path_split, cmd);
+	exec_path = ft_get_exec_path(data, path_split, cmd);
 	ft_free_splits(path_split);
 	if (exec_path)
 		return (exec_path);

@@ -113,9 +113,8 @@ int	expand(t_state *state, char **word, int i, int hd_flag)
 	if (len > 0)
 	{
 		var = (char *)malloc((len + 1) * sizeof(char));
-		if (var == NULL)
+		if (!var)
 		{
-			// malloc error
 			cleanup_shell_exit(state);
 			exit(1);
 		}

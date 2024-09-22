@@ -20,7 +20,7 @@
 /* takes a node as an arguments, iterates over the t_list words element
 of the nodes and creates an array out of the words and puts this into
 the node as char **args to be used in execve */
-void	wordlist_to_cmdarr(t_node *cmd)
+void	wordlist_to_cmdarr(t_state *state, t_node *cmd)
 {
 	int		count;
 	t_list	*curr;
@@ -34,8 +34,10 @@ void	wordlist_to_cmdarr(t_node *cmd)
 		count = ft_lstsize(cmd->words);
 	arr = (char **)malloc((count + 1) * sizeof(char *));
 	if (!arr)
-		// what should happen here ???
-		return ;
+	{
+		cleanup_shell_exit(state);
+		exit(1);
+	}
 	curr = cmd->words;
 	i = 0;
 	while (i < count)

@@ -18,10 +18,10 @@ t_node	*initialize_node(t_state *state)
 	t_node	*node;
 
 	node = (t_node *) malloc(sizeof(t_node));
-	if (node == NULL)
+	if (!node)
 	{
 		cleanup_shell_exit(state);
-		exit(1); // malloc error
+		exit(1);
 	}
 	node->args = NULL;
 	node->cmd = NULL;
@@ -46,7 +46,7 @@ void	create_node(t_state *state, int pipe)
 	t_list	*word;
 
 	cmd = (t_list *) malloc(sizeof(t_list));
-	if (cmd == NULL)
+	if (!cmd)
 	{
 		cleanup_shell_exit(state);
 		exit(1);
