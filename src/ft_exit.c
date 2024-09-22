@@ -30,7 +30,7 @@ int	ft_is_num(char *s)
 
 int	ft_exit(t_state *data, t_node *curr)
 {
-	if (data->num_of_processes == 1)
+	if (data->num_of_processes == 1 && !curr->args[2])
 		printf("exit\n");
 	if (curr->args[1] && !curr->args[2])
 	{
@@ -43,9 +43,7 @@ int	ft_exit(t_state *data, t_node *curr)
 	else if (curr->args[1] && curr->args[2])
 	{
 		write(2, " too many arguments\n", 20);
-		// bash does not exit - returning whatever the error code needs to be?
-		cleanup_shell_exit(data);
-		exit (1);
+		return (1);
 	}
 	cleanup_shell_exit(data);
 	exit(data->exit_status);
