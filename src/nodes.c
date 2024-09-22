@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 15:19:55 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 15:05:42 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:29:49 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,23 @@ t_node	*initialize_node(t_state *state)
 	return (node);
 }
 
+void	remove_pipe(t_node *node)
+{
+	t_list	*word;
+
+	word = node->words;
+	while (word)
+	{
+		if (word->next->next == NULL)
+		{
+			ft_lstdelone(word->next, free);
+			word->next = NULL;
+			return ;
+		}
+		word = word->next;
+	}
+}
+
 /*creates t_list item cmd and adds it to the cmd list in state variable
 copies words into the command node
 and removes pipe from list of words if pipe = 1
@@ -40,7 +57,6 @@ void	create_node(t_state *state, int pipe)
 {
 	t_node	*node;
 	t_list	*cmd;
-	t_list	*word;
 
 	cmd = (t_list *) malloc(sizeof(t_list));
 	if (!cmd)
@@ -48,20 +64,8 @@ void	create_node(t_state *state, int pipe)
 	cmd->next = NULL;
 	node = initialize_node(state);
 	node->words = state->words;
-	word = node->words;
-	if (pipe) // MAYBE THERE IS A BETTER WAY TO DO THIS???
-	{
-		while (word) // delete pipe from list of words
-		{
-			if (word->next->next == NULL)
-			{
-				ft_lstdelone(word->next, free);
-				word->next = NULL;
-				break ;
-			}
-			word = word->next;
-		}
-	}
+	if (pipe)
+		remove_pipe(node);
 	cmd->content = node;
 	ft_lstadd_back(&(state->cmds), cmd);
 }
@@ -78,8 +82,8 @@ void	nodes(t_state *state)
 	{
 		if (ft_strncmp((char *) word->content, "|", 1) == 0)
 		{
-			nextword = word->next; // save next word after pipe
-			word->next = NULL; // end list to be cut including pipe
+			nextword = word->next;
+			word->next = NULL;
 			create_node(state, 1);
 			state->words = nextword;
 			word = state->words;
