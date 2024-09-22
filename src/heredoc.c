@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 19:21:09 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/15 21:47:53 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:10:27 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 		write(fd[WRITE_END], &len_in, sizeof(int));
 		write(fd[WRITE_END], hd_input, len_in);
 		close(fd[WRITE_END]);
+		free(hd_input);
 		//curr->content = ft_strdup(hd_input);
 		//printf("heredoc input: %s\n", hd_input);
 		cleanup_shell_exit(state);

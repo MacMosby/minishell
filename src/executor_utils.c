@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:45:10 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/08/21 22:31:01 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:21:36 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	free_pipes(t_state *data)
 		free(data->pipes[i]);
 		i++;
 	}
+	free(data->pipes);
+	data->pipes = NULL;
 }
 
 /* creates the redirections to pipes before looking for infiles/outfiles */

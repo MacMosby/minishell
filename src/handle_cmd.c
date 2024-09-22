@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 14:03:48 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/09/22 15:13:53 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:07:49 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 		curr->cmd_flag = NO_CMD;
 	else if (check_for_builtin(str, data->builtins)) // If it is a builtin command
 	{
-		curr->cmd = str;
+		curr->cmd = ft_strdup(str);
 		curr->cmd_flag = BUILTIN;
 	}
 	else if (ft_strchr(str, '/')) // if it is a path
@@ -71,7 +71,7 @@ void	handle_cmd(t_state *data, t_node *curr, char *str)
 			}
 			else if (access(str, X_OK) == 0) // it is an executable file
 			{
-				curr->cmd = str;
+				curr->cmd = ft_strdup(str);
 				curr->cmd_flag = PATH;
 				//printf("we are here!!!!\n");
 			}

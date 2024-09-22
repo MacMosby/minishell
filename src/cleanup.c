@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 21:34:16 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/20 17:09:15 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:25:12 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,8 @@ void	error_exit(t_state *state)
 void	cleanup_shell_exit(t_state *state)
 {
 	cleanup_shell(state);
-
-	// Free state->env
 	free_strarr(state->env);
-
-	// clear history
+	state->env = NULL;
 	rl_clear_history();
 }
 
@@ -47,7 +44,8 @@ void	cleanup_shell(t_state *state)
 	// free hd_content and others ???
 	free(state->input); // free input
 	state->input = NULL;
-	//free(state->pids);
+	free(state->pids);
+	state->pids = NULL;
 	free_pipes(state);
 }
 
@@ -61,9 +59,8 @@ void	free_nodes(void *node)
 	ft_lstclear(&(n->words), free);
 	free(n->hd_content);
 	free_strarr(n->args);
-	//free(n->cmd);
+	free(n->cmd);
 	free(n);
-	// need to free other things in node
 }
 
 /*frees an array of strings*/

@@ -6,9 +6,11 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 15:05:20 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 16:29:22 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// valgrind -s --suppressions=readline.supp --leak-check=full --show-leak-kinds=all ./minishell
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -42,14 +44,14 @@
 
 typedef struct s_state
 {
-	int		exit_status;
+	int		exit_status; //
 	char	**env; //
 	char	*input; //
 	t_list	*words; //
 	t_list	*cmds; //
-	int		num_of_processes;
-	int		**pipes; //??
-	int		*pids; //??
+	int		num_of_processes; //
+	int		**pipes; //
+	int		*pids; //
 	char	*builtins[8]; //
 }	t_state;
 
@@ -57,7 +59,7 @@ typedef struct s_node
 {
 	t_list	*words; //
 	char	*cmd; //
-	int		cmd_flag;
+	int		cmd_flag; //
 	char	**args; //
 	char	*hd_content; //
 	int		hd_expand_flag;
