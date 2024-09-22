@@ -205,8 +205,6 @@ int		ft_pwd(void);
 char	**copy_env_unset(t_state *state, char **env);
 int		ft_unset(t_state *data, t_node *curr);
 
-// MARC START
-
 // signals_cli.c
 void	setup_cli_signals(void);
 
@@ -216,8 +214,6 @@ void	setup_exec_signals(void);
 // signals_heredoc.c
 void	setup_heredoc_signals_main(void);
 void	setup_heredoc_signals_child(void);
-
-// MARC END
 
 // delete later test functions
 void	print_list(t_list *node);

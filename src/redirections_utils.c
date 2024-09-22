@@ -17,21 +17,15 @@ int	set_fd_in(t_state *state, t_node *curr, char *file)
 {
 	if (access(file, F_OK) == -1)
 	{
-		// ERROR FILE DOES NOT EXIST
 		curr->err_flag = 1;
 		perror(" ");
-		// MARC START
-		// added t_state *state as argument to have acces to exit status
 		state->exit_status = 1;
-		// added return value to be able to break redirection loop in case of failure
 		return (1);
-		// MARC END
 	}
 	else
 	{
 		if (access(file, R_OK) == -1)
 		{
-			// ERROR NOT READABLE
 			curr->err_flag = 1;
 			perror(" ");
 		}
@@ -42,9 +36,7 @@ int	set_fd_in(t_state *state, t_node *curr, char *file)
 			curr->fd_in = open(file, O_RDONLY);
 		}
 	}
-	// MARC START
 	return (0);
-	// MARC END
 }
 
 /* set the file descriptor for the outfile "file" */
@@ -58,12 +50,9 @@ int	set_fd_out(t_node *curr, char *file, int append)
 	{
 		if (access(file, W_OK) == -1)
 		{
-			// ERROR FILE NOT WRITABLE
 			curr->err_flag = 1;
 			perror(" ");
-			// MARC START
 			return (1);
-			// MARC END
 		}
 		else
 		{
@@ -75,9 +64,7 @@ int	set_fd_out(t_node *curr, char *file, int append)
 				curr->fd_out = open(file, O_WRONLY | O_TRUNC);
 		}
 	}
-	// MARC START
 	return (0);
-	// MARC END
 }
 
 /*takes string filename and cuts out spaces in beginning and at end
@@ -119,9 +106,7 @@ int	filename_expansion_error(char **filename)
 
 	sq_flag = 0;
 	dq_flag = 0;
-	if (!filename)
-		return (1);
-	if (!(*filename))
+	if (!filename || !(*filename))
 		return (1);
 	if (!ft_strlen(*filename))
 		return (1);

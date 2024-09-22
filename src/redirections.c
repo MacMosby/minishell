@@ -37,13 +37,12 @@ int	found_carrot(char *str)
 }
 
 /*expands filename and checks for expansion error. Otherwise it removes quotes
-from filename and calls set_fd_out and set_fd_in dependiing on the redirection*/
+from filename and calls set_fd_out and set_fd_in dependiing
+on the redirection*/
 int	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename)
 {
 	char	*og_filename;
-	// MARC START
 	int		fail;
-	// MARC END
 
 	og_filename = ft_strdup(*filename); // free later
 	toexpand(state, filename);
@@ -55,9 +54,7 @@ int	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename)
 	}
 	else
 	{
-		// MARC START
 		fail = 0;
-		// MARC END
 		removequotes(filename);
 		if (carrots == APPEND)
 			fail = set_fd_out(cmd_node, *filename, 1);
@@ -65,17 +62,13 @@ int	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename)
 			fail = set_fd_out(cmd_node, *filename, 0);
 		else
 		{
-			// MARC START
 			fail = set_fd_in(state, cmd_node, *filename);
-			// MARC END
 			free(cmd_node->hd_content);
 			cmd_node->hd_content = NULL;
 		}
 	}
 	free(og_filename);
-	// MARC START
 	return (fail);
-	// MARC END
 }
 
 /*iterates over list of words in cmd and if heredoc carrots are found,
@@ -103,11 +96,8 @@ void	cmd_redirections(t_state *state, t_list *cmd)
 		}
 		else if (carrots)
 		{
-			// MARC START
-			// take the return and break in case of a redirection fails
 			if (set_fds(state, cmd_node, carrots, (char **) &(word->next->content)))
 				break ;
-			// MARC END
 			word = word->next;
 		}
 		if (word)

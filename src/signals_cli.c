@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// MARC START
-
 #include "minishell.h"
 
 void	handle_sigint_cli(int sig)
@@ -38,5 +36,3 @@ void	setup_cli_signals(void)
 	sigemptyset(&sa_cli_sigquit.sa_mask);
 	sigaction(SIGQUIT, &sa_cli_sigquit, NULL);
 }
-
-// MARC END

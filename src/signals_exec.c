@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// MARC START
-
 #include "minishell.h"
 
 void	handle_sigint_exec(int sig)
@@ -40,5 +38,3 @@ void	setup_exec_signals(void)
 	sigemptyset(&sa_exec_sigquit.sa_mask);
 	sigaction(SIGQUIT, &sa_exec_sigquit, NULL);
 }
-
-// MARC END

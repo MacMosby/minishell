@@ -84,14 +84,6 @@ int	expand(t_state *state, char **word, int i, int hd_flag)
 	j = i + 1;
 	var = NULL;
 	rep = NULL;
-	// MARC START
-	// what if $? ??? --> var_letter returns 0 even though it should not
-	/* if (ft_strncmp("$?", *word, 2) == 0)
-	{
-		*word = ft_strdup(ft_itoa(state->exit_status));
-		return (i - 1 + ft_strlen(ft_itoa(state->exit_status)));
-	} */
-	// MARC END
 	while ((*word)[j])
 	{
 		if ((*word)[j] == '?' && (j - i == 1))

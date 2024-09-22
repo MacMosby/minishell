@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// MARC START
-
 #include "minishell.h"
 
 void	handle_sigint_hd_child(int sig)
@@ -46,5 +44,3 @@ void	setup_heredoc_signals_child(void)
 	sigemptyset(&sa_hd_sigint_child.sa_mask);
 	sigaction(SIGINT, &sa_hd_sigint_child, NULL);
 }
-
-// MARC END
