@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// valgrind -s --suppressions=readline.supp --leak-check=full --show-leak-kinds=all ./minishell
+/* valgrind -s --suppressions=readline.supp --leak-check=full
+--show-leak-kinds=all ./minishell */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -44,24 +45,24 @@
 
 typedef struct s_state
 {
-	int		exit_status; //
-	char	**env; //
-	char	*input; //
-	t_list	*words; //
-	t_list	*cmds; //
-	int		num_of_processes; //
-	int		**pipes; //
-	int		*pids; //
-	char	*builtins[8]; //
+	int		exit_status;
+	char	**env;
+	char	*input;
+	t_list	*words;
+	t_list	*cmds;
+	int		num_of_processes;
+	int		**pipes;
+	int		*pids;
+	char	*builtins[8];
 }	t_state;
 
 typedef struct s_node
 {
-	t_list	*words; //
-	char	*cmd; //
-	int		cmd_flag; //
-	char	**args; //
-	char	*hd_content; //
+	t_list	*words;
+	char	*cmd;
+	int		cmd_flag;
+	char	**args;
+	char	*hd_content;
 	int		hd_expand_flag;
 	int		fd_in;
 	int		fd_out;
