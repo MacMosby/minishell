@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:20:30 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 18:14:29 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 23:03:05 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,6 @@ void	init_minishell(t_state *state, int argc, char **argv, char **envp)
 	state->pipes = NULL;
 	state->pids = NULL;
 	init_builtins(state);
-	set_env(state, envp);
+	state->env = copy_env(state, envp, 0);
 	argc = ft_strlen(argv[0]);
 }

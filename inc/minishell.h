@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 18:54:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 20:27:58 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/22 23:35:36 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ typedef struct s_node
 extern int	g_signal;
 
 // environ.c
-void	set_env(t_state *state, char **envp);
 char	**copy_env(t_state *state, char **env, int add_flag);
+
+// environ.manipulations.c
 void	set_env_var(t_state *shell, char *var, char *value, int equal);
 char	*create_new_var(t_state *state, char *var, char *value);
 char	*find_var_value(t_state *state, char *var);
