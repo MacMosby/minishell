@@ -72,6 +72,7 @@ int	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename)
 			fail = set_fd_out(cmd_node, *filename, 0);
 		else
 			fail = set_fd_in_single_carrot(state, cmd_node, filename);
+		// TO LOLA - please check if function above replaces the next lines
 		/* {
 			fail = set_fd_in(state, cmd_node, *filename);
 			free(cmd_node->hd_content);
@@ -110,14 +111,17 @@ void	cmd_redirections(t_state *state, t_list *cmd, int carrots)
 				break ;
 			word = word->next;
 		}
+		// we should be able to delete the if condition to shorten the function to 25 line
+		// word is never NULL because it is the filename or delimiter
+		// we even use it before
 		if (word)
 			word = word->next;
 	}
 }
 
-/*takes t_state ptr variable and iterates over commands and calls cmd_redirections
-function on each. Then it iterates over commands again to delete redirection words
-from list of words in each command node*/
+/*takes t_state ptr variable and iterates over commands and calls
+cmd_redirections function on each. Then it iterates over commands again to
+delete redirection words from list of words in each command node*/
 void	redirections(t_state *state) // should it be int to return error?
 {
 	t_list	*cmd;
