@@ -19,7 +19,7 @@ int	input_handler(t_state *state)
 	nodes(state);
 	heredoc_in(state);
 	if (g_signal)
-		return (0);
+		return (1);
 	redirections(state);
 	expansion(state);
 	splitting(state);

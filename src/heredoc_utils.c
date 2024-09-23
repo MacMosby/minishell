@@ -12,6 +12,50 @@
 
 #include "minishell.h"
 
+char	*clean_hd(t_state *state, t_list *word, char *full_line, int flag)
+{
+	if (flag == 0)
+		full_line = ft_join_free(state, full_line, ft_strdup(""), 0);
+	else if (flag == 1)
+		full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0);
+	else if (flag == 2)
+		full_line = ft_strdup("");
+	free(word->content);
+	word->content = NULL;
+	return (full_line);
+}
+
+/* takes a list object word and its content as the delimiter to the here_doc
+implementation which takes several lines of input from the user until a line
+is exactly the same as the delimiter and replaces the word content in the list
+with the user input exluding the delimiter */
+char	*ft_here_doc(t_state *state, t_list *word)
+{
+	char	*delim;
+	char	*tmp_line;
+	char	*full_line;
+
+	full_line = NULL;
+	delim = word->content;
+	tmp_line = readline(">");
+	if (tmp_line == NULL)
+		return (clean_hd(state, word, full_line, 0));
+	while (ft_strncmp(tmp_line, delim, ft_strlen(delim) + 1))
+	{
+		if (full_line)
+			tmp_line = ft_join_free(state, ft_strdup("\n"), tmp_line, 0);
+		else
+			full_line = ft_strdup("");
+		full_line = ft_join_free(state, full_line, tmp_line, 0);
+		tmp_line = readline(">");
+		if (tmp_line == NULL)
+			return (clean_hd(state, word, full_line, 1));
+	}
+	if (!full_line)
+		return (free(tmp_line), clean_hd(state, word, full_line, 2));
+	return (free(tmp_line), clean_hd(state, word, full_line, 1));
+}
+
 /* takes two strings s1 and s2 as inputs, joins them and returns the result
 after freeing s1 and s2 */
 char	*ft_join_free(t_state *state, char *s1, char *s2, size_t i)
@@ -40,4 +84,45 @@ char	*ft_join_free(t_state *state, char *s1, char *s2, size_t i)
 	free(s1);
 	free(s2);
 	return (str);
+}
+
+/*iterates over hd_content variable and calls expand function if $ sign is found
+with hd_flag = 1*/
+void	heredoc_expansions(t_state *state, char **hd_content)
+{
+	int	i;
+
+	i = 0;
+	if (!hd_content)
+		return ;
+	if (!(*hd_content))
+		return ;
+	while ((*hd_content)[i])
+	{
+		if ((*hd_content)[i] == '$')
+			i = expand(state, hd_content, i, 1);
+		i++;
+	}
+}
+
+/*takes t_state variable state and iterates over t_list variable cmds
+calls get_here_doc_input on t_node cmd_content
+and list of words in the node cmd_content*/
+void	heredoc_in(t_state *state)
+{
+	t_list	*cmd;
+	t_node	*cmd_content;
+
+	cmd = state->cmds;
+	if (!cmd)
+		return ;
+	// is the next line necessary? three lines later we do the same!?
+	cmd_content = (t_node *) cmd->content;
+	while (cmd)
+	{
+		cmd_content = (t_node *) cmd->content;
+		//print_list(cmd_content->words);
+		iterate_for_heredoc(state, cmd_content, (t_list *) cmd_content->words);
+		cmd = cmd->next;
+	}
 }

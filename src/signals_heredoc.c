@@ -30,7 +30,7 @@ void	setup_heredoc_signals_main(void)
 
 	g_signal = 0;
 	sa_hd_sigint_main.sa_handler = &handle_sigint_hd_main;
-	sa_hd_sigint_main.sa_flags = 0;
+	sa_hd_sigint_main.sa_flags = SA_RESTART;
 	sigemptyset(&sa_hd_sigint_main.sa_mask);
 	sigaction(SIGINT, &sa_hd_sigint_main, NULL);
 }

@@ -111,13 +111,14 @@ void	create_word(t_state *state, int start, int end);
 void	nodes(t_state *state);
 
 // heredoc.c
-void	heredoc_in(t_state *state);
+
 void	iterate_for_heredoc(t_state *state, t_node *cmd_content, t_list *words);
-char	*ft_here_doc(t_state *state, t_list *word);
-void	heredoc_expansions(t_state *state, char **hd_content);
 
 // heredoc_utils.c
 char	*ft_join_free(t_state *state, char *s1, char *s2, size_t i);
+void	heredoc_expansions(t_state *state, char **hd_content);
+char	*ft_here_doc(t_state *state, t_list *word);
+void	heredoc_in(t_state *state);
 
 // expansion.c
 void	expansion(t_state *state);

@@ -12,73 +12,6 @@
 
 #include "minishell.h"
 
-char	*clean_hd(t_state *state, t_list *word, char *full_line, int flag)
-{
-	if (flag == 0)
-		full_line = ft_join_free(state, full_line, ft_strdup(""), 0);
-	else if (flag == 1)
-		full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0);
-	else if (flag == 2)
-		full_line = ft_strdup("");
-	free(word->content);
-	word->content = NULL;
-	return (full_line);
-}
-
-/* takes a list object word and its content as the delimiter to the here_doc
-implementation which takes several lines of input from the user until a line
-is exactly the same as the delimiter and replaces the word content in the list
-with the user input exluding the delimiter */
-char	*ft_here_doc(t_state *state, t_list *word)
-{
-	char	*delim;
-	char	*tmp_line;
-	char	*full_line;
-
-	full_line = NULL;
-	delim = word->content;
-	tmp_line = readline(">");
-	if (tmp_line == NULL)
-		return (clean_hd(state, word, full_line, 0));
-	/* {
-		full_line = ft_join_free(state, full_line, ft_strdup(""), 0);
-		free(word->content);
-		word->content = NULL;
-		return (full_line);
-	} */
-	// && tmp_line[len + 1] == 0 ???
-	while (ft_strncmp(tmp_line, delim, ft_strlen(delim)))
-	{
-		if (full_line)
-			tmp_line = ft_join_free(state, ft_strdup("\n"), tmp_line, 0);
-		else
-			full_line = ft_strdup("");
-		full_line = ft_join_free(state, full_line, tmp_line, 0);
-		tmp_line = readline(">");
-		if (tmp_line == NULL)
-			return (clean_hd(state, word, full_line, 1));
-		/* {
-			full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0);
-			free(word->content);
-			word->content = NULL;
-			return (full_line);
-		} */
-	}
-	if (!full_line)
-		return (free(tmp_line), clean_hd(state, word, full_line, 2));
-	/* {
-		full_line = ft_strdup("");
-		free(word->content);
-		free(tmp_line);
-		return (full_line);
-	} */
-	return (free(tmp_line), clean_hd(state, word, full_line, 1));
-	/* full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0);
-	free(word->content);
-	word->content = NULL;
-	return (full_line); */
-}
-
 void	heredoc_child(t_state *state, t_list *curr, int *fd)
 {
 	char	*hd_output;
@@ -107,8 +40,7 @@ void	heredoc_parent(t_state *state, t_list *curr, int *fd)
 	hd_output = malloc(len * sizeof(char));
 	if (!hd_output)
 		error_exit(state);
-	if (read(fd[READ_END], hd_output, len * sizeof(char)) < 0)
-		printf("read function fails\n");
+	read(fd[READ_END], hd_output, len * sizeof(char));
 	free(curr->content);
 	curr->content = hd_output;
 }
@@ -129,8 +61,8 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 	else
 	{
 		waitpid(pid, &wstatus, 0);
-		//if (waitpid(pid, &wstatus, 0) == -1)
-			//printf("What to do if waitpid for hd child fails?\n");
+		/* if (waitpid(pid, &wstatus, 0) == -1)
+			printf("What to do if waitpid for hd child fails?\n"); */
 		if (g_signal)
 			cmd->err_flag = 128 + g_signal;
 			// if we don't run through the heredoc we need to
@@ -173,10 +105,7 @@ calls ft_here_doc with the delimiter.*/
 void	iterate_for_heredoc(t_state *state, t_node *cmd_content, t_list *words)
 {
 	t_list	*curr;
-	//int		i;
-	//char	*delim;
 
-	//i = 0;
 	curr = words;
 	while (curr)
 	{
@@ -184,68 +113,10 @@ void	iterate_for_heredoc(t_state *state, t_node *cmd_content, t_list *words)
 		{
 			curr = curr->next;
 			if (curr)
-			{
 				get_heredoc_input(state, cmd_content, curr);
-				/* delim = (char *) curr->content;
-				if (cmd_content)
-				{
-					while (delim[i])
-					{
-						if (delim[i] == '\'' || delim[i] == '\"')
-						{
-							cmd_content->hd_expand_flag = 0;
-							break ;
-						}
-						i++;
-					}
-				}
-				removequotes((char **) &(curr->content));
-				fork_for_heredoc(state, cmd_content, curr); */
-			}
 			else
 				return ;
 		}
 		curr = curr->next;
-	}
-}
-
-/*takes t_state variable state and iterates over t_list variable cmds
-calls get_here_doc_input on t_node cmd_content
-and list of words in the node cmd_content*/
-void	heredoc_in(t_state *state)
-{
-	t_list	*cmd;
-	t_node	*cmd_content;
-
-	cmd = state->cmds;
-	if (!cmd)
-		return ;
-	// is the next line necessary? three lines later we do the same!?
-	cmd_content = (t_node *) cmd->content;
-	while (cmd)
-	{
-		cmd_content = (t_node *) cmd->content;
-		//print_list(cmd_content->words);
-		iterate_for_heredoc(state, cmd_content, (t_list *) cmd_content->words);
-		cmd = cmd->next;
-	}
-}
-
-/*iterates over hd_content variable and calls expand function if $ sign is found
-with hd_flag = 1*/
-void	heredoc_expansions(t_state *state, char **hd_content)
-{
-	int	i;
-
-	i = 0;
-	if (!hd_content)
-		return ;
-	if (!(*hd_content))
-		return ;
-	while ((*hd_content)[i])
-	{
-		if ((*hd_content)[i] == '$')
-			i = expand(state, hd_content, i, 1);
-		i++;
 	}
 }
