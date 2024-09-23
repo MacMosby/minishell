@@ -151,7 +151,7 @@ int		set_fd_in(t_state *state, t_node *curr, char *file);
 
 // list_manipulation.c
 void	wordlist_to_cmdarr(t_state *state, t_node *cmd);
-void	delete_redirections(t_list **words);
+void	delete_redirections(t_list **words, t_list *before, t_list *new);
 
 // handle_cmd.c
 void	cmd_loop(t_state *state);

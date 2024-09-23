@@ -48,60 +48,38 @@ void	wordlist_to_cmdarr(t_state *state, t_node *cmd)
 	//print_arr(cmd->args);
 }
 
+void	free_carrots_plus_one(t_list *curr)
+{
+	free(curr->next->content);
+	curr->next->next = NULL;
+	free(curr->next);
+	free(curr->content);
+	curr->next = NULL;
+	free(curr);
+}
+
 /* takes a list of word as an argument and deletes all words that
 are redirection carrots and the following arguments which are the
 filenames/heredoc delimiteres to clean the list so that the list
 contains the command and the command arguments only */
-void	delete_redirections(t_list **words)
+void	delete_redirections(t_list **words, t_list *before, t_list *new)
 {
 	t_list	*curr;
-	t_list	*before;
-	t_list	*new;
-	//t_node	cmd;
 
-	//print_list(words);
-	before = NULL;
 	curr = *words;
 	while (curr)
 	{
-		if (ft_strncmp(curr->content, HD, 2) == 0
-			|| ft_strncmp(curr->content, APP, 2) == 0
-			|| ft_strncmp(curr->content, IN, 1) == 0
-			|| ft_strncmp(curr->content, OUT, 1) == 0)
+		if (found_carrot(curr->content))
 		{
-			//printf("found carrots\n");
-			if (!before)
-			{
-				if (curr->next->next)
-				{
-					*words = curr->next->next;
-					new = curr->next->next;
-				}
-				else
-				{
-					*words = NULL;
-					new = NULL;
-				}
-			}
+			if (curr->next->next)
+				new = curr->next->next;
 			else
-			{
-				if (curr->next->next)
-				{
-					before->next = curr->next->next;
-					new = curr->next->next;
-				}
-				else
-				{
-					before->next = NULL;
-					new = NULL;
-				}
-			}
-			free(curr->content);
-			free(curr->next->content);
-			curr->next->next = NULL;
-			free(curr->next);
-			curr->next = NULL;
-			free(curr);
+				new = NULL;
+			if (!before)
+				*words = new;
+			else
+				before->next = new;
+			free_carrots_plus_one(curr);
 			curr = new;
 		}
 		else
@@ -110,8 +88,4 @@ void	delete_redirections(t_list **words)
 			curr = curr->next;
 		}
 	}
-	// the 2 commented lines are just to test the function above
-	//cmd.words = *words;
-	//print_list(words);
-	//wordlist_to_cmdarr(&cmd);
 }

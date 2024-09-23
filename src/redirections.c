@@ -121,7 +121,7 @@ void	redirections(t_state *state) // should it be int to return error?
 	cmd = state->cmds;
 	while (cmd)
 	{
-		delete_redirections(&(((t_node *)(cmd->content))->words));
+		delete_redirections(&(((t_node *)(cmd->content))->words), NULL, NULL);
 		cmd = cmd->next;
 	}
 }
