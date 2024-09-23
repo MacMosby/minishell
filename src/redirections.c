@@ -36,6 +36,16 @@ int	found_carrot(char *str)
 	return (0);
 }
 
+int	set_fd_in_single_carrot(t_state *state, t_node *cmd_node, char **filename)
+{
+	int	fail;
+
+	fail = set_fd_in(state, cmd_node, *filename);
+	free(cmd_node->hd_content);
+	cmd_node->hd_content = NULL;
+	return (fail);
+}
+
 /*expands filename and checks for expansion error. Otherwise it removes quotes
 from filename and calls set_fd_out and set_fd_in dependiing
 on the redirection*/
@@ -61,11 +71,12 @@ int	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename)
 		else if (carrots == FD_OUT)
 			fail = set_fd_out(cmd_node, *filename, 0);
 		else
-		{
+			fail = set_fd_in_single_carrot(state, cmd_node, filename);
+		/* {
 			fail = set_fd_in(state, cmd_node, *filename);
 			free(cmd_node->hd_content);
 			cmd_node->hd_content = NULL;
-		}
+		} */
 	}
 	free(og_filename);
 	return (fail);
@@ -75,11 +86,10 @@ int	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename)
 it copies heredoc content to hd_content variable in command node and sets
 fd_in to -1, closing previous fd_in if need be.
 for other redirections, it calls set_fds function*/
-void	cmd_redirections(t_state *state, t_list *cmd)
+void	cmd_redirections(t_state *state, t_list *cmd, int carrots)
 {
 	t_node	*cmd_node;
 	t_list	*word;
-	int		carrots;
 
 	cmd_node = (t_node *) cmd->content;
 	word = cmd_node->words;
@@ -115,7 +125,7 @@ void	redirections(t_state *state) // should it be int to return error?
 	cmd = state->cmds;
 	while (cmd)
 	{
-		cmd_redirections(state, cmd);
+		cmd_redirections(state, cmd, 0);
 		cmd = cmd->next;
 	}
 	cmd = state->cmds;

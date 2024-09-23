@@ -139,7 +139,7 @@ int		find_end_quote(char *word, int i);
 
 // redirections.c
 void	redirections(t_state *state);
-void	cmd_redirections(t_state *state, t_list *cmd);
+void	cmd_redirections(t_state *state, t_list *cmd, int carrots);
 int		set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename);
 int		found_carrot(char *str);
 
