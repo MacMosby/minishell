@@ -111,7 +111,8 @@ void	cmd_redirections(t_state *state, t_list *cmd, int carrots)
 				break ;
 			word = word->next;
 		}
-		// we should be able to delete the if condition to shorten the function to 25 line
+		// we should be able to delete the if condition below and make a line
+		// break in line 110 to shorten the function to 25 line
 		// word is never NULL because it is the filename or delimiter
 		// we even use it before
 		if (word)
