@@ -60,12 +60,8 @@ void	fork_for_heredoc(t_state *state, t_node *cmd, t_list *curr)
 	else
 	{
 		waitpid(pid, &wstatus, 0);
-		/* if (waitpid(pid, &wstatus, 0) == -1)
-			printf("What to do if waitpid for hd child fails?\n"); */
 		if (g_signal)
 			cmd->err_flag = 128 + g_signal;
-			// if we don't run through the heredoc we need to
-			// delete the EOF from the word list
 		else
 			heredoc_parent(state, curr, fd);
 		close(fd[WRITE_END]);

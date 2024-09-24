@@ -25,7 +25,8 @@ heredoc.c redirections.c redirections_utils.c list_manipulation.c get_path.c \
 handle_cmd.c executor.c executor_utils.c builtins.c signals_cli.c \
 signals_exec.c signals_heredoc.c ft_cd.c ft_echo.c ft_env.c ft_exit.c \
 ft_export.c ft_pwd.c ft_unset.c heredoc_utils.c executor_pipes.c \
-input_carrots.c expansion_utils.c ft_export_utils.c environ_manipulation.c)
+input_carrots.c expansion_utils.c ft_export_utils.c environ_manipulation.c \
+minishell_utils.c)
 #--- OBJECTS ---
 OBJS := $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 #--- HEADERS ---

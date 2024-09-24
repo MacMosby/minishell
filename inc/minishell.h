@@ -115,10 +115,13 @@ void	nodes(t_state *state);
 void	iterate_for_heredoc(t_state *state, t_node *cmd_content, t_list *words);
 
 // heredoc_utils.c
-char	*ft_join_free(char *s1, char *s2, size_t i);
+char	*ft_join_free(char *s1, char *s2, size_t i, size_t j);
 void	heredoc_expansions(t_state *state, char **hd_content);
 char	*ft_here_doc(t_state *state, t_list *word);
 void	heredoc_in(t_state *state);
+
+// minishell_utils.
+void	free_two_strings(char *s1, char *s2);
 
 // expansion.c
 void	expansion(t_state *state);
