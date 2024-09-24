@@ -26,7 +26,6 @@ void	heredoc_child(t_state *state, t_list *curr, int *fd)
 	write(fd[WRITE_END], hd_output, len);
 	close(fd[WRITE_END]);
 	free(hd_output);
-	cleanup_shell_exit(state);
 	exit (0);
 }
 

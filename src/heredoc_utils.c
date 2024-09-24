@@ -12,16 +12,16 @@
 
 #include "minishell.h"
 
-char	*clean_hd(t_state *state, t_list *word, char *full_line, int flag)
+char	*clean_hd(char *delim, char *full_line, int flag)
 {
 	if (flag == 0)
-		full_line = ft_join_free(state, full_line, ft_strdup(""), 0);
+		full_line = ft_join_free(full_line, ft_strdup(""), 0);
 	else if (flag == 1)
-		full_line = ft_join_free(state, full_line, ft_strdup("\n"), 0);
+		full_line = ft_join_free(full_line, ft_strdup("\n"), 0);
 	else if (flag == 2)
 		full_line = ft_strdup("");
-	free(word->content);
-	word->content = NULL;
+	free(delim);
+	delim = NULL;
 	return (full_line);
 }
 
@@ -36,29 +36,30 @@ char	*ft_here_doc(t_state *state, t_list *word)
 	char	*full_line;
 
 	full_line = NULL;
-	delim = word->content;
+	delim = ft_strdup(word->content);
+	cleanup_shell_exit(state);
 	tmp_line = readline(">");
 	if (tmp_line == NULL)
-		return (clean_hd(state, word, full_line, 0));
+		return (clean_hd(delim, full_line, 0));
 	while (ft_strncmp(tmp_line, delim, ft_strlen(delim) + 1))
 	{
 		if (full_line)
-			tmp_line = ft_join_free(state, ft_strdup("\n"), tmp_line, 0);
+			tmp_line = ft_join_free(ft_strdup("\n"), tmp_line, 0);
 		else
 			full_line = ft_strdup("");
-		full_line = ft_join_free(state, full_line, tmp_line, 0);
+		full_line = ft_join_free(full_line, tmp_line, 0);
 		tmp_line = readline(">");
 		if (tmp_line == NULL)
-			return (clean_hd(state, word, full_line, 1));
+			return (clean_hd(delim, full_line, 1));
 	}
 	if (!full_line)
-		return (free(tmp_line), clean_hd(state, word, full_line, 2));
-	return (free(tmp_line), clean_hd(state, word, full_line, 1));
+		return (free(tmp_line), clean_hd(delim, full_line, 2));
+	return (free(tmp_line), clean_hd(delim, full_line, 1));
 }
 
 /* takes two strings s1 and s2 as inputs, joins them and returns the result
 after freeing s1 and s2 */
-char	*ft_join_free(t_state *state, char *s1, char *s2, size_t i)
+char	*ft_join_free(char *s1, char *s2, size_t i)
 {
 	char	*str;
 	size_t	len;
@@ -69,7 +70,11 @@ char	*ft_join_free(t_state *state, char *s1, char *s2, size_t i)
 	len = ft_strlen(s1) + ft_strlen(s2);
 	str = (char *)ft_calloc((len + 1), sizeof(char));
 	if (!str)
-		error_exit(state);
+	{
+		free(s1);
+		free(s2);
+		exit(1);
+	}
 	while (i < ft_strlen(s1))
 	{
 		str[i] = s1[i];
