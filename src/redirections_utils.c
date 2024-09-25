@@ -44,6 +44,8 @@ int	set_fd_out(t_node *curr, char *file, int append)
 {
 	if (access(file, F_OK) == -1)
 	{
+		if (curr->fd_out != STDOUT_FILENO)
+			close(curr->fd_out);
 		curr->fd_out = open(file, O_WRONLY | O_CREAT, 0644);
 	}
 	else
