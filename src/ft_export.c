@@ -31,6 +31,8 @@ int	do_export(t_state *data, char *s)
 			key = ft_substr(s, 0, i);
 			value = ft_substr(s, i + 1, ft_strlen(s) - i);
 			set_env_var(data, key, value, 1);
+			free(key);
+			free(value);
 			return (0);
 		}
 		i++;

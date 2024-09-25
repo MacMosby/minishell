@@ -19,8 +19,8 @@ int	ft_cd(t_state *state, t_node *curr)
 	int		errno;
 	char	*old_pwd;
 	char	*pwd;
+	char	*cwd;
 
-	old_pwd = ft_strjoin("OLDPWD=", getcwd(NULL, 0));
 	if (curr->args[1] && !curr->args[2])
 	{
 		if (chdir(curr->args[1]) == -1)
@@ -30,9 +30,14 @@ int	ft_cd(t_state *state, t_node *curr)
 		}
 		else
 		{
-			pwd = ft_strjoin("PWD=", getcwd(NULL, 0));
+			cwd = getcwd(NULL, 0);
+			old_pwd = ft_strjoin("OLDPWD=", cwd);
+			pwd = ft_strjoin("PWD=", cwd);
 			do_export(state, pwd);
 			do_export(state, old_pwd);
+			free(old_pwd);
+			free(pwd);
+			free(cwd);
 		}
 	}
 	else if (curr->args[1] && curr->args[2])

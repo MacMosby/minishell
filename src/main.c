@@ -32,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		setup_cli_signals();
-		state.input = readline("minishell:~$ ");
+		state.input = readline("minishell$ ");
 		if (g_signal)
 			state.exit_status = 128 + g_signal;
 		if (state.input == NULL)
