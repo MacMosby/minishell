@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:41:31 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/25 08:59:23 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:38:10 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename)
 	{
 		cmd_node->err_flag = 1;
 		printf("minishell: %s: ambiguous redirect\n", og_filename);
+		free(og_filename);
 		return (1);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 19:53:40 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 23:54:23 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:40:57 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ int	set_fd_in(t_state *state, t_node *curr, char *file)
 /* set the file descriptor for the outfile "file" */
 int	set_fd_out(t_node *curr, char *file, int append)
 {
+	if (!ft_strlen(file))
+	{
+		curr->err_flag = 1;
+		errno = ENOENT;
+		perror(" ");
+		return (1);
+	}
 	if (access(file, F_OK) == -1)
 	{
 		if (curr->fd_out != STDOUT_FILENO)
@@ -75,20 +82,19 @@ int	filename_cut_spaces(char **filename)
 {
 	int	i;
 	int	len;
-	// need to test with filename that is one letter and with empty string filename, etc.
-	// check all, append, in, out, heredoc
+
 	i = 0;
 	while ((*filename)[i] == ' ')
 		i++;
 	*filename = strreplace(filename, NULL, 0, i - 1);
 	len = (int) ft_strlen(*filename);
 	if (len == 0)
-		return (1); // empty string
+		return (1);
 	i = len - 1;
 	while ((*filename)[i] == ' ')
 	{
 		if (i == 0)
-			return (1); // empty string
+			return (1);
 		i--;
 	}
 	*filename = strreplace(filename, NULL, i + 1, len - 1);
