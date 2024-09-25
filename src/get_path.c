@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:59:21 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/09/14 19:29:09 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:11:23 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,10 @@ char	*get_path(t_state *data, char *cmd)
 	char	*exec_path;
 
 	if (ft_strlen(cmd) == 0)
+	{
+		write(2, " Command not found\n", 19);
 		return (NULL);
+	}
 	env_path = ft_get_env_path(data->env);
 	if (!env_path)
 	{
