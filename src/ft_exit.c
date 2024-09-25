@@ -30,10 +30,16 @@ int	ft_is_num(char *s)
 
 int	ft_exit(t_state *data, t_node *curr)
 {
+	int	exit_status;
+
 	if (curr->args[1] && !curr->args[2])
 	{
 		if (ft_is_num(curr->args[1]))
-			exit(ft_atoi(curr->args[1]));
+		{
+			exit_status = ft_atoi(curr->args[1]);
+			cleanup_shell_exit(data);
+			exit(exit_status);
+		}
 		printf("exit\n");
 		write(2, " numeric argument required\n", 27);
 		cleanup_shell_exit(data);
@@ -45,6 +51,7 @@ int	ft_exit(t_state *data, t_node *curr)
 		return (1);
 	}
 	printf("exit\n");
+	exit_status = data->exit_status;
 	cleanup_shell_exit(data);
-	exit(data->exit_status);
+	exit(exit_status);
 }
