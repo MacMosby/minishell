@@ -73,7 +73,7 @@ int	find_closed_quote(t_state *state, int i)
 			return (i);
 		i++;
 	}
-	write(2, "syntax error unclosed quotes\n", 29);
+	write(2, "minishell: syntax error unclosed quotes\n", 40);
 	return (-2);
 }
 

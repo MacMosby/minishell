@@ -150,6 +150,6 @@ int	ft_export(t_state *data, t_node *curr)
 		i++;
 	}
 	if (status)
-		write(2, " not a valid identifier\n", 24);
+		write(2, "minishell: not a valid identifier\n", 34);
 	return (status);
 }

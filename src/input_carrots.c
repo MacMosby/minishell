@@ -15,23 +15,23 @@
 int	carroting_errors(t_state *state, char c, int start)
 {
 	if (c == 0)
-		write(2, " syntax error near unexpected token `newline'\n", 46);
+		write(2, "minishell: syntax error near unexpected token `newline'\n", 56);
 	else if (c == '>')
 	{
 		if (state->input[start + 1] == '>')
-			write(2, " syntax error near unexpected token `>>'\n", 41);
+			write(2, "minishell: syntax error near unexpected token `>>'\n", 51);
 		else
-			write(2, " syntax error near unexpected token `>'\n", 40);
+			write(2, "minishell: syntax error near unexpected token `>'\n", 50);
 	}
 	else if (c == '<')
 	{
 		if (state->input[start + 1] == '<')
-			write(2, " syntax error near unexpected token `<<'\n", 41);
+			write(2, "minishell: syntax error near unexpected token `<<'\n", 51);
 		else
-			write(2, " syntax error near unexpected token `<'\n", 40);
+			write(2, "minishell: syntax error near unexpected token `<'\n", 50);
 	}
 	else if (c == '|')
-		write(2, " syntax error near unexpected token `|'\n", 40);
+		write(2, "minishell: syntax error near unexpected token `|'\n", 50);
 	state->exit_status = 2;
 	return (-1);
 }

@@ -18,7 +18,7 @@ int	set_fd_in(t_state *state, t_node *curr, char *file)
 	if (access(file, F_OK) == -1)
 	{
 		curr->err_flag = 1;
-		perror(" ");
+		perror("minishell");
 		state->exit_status = 1;
 		return (1);
 	}
@@ -27,7 +27,7 @@ int	set_fd_in(t_state *state, t_node *curr, char *file)
 		if (access(file, R_OK) == -1)
 		{
 			curr->err_flag = 1;
-			perror(" ");
+			perror("minishell");
 		}
 		else
 		{
@@ -46,7 +46,7 @@ int	set_fd_out(t_node *curr, char *file, int append)
 	{
 		curr->err_flag = 1;
 		errno = ENOENT;
-		perror(" ");
+		perror("minishell");
 		return (1);
 	}
 	if (access(file, F_OK) == -1)
@@ -60,7 +60,7 @@ int	set_fd_out(t_node *curr, char *file, int append)
 		if (access(file, W_OK) == -1)
 		{
 			curr->err_flag = 1;
-			perror(" ");
+			perror("minishell");
 			return (1);
 		}
 		else

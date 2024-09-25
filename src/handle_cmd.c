@@ -50,7 +50,7 @@ void	handle_path(t_node *curr, char *str)
 		{
 			curr->err_flag = 126;
 			errno = EISDIR;
-			perror(" ");
+			perror("minishell");
 		}
 		else if (access(str, X_OK) == 0)
 		{
@@ -60,13 +60,13 @@ void	handle_path(t_node *curr, char *str)
 		else
 		{
 			curr->err_flag = 126;
-			perror(" ");
+			perror("minishell");
 		}
 	}
 	else
 	{
 		curr->err_flag = 127;
-		perror(" ");
+		perror("minishell");
 	}
 }
 

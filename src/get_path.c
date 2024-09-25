@@ -60,17 +60,7 @@ char	*ft_get_exec_path(t_state *state, char **path_split, char *cmd)
 	return (NULL);
 }
 
-/*void ft_printstr(char **str)
-{
-	int i = 0;
-	// I think I have a similar function
-	// should maybe delete one of them
-	while (str[i])
-	{
-		printf("%s\n", str[i]);
-		i++;
-	}
-}*/
+
 
 char	*get_path(t_state *data, char *cmd)
 {
@@ -80,13 +70,13 @@ char	*get_path(t_state *data, char *cmd)
 
 	if (ft_strlen(cmd) == 0)
 	{
-		write(2, " Command not found\n", 19);
+		write(2, "minishell: Command not found\n", 29);
 		return (NULL);
 	}
 	env_path = ft_get_env_path(data->env);
 	if (!env_path)
 	{
-		write(2, " No such file or directory\n", 27);
+		write(2, "minishell: No such file or directory\n", 37);
 		return (NULL);
 	}
 	path_split = ft_split(env_path + 5, ':');
@@ -95,6 +85,6 @@ char	*get_path(t_state *data, char *cmd)
 	if (exec_path)
 		return (exec_path);
 	free(exec_path);
-	write(2, " command not found\n", 19);
+	write(2, "minishell: command not found\n", 29);
 	return (NULL);
 }

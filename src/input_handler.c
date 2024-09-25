@@ -86,19 +86,19 @@ int	piping(t_state *state, int i)
 		j++;
 	if (state->words == NULL)
 	{
-		write(2, " syntax error near unexpected token `|'\n", 40);
+		write(2, "minishell: syntax error near unexpected token `|'\n", 50);
 		state->exit_status = 2;
 		return (-1);
 	}
 	else if (state->input[j] == 0)
 	{
-		write(2, " syntax error near unexpected token `|'\n", 40);
+		write(2, "minishell: syntax error near unexpected token `|'\n", 50);
 		state->exit_status = 2;
 		return (-1);
 	}
 	else if (state->input[j] == '|')
 	{
-		write(2, " syntax error near unexpected token `|'\n", 40);
+		write(2, "minishell: syntax error near unexpected token `|'\n", 50);
 		state->exit_status = 2;
 		return (-1);
 	}

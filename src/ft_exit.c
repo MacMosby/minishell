@@ -41,13 +41,13 @@ int	ft_exit(t_state *data, t_node *curr)
 			exit(exit_status);
 		}
 		printf("exit\n");
-		write(2, " numeric argument required\n", 27);
+		write(2, "minishell: numeric argument required\n", 37);
 		cleanup_shell_exit(data);
 		exit (2);
 	}
 	else if (curr->args[1] && curr->args[2])
 	{
-		write(2, " too many arguments\n", 20);
+		write(2, "minishell: too many arguments\n", 30);
 		return (1);
 	}
 	printf("exit\n");

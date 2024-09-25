@@ -36,7 +36,7 @@ int	ft_cd(t_state *state, t_node *curr)
 	{
 		if (chdir(curr->args[1]) == -1)
 		{
-			perror(" ");
+			perror("minishell");
 			return (1);
 		}
 		else
@@ -44,7 +44,7 @@ int	ft_cd(t_state *state, t_node *curr)
 	}
 	else if (curr->args[1] && curr->args[2])
 	{
-		write(2, " too many arguments\n", 20);
+		write(2, "minishell: too many arguments\n", 30);
 		return (1);
 	}
 	return (0);
