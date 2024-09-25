@@ -39,9 +39,31 @@ int	set_fd_in(t_state *state, t_node *curr, char *file)
 	return (0);
 }
 
+int	set_fd_out_if_file_exists(t_node *curr, char *file, int append)
+{
+	if (access(file, W_OK) == -1)
+	{
+		curr->err_flag = 1;
+		perror("minishell");
+		return (1);
+	}
+	else
+	{
+		if (curr->fd_out != STDOUT_FILENO)
+			close(curr->fd_out);
+		if (append)
+			curr->fd_out = open(file, O_WRONLY | O_APPEND);
+		else
+			curr->fd_out = open(file, O_WRONLY | O_TRUNC);
+	}
+	return (0);
+}
+
 /* set the file descriptor for the outfile "file" */
 int	set_fd_out(t_node *curr, char *file, int append)
 {
+	int	status;
+
 	if (!ft_strlen(file))
 	{
 		curr->err_flag = 1;
@@ -54,10 +76,13 @@ int	set_fd_out(t_node *curr, char *file, int append)
 		if (curr->fd_out != STDOUT_FILENO)
 			close(curr->fd_out);
 		curr->fd_out = open(file, O_WRONLY | O_CREAT, 0644);
+		return (0);
 	}
 	else
 	{
-		if (access(file, W_OK) == -1)
+		status = set_fd_out_if_file_exists(curr, file, append);
+		return (status);
+		/* if (access(file, W_OK) == -1)
 		{
 			curr->err_flag = 1;
 			perror("minishell");
@@ -71,9 +96,9 @@ int	set_fd_out(t_node *curr, char *file, int append)
 				curr->fd_out = open(file, O_WRONLY | O_APPEND);
 			else
 				curr->fd_out = open(file, O_WRONLY | O_TRUNC);
-		}
+		} */
 	}
-	return (0);
+	//return (0);
 }
 
 /*takes string filename and cuts out spaces in beginning and at end

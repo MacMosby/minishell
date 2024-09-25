@@ -60,8 +60,6 @@ char	*ft_get_exec_path(t_state *state, char **path_split, char *cmd)
 	return (NULL);
 }
 
-
-
 char	*get_path(t_state *data, char *cmd)
 {
 	char	*env_path;
