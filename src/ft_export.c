@@ -24,7 +24,7 @@ int	do_export(t_state *data, char *s)
 	i++;
 	while (s[i])
 	{
-		if (!ft_isalnum(s[i]) && s[i] != '=')
+		if (!ft_isalnum(s[i]) && s[i] != '=' && s[i] != '_')
 			return (1);
 		if (s[i] == '=')
 		{

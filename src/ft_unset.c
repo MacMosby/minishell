@@ -31,7 +31,10 @@ char	**copy_env_unset(t_state *state, char **env, int count)
 	while (i < count)
 	{
 		if (env[i])
+		{
 			env_copy[i + j] = ft_strdup(env[i]);
+			free(env[i]);
+		}
 		else
 			j -= 1;
 		i++;
@@ -47,7 +50,7 @@ void	do_unset(t_state *data, int i)
 	free(data->env[i]);
 	data->env[i] = NULL;
 	new_env = copy_env_unset(data, data->env, 0);
-	free_strarr(data->env);
+	free(data->env);
 	data->env = new_env;
 }
 
