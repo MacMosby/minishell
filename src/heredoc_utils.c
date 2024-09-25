@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrodenbu <mrodenbu@student.42berlin.d      +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 21:03:16 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/09/20 21:03:18 by mrodenbu         ###   ########.fr       */
+/*   Updated: 2024/09/25 09:33:12 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,9 @@ void	heredoc_in(t_state *state)
 	cmd = state->cmds;
 	if (!cmd)
 		return ;
-	// is the next line necessary? three lines later we do the same!?
-	cmd_content = (t_node *) cmd->content;
 	while (cmd)
 	{
 		cmd_content = (t_node *) cmd->content;
-		//print_list(cmd_content->words);
 		iterate_for_heredoc(state, cmd_content, (t_list *) cmd_content->words);
 		cmd = cmd->next;
 	}
