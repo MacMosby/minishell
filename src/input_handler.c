@@ -6,11 +6,20 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 22:19:22 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 19:20:13 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:16:23 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_isspace(char c)
+{
+	if (c >= 9 && c <= 13)
+		return (1);
+	if (c == ' ')
+		return (1);
+	return (0);
+}
 
 int	input_handler(t_state *state)
 {
@@ -38,7 +47,7 @@ int	parsing(t_state *state, int i)
 		return (-1);
 	while (state->input[i])
 	{
-		if (state->input[i] == ' ')
+		if (ft_isspace(state->input[i]))
 			i++;
 		else if (state->input[i] == '<' || state->input[i] == '>')
 			i = carroting(state, i);
@@ -82,7 +91,7 @@ int	piping(t_state *state, int i)
 	int	j;
 
 	j = i + 1;
-	while (state->input[j] == ' ')
+	while (ft_isspace(state->input[j]))
 		j++;
 	if (state->words == NULL)
 	{

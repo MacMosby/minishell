@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 20:54:36 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 19:31:58 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:14:29 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	find_word_end(t_state *state, int i)
 				return (-1);
 			c = state->input[i];
 		}
-		if (c == '|' || c == ' ' || c == '>' || c == '<' || c == 0)
+		if (ft_isspace(c) || c == '|' || c == '>' || c == '<' || c == 0)
 			return (i - 1);
 		i++;
 	}

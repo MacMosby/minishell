@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 23:39:02 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 22:24:37 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:20:19 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	split_words(t_state *state, char **word, t_list **nwl)
 			sq_flag = !sq_flag;
 		else if ((*word)[i] == '\"' && !sq_flag)
 			dq_flag = !dq_flag;
-		if ((*word)[i] == ' ' && !sq_flag && !dq_flag)
+		if (ft_isspace((*word)[i]) && !sq_flag && !dq_flag)
 		{
 			if (split_words_create(0, i - 1, word, nwl) < 0)
 				error_exit(state);

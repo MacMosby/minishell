@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 19:53:40 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/25 19:40:57 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:19:44 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,14 @@ int	filename_cut_spaces(char **filename)
 	int	len;
 
 	i = 0;
-	while ((*filename)[i] == ' ')
+	while (ft_isspace((*filename)[i]))
 		i++;
 	*filename = strreplace(filename, NULL, 0, i - 1);
 	len = (int) ft_strlen(*filename);
 	if (len == 0)
 		return (1);
 	i = len - 1;
-	while ((*filename)[i] == ' ')
+	while (ft_isspace((*filename)[i]))
 	{
 		if (i == 0)
 			return (1);
@@ -127,7 +127,7 @@ int	filename_expansion_error(char **filename)
 			sq_flag = !sq_flag;
 		else if ((*filename)[i] == '\"' && !sq_flag)
 			dq_flag = !dq_flag;
-		if ((*filename)[i] == ' ' && !sq_flag && !dq_flag)
+		if (ft_isspace((*filename)[i]) && !sq_flag && !dq_flag)
 			return (1);
 		i++;
 	}

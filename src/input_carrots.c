@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 19:15:17 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/22 19:20:04 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:12:07 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	carroting(t_state *state, int start)
 		return (carroting_errors(state, c, start + 2));
 	create_word(state, start, start + carrots - 1);
 	start = start + carrots;
-	while (state->input[start] == ' ')
+	while (ft_isspace(state->input[start]))
 		start++;
 	c = state->input[start];
 	if (c == '>' || c == '<' || c == '|' || c == 0)
