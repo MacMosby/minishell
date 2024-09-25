@@ -15,11 +15,13 @@
 int	expand_exit_status(t_state *state, char **word, int i, int j)
 {
 	char	*rep;
+	int		len;
 
 	rep = ft_itoa(state->exit_status);
 	*word = strreplace(word, rep, i, j);
+	len = ft_strlen(rep);
 	free(rep);
-	return (i - 1 + ft_strlen(rep));
+	return (i - 1 + len);
 }
 
 int	expand_replace(t_state *state, char **word, int len, int i)
@@ -44,7 +46,7 @@ int	expand_replace(t_state *state, char **word, int len, int i)
 /*takes t_state struct and string pointer word and index i of the dollar sign
 found and hd_flag that signifies if it is a heredoc expansion or not.
 It finds variable after $ sign.
-if var is found, it searches env for var and replaces $VAR from word 
+if var is found, it searches env for var and replaces $VAR from word
 with its value, otherwise it removes $VAR from word.
 if variable is not found, no expansions happen.
 except when hd_flag is 0 AND in such cases: $"hello" or $'hello'
