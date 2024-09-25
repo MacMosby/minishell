@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_manipulation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 20:09:36 by mrodenbu          #+#    #+#             */
-/*   Updated: 2024/09/14 20:08:22 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/25 09:14:05 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	wordlist_to_cmdarr(t_state *state, t_node *cmd)
 	int		i;
 
 	count = 0;
-	// if (!cmd) -> return
-	// if (!cmd->words) -> return
 	if (cmd)
 		count = ft_lstsize(cmd->words);
+	if (!count)
+		return ;
 	arr = (char **)malloc((count + 1) * sizeof(char *));
 	if (!arr)
 		error_exit(state);
@@ -45,7 +45,6 @@ void	wordlist_to_cmdarr(t_state *state, t_node *cmd)
 	}
 	arr[i] = NULL;
 	cmd->args = arr;
-	//print_arr(cmd->args);
 }
 
 void	free_carrots_plus_one(t_list *curr)
