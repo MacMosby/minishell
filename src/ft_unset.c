@@ -12,19 +12,29 @@
 
 #include "minishell.h"
 
-char	**copy_env_unset(t_state *state, char **env, int count)
+int	get_env_len(char **env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i])
+		i++;
+	i++;
+	while (env[i])
+		i++;
+	return (i);
+}
+
+char	**copy_env_unset(t_state *state, char **env)
 {
 	char	**env_copy;
 	int		i;
 	int		j;
+	int		count;
 
 	i = 0;
 	j = 0;
-	while (env[count] != NULL)
-		count++;
-	count++;
-	while (env[count] != NULL)
-		count++;
+	count = get_env_len(env);
 	env_copy = (char **)malloc((count + 1 - 1) * sizeof(char *));
 	if (!env_copy)
 		error_exit(state);
@@ -49,7 +59,7 @@ void	do_unset(t_state *data, int i)
 
 	free(data->env[i]);
 	data->env[i] = NULL;
-	new_env = copy_env_unset(data, data->env, 0);
+	new_env = copy_env_unset(data, data->env);
 	free(data->env);
 	data->env = new_env;
 }

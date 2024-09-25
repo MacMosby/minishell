@@ -200,7 +200,7 @@ int		ft_env(t_state *data);
 int		ft_exit(t_state *data, t_node *curr);
 
 // ft_export.c
-int		do_export(t_state *data, char *s);
+int		do_export(t_state *data, char *s, int i);
 int		ft_export(t_state *data, t_node *curr);
 
 // ft_export_utils.c
@@ -210,7 +210,7 @@ int		ft_max_len(char *s1, char *s2);
 int		ft_pwd(void);
 
 // ft_unset.c
-char	**copy_env_unset(t_state *state, char **env, int count);
+char	**copy_env_unset(t_state *state, char **env);
 int		ft_unset(t_state *data, t_node *curr);
 
 // signals_cli.c

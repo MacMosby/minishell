@@ -12,13 +12,11 @@
 
 #include "minishell.h"
 
-int	do_export(t_state *data, char *s)
+int	do_export(t_state *data, char *s, int i)
 {
-	int		i;
 	char	*key;
 	char	*value;
 
-	i = 0;
 	if (!ft_isalpha(s[i]))
 		return (1);
 	i++;
@@ -146,7 +144,7 @@ int	ft_export(t_state *data, t_node *curr)
 	}
 	while (curr->args[i])
 	{
-		ret = do_export(data, curr->args[i]);
+		ret = do_export(data, curr->args[i], 0);
 		if (ret)
 			status = ret;
 		i++;
