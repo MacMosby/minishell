@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wel-safa <wel-safa@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:41:31 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/20 17:05:07 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/25 08:59:23 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ int	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename)
 	char	*og_filename;
 	int		fail;
 
-	og_filename = ft_strdup(*filename); // free later
+	og_filename = ft_strdup(*filename);
 	toexpand(state, filename);
-	if (filename_expansion_error(filename)) // This is a redirect error, go to next cmd
+	if (filename_expansion_error(filename))
 	{
 		cmd_node->err_flag = 1;
 		printf("minishell: %s: ambiguous redirect\n", og_filename);
-		return (1); // go to next command
+		return (1);
 	}
 	else
 	{
@@ -72,12 +72,6 @@ int	set_fds(t_state *state, t_node *cmd_node, int carrots, char **filename)
 			fail = set_fd_out(cmd_node, *filename, 0);
 		else
 			fail = set_fd_in_single_carrot(state, cmd_node, filename);
-		// TO LOLA - please check if function above replaces the next lines
-		/* {
-			fail = set_fd_in(state, cmd_node, *filename);
-			free(cmd_node->hd_content);
-			cmd_node->hd_content = NULL;
-		} */
 	}
 	free(og_filename);
 	return (fail);
@@ -89,32 +83,28 @@ fd_in to -1, closing previous fd_in if need be.
 for other redirections, it calls set_fds function*/
 void	cmd_redirections(t_state *state, t_list *cmd, int carrots)
 {
-	t_node	*cmd_node;
+	t_node	*cmdn;
 	t_list	*word;
 
-	cmd_node = (t_node *) cmd->content;
-	word = cmd_node->words;
+	cmdn = (t_node *) cmd->content;
+	word = cmdn->words;
 	while (word)
 	{
 		carrots = found_carrot(word->content);
 		if (carrots == HEREDOC)
 		{
-			cmd_node->hd_content = ft_strdup(word->next->content); // might need to copy this instead because it will be freed later
-			if (cmd_node->fd_in > 0)
-				close(cmd_node->fd_in);
-			cmd_node->fd_in = -1;
+			cmdn->hd_content = ft_strdup(word->next->content);
+			if (cmdn->fd_in > 0)
+				close(cmdn->fd_in);
+			cmdn->fd_in = -1;
 			word = word->next;
 		}
 		else if (carrots)
 		{
-			if (set_fds(state, cmd_node, carrots, (char **) &(word->next->content)))
+			if (set_fds(state, cmdn, carrots, (char **) &(word->next->content)))
 				break ;
 			word = word->next;
 		}
-		// we should be able to delete the if condition below and make a line
-		// break in line 110 to shorten the function to 25 line
-		// word is never NULL because it is the filename or delimiter
-		// we even use it before
 		if (word)
 			word = word->next;
 	}
@@ -123,7 +113,7 @@ void	cmd_redirections(t_state *state, t_list *cmd, int carrots)
 /*takes t_state ptr variable and iterates over commands and calls
 cmd_redirections function on each. Then it iterates over commands again to
 delete redirection words from list of words in each command node*/
-void	redirections(t_state *state) // should it be int to return error?
+void	redirections(t_state *state)
 {
 	t_list	*cmd;
 
