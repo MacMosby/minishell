@@ -70,6 +70,13 @@ int	find_unset_var(t_state *data, char *s)
 	int		len;
 
 	i = 0;
+	len = 0;
+	while (s[len])
+	{
+		if (s[len] == '=')
+			return (0);
+		len++;
+	}
 	len = ft_strlen(s);
 	while (data->env[i])
 	{
