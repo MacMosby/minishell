@@ -26,7 +26,7 @@ void	do_cmd_execution(t_state *state, t_node *curr)
 	}
 	else if (curr->cmd_flag == BUILTIN)
 	{
-		exit_status = invoke_builtin(state, curr);
+		exit_status = invoke_builtin(state, curr, 0, 0);
 		cleanup_shell_exit(state);
 		exit(exit_status);
 	}
@@ -81,7 +81,7 @@ void	execute_single_builtin(t_state *state, t_node *cmd)
 	fd_std_out = dup(STDOUT_FILENO);
 	redirect_in_out(state, cmd, 0);
 	if (cmd->err_flag == CMD_OK && cmd->cmd)
-		state->exit_status = invoke_builtin(state, cmd);
+		state->exit_status = invoke_builtin(state, cmd, fd_std_in, fd_std_out);
 	dup2(fd_std_in, STDIN_FILENO);
 	close(fd_std_in);
 	dup2(fd_std_out, STDOUT_FILENO);

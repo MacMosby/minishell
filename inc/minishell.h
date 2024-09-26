@@ -185,7 +185,7 @@ void	free_pipes(t_state *data);
 void	close_pipes(t_state *data);
 
 // builtins.c
-int		invoke_builtin(t_state *data, t_node *curr);
+int		invoke_builtin(t_state *data, t_node *curr, int std_in, int std_out);
 
 // ft_cd.c
 int		ft_cd(t_state *state, t_node *curr);
@@ -198,7 +198,7 @@ int		ft_echo(char **arr);
 int		ft_env(t_state *data);
 
 // ft_exit.c
-int		ft_exit(t_state *data, t_node *curr);
+int		ft_exit(t_state *data, t_node *curr, int fd_std_in, int fd_std_out);
 
 // ft_export.c
 int		do_export(t_state *data, char *s, int i);

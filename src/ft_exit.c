@@ -28,7 +28,17 @@ int	ft_is_num(char *s)
 	return (1);
 }
 
-int	ft_exit(t_state *data, t_node *curr)
+void	clean_exit(t_state *data, int exit_stat, int fd_std_in, int fd_std_out)
+{
+	if (fd_std_in)
+		close(fd_std_in);
+	if (fd_std_out)
+		close(fd_std_out);
+	cleanup_shell_exit(data);
+	exit(exit_stat);
+}
+
+int	ft_exit(t_state *data, t_node *curr, int fd_std_in, int fd_std_out)
 {
 	int	exit_status;
 
@@ -37,13 +47,11 @@ int	ft_exit(t_state *data, t_node *curr)
 		if (ft_is_num(curr->args[1]))
 		{
 			exit_status = ft_atoi(curr->args[1]);
-			cleanup_shell_exit(data);
-			exit(exit_status);
+			clean_exit(data, exit_status, fd_std_in, fd_std_out);
 		}
 		printf("exit\n");
 		write(2, "minishell: numeric argument required\n", 37);
-		cleanup_shell_exit(data);
-		exit (2);
+		clean_exit(data, 2, fd_std_in, fd_std_out);
 	}
 	else if (curr->args[1] && curr->args[2])
 	{
@@ -52,6 +60,6 @@ int	ft_exit(t_state *data, t_node *curr)
 	}
 	printf("exit\n");
 	exit_status = data->exit_status;
-	cleanup_shell_exit(data);
-	exit(exit_status);
+	clean_exit(data, exit_status, fd_std_in, fd_std_out);
+	return (0);
 }

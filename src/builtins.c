@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 /* routes to the needed builtin function and calls it */
-int	invoke_builtin(t_state *data, t_node *curr)
+int	invoke_builtin(t_state *data, t_node *curr, int std_in, int std_out)
 {
 	if (ft_strncmp(curr->cmd, "echo", 5) == 0)
 		return (ft_echo(curr->args));
@@ -28,6 +28,6 @@ int	invoke_builtin(t_state *data, t_node *curr)
 	else if (ft_strncmp(curr->cmd, "env", 4) == 0)
 		return (ft_env(data));
 	else if (ft_strncmp(curr->cmd, "exit", 5) == 0)
-		return (ft_exit(data, curr));
+		return (ft_exit(data, curr, std_in, std_out));
 	return (1);
 }
