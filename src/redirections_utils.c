@@ -6,7 +6,7 @@
 /*   By: wel-safa <wel-safa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 19:53:40 by wel-safa          #+#    #+#             */
-/*   Updated: 2024/09/25 21:19:44 by wel-safa         ###   ########.fr       */
+/*   Updated: 2024/09/26 15:59:50 by wel-safa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,23 +82,7 @@ int	set_fd_out(t_node *curr, char *file, int append)
 	{
 		status = set_fd_out_if_file_exists(curr, file, append);
 		return (status);
-		/* if (access(file, W_OK) == -1)
-		{
-			curr->err_flag = 1;
-			perror("minishell");
-			return (1);
-		}
-		else
-		{
-			if (curr->fd_out != STDOUT_FILENO)
-				close(curr->fd_out);
-			if (append)
-				curr->fd_out = open(file, O_WRONLY | O_APPEND);
-			else
-				curr->fd_out = open(file, O_WRONLY | O_TRUNC);
-		} */
 	}
-	//return (0);
 }
 
 /*takes string filename and cuts out spaces in beginning and at end
