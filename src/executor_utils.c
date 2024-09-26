@@ -12,6 +12,23 @@
 
 #include "minishell.h"
 
+void	close_fds(t_state *state)
+{
+	t_list	*curr;
+	t_node	*cmd;
+
+	curr = state->cmds;
+	while (curr)
+	{
+		cmd = (t_node *) curr->content;
+		if (cmd->fd_in != 0)
+			close(cmd->fd_in);
+		if (cmd->fd_out != 1)
+			close(cmd->fd_out);
+		curr = curr->next;
+	}
+}
+
 void	redirect_output(t_node *curr)
 {
 	if (curr->fd_out != STDOUT_FILENO)

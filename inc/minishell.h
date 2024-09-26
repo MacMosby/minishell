@@ -179,6 +179,7 @@ void	fork_executor(t_state *data, t_node *curr, int i);
 void	redirect_to_pipes(t_state *data, int i);
 void	redirect_in_out(t_state *data, t_node *curr, int i);
 void	wait_loop(t_state *data);
+void	close_fds(t_state *state);
 
 // executor_pipes.c
 void	free_pipes(t_state *data);

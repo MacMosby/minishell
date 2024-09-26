@@ -104,5 +104,6 @@ void	executor(t_state *data)
 	{
 		execution_loop(data);
 		wait_loop(data);
+		close_fds(data);
 	}
 }
