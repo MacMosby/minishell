@@ -9,7 +9,6 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Built-in Commands](#built-in-commands)
-- [Bonus Features](#bonus-features)
 - [Technologies Used](#technologies-used)
 - [Acknowledgments](#acknowledgments)
 
