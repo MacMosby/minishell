@@ -1,80 +1,99 @@
-# Minishell
+# 🖥️ Minishell
 
-*A minimal shell implementation in C.*
+> Forked from the original 42 Berlin project repository (team of two)
 
-## Table of Contents
+A custom Unix shell implemented in C, inspired by bash.
 
-- [About the Project](#about-the-project)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Built-in Commands](#built-in-commands)
-- [Technologies Used](#technologies-used)
-- [Acknowledgments](#acknowledgments)
+This project focuses on understanding how command-line interpreters work internally, including process management, command execution, and inter-process communication.
 
 ---
 
-## About the Project
+## 🧑‍💻 My Contributions
 
-Minishell is a project that involves creating a simple shell similar to Bash. The goal is to understand how shells work by implementing process management, redirections, pipes, and built-in commands.
+This project was developed in a team of two.
 
-## Features
+* My partner implemented the **command parser**
+* I implemented the **execution layer and core shell behavior**
 
-- Displays a prompt and waits for user commands
-- Supports command execution using PATH or absolute/relative paths
-- Handles input/output redirection (`<`, `>`, `>>`, `<<`)
-- Implements pipes (`|`)
-- Supports environment variables (`$VAR_NAME`)
-- Handles exit status `$?`
-- Signal handling (`Ctrl-C`, `Ctrl-D`, `Ctrl-\`)
+### Core Responsibilities
 
-## Installation
+* Designed and implemented the command execution pipeline
+* Managed process creation using `fork`, `execve`, and `wait`
+* Implemented support for pipes (`|`) and input/output redirections (`<`, `>`, `>>`)
+* Built environment variable handling (`env`, `export`, `unset`)
+* Implemented built-in commands (e.g. `cd`, `pwd`, `echo`, `exit`)
+* Handled signal management (`Ctrl+C`, `Ctrl+D`, etc.)
+* Ensured proper memory management and error handling
 
-```sh
-# Clone the repository
-git clone https://github.com/MacMosby/minishell.git minishell
-cd minishell
+---
 
-# Compile the project
+## ⚙️ Features
+
+* Execution of system commands
+* Support for pipelines and redirections
+* Environment variable expansion
+* Built-in shell commands
+* Signal handling for interactive use
+* Error handling for invalid input and edge cases
+
+---
+
+## 🧠 How It Works
+
+The shell operates in three main stages:
+
+1. **Parsing** *(implemented by my partner)*
+
+   * Transforms user input into a structured representation of commands
+
+2. **Execution Pipeline** *(my responsibility)*
+
+   * Creates processes using `fork`
+   * Connects them using pipes
+   * Executes commands using `execve`
+
+3. **Process Coordination**
+
+   * Waits for child processes
+   * Handles exit statuses
+   * Maintains shell state across executions
+
+---
+
+## 🛠️ Tech Stack
+
+* C
+* Unix system calls (`fork`, `execve`, `pipe`, `dup2`, `wait`)
+* Standard C library
+
+---
+
+## 🚀 Getting Started
+
+### Compile
+
+```bash
 make
 ```
 
-## Usage
+### Run
 
-Run the shell:
-
-```sh
+```bash
 ./minishell
 ```
 
-Exit the shell:
+---
 
-```sh
-exit
-```
+## 🧪 What I Learned
 
-## Built-in Commands
-
-Minishell implements the following built-in commands:
-
-- `echo` (supports `-n` option)
-- `cd` (changes directory)
-- `pwd` (prints the current directory)
-- `export` (sets environment variables)
-- `unset` (removes environment variables)
-- `env` (prints environment variables)
-- `exit` (exits the shell)
-
-## Technologies Used
-
-- **C** (standard libraries and system calls)
-- **GNU Readline** (for input handling)
-
-## Acknowledgments
-
-This project is based on an assignment at 42 Berlin to deepen understanding of process management and shell behavior. If you have any questions, feel free to reach out!
+* How Unix processes and shells work internally
+* Managing multiple processes and inter-process communication
+* Handling edge cases in command execution
+* Writing robust, low-level C code with proper memory management
+* Designing systems that separate parsing from execution
 
 ---
 
-Happy coding! 🚀
+## 📌 Notes
 
+This project was built as part of the 42 Berlin curriculum.
